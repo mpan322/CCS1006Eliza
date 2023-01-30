@@ -1,0 +1,66 @@
+<?xml-model href="./script.xsd"?>
+<script>
+    <welcome>Welcome!</welcome>
+    <goodbye>Bye!</goodbye>
+    <quitKeywords>
+        <quitKeyword>quit</quitKeyword>
+        <quitKeyword>bye</quitKeyword>
+        <quitKeyword>logout</quitKeyword>
+    </quitKeywords>
+
+    <keyword word="feel" priority="0">
+        <decomposition pattern="I feel *">
+            <reassembly pattern="Why do you feel like 1?">
+                <postSub>
+                    <subRule input="my" replace="your" />
+                </postSub>
+            </reassembly>
+
+            <reassembly pattern="Sometime's I feel like 1 too." />
+        </decomposition>
+
+        <decomposition pattern="I cant feel *.">
+            <reassembly pattern="Oh that sounds awful, let me help you!" />
+            
+            <reassembly pattern="When did you first start not being able to feel 1?">
+                <postSub>
+                    <subRule input="my" replace="your" />
+                </postSub>
+            </reassembly>
+        </decomposition>
+    </keyword>
+    
+    <keyword word="feel" priority="0">
+        <decomposition pattern="I feel *">
+            <reassembly pattern="" />
+            
+            <reassembly pattern="">
+                <postSub>
+                    <subRule input="" replace="" />
+                    <subRule input="" replace="" />
+                </postSub>
+            </reassembly>
+        </decomposition>
+
+        <decomposition pattern="">
+            <reassembly pattern="" />
+
+            <reassembly pattern="">
+                <postSub>
+                    <subRule input="" replace="" />
+                    <subRule input="" replace="" />
+                </postSub>
+            </reassembly>
+        </decomposition>
+    </keyword>
+    
+    <preSub>
+        <subRule input="" replace="" />
+        <subRule input="" replace="" />
+    </preSub>
+    
+    <postSub>
+        <subRule input="" replace="" />
+        <subRule input="" replace="" />
+    </postSub>
+</script>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="script">
+        <xs:complexType>
+            <xs:sequence>
+
+                <xs:element name="welcome" type="xs:string" />
+                <xs:element name="goodbye" type="xs:string" />
+
+                <!-- Define tag for quit keywords -->
+                <xs:element name="quitKeywords">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="quitKeyword" type="xs:string" maxOccurs="unbounded"></xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- Define tag for general key words -->
+                <xs:element name="keyword" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+
+                            <!-- Define tag for decomposition rule -->
+                            <xs:element name="decomposition" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+
+                                        <xs:element name="reassembly"
+                                            maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:all>
+
+                                                    <!-- Define tag for post substitutions -->
+                                                    <xs:element name="postSub" minOccurs="0">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+
+                                                                <!-- Define tag for a general
+                                                                substitution -->
+                                                                <xs:element name="subRule" maxOccurs="unbounded">
+                                                                    <xs:complexType>
+                                                                        <xs:attribute name="input"
+                                                                            type="xs:string"
+                                                                            use="required" />
+                                                                        <xs:attribute name="replace"
+                                                                            type="xs:string"
+                                                                            use="required" />
+                                                                    </xs:complexType>
+                                                                </xs:element>
+
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+
+                                                </xs:all>
+                                                <xs:attribute name="pattern" type="xs:string"
+                                                    use="required" />
+                                            </xs:complexType>
+                                        </xs:element>
+
+                                    </xs:sequence>
+                                    <xs:attribute name="pattern" use="required" />
+                                </xs:complexType>
+                            </xs:element>
+
+                        </xs:sequence>
+                        <xs:attribute name="word" type="xs:string" use="required" />
+                        <xs:attribute name="priority" type="xs:unsignedInt" use="required" />
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- Define tag for pre substitutions -->
+                <xs:element name="preSub">
+                    <xs:complexType>
+                        <xs:sequence>
+
+                            <!-- Define tag for a general substitution -->
+                            <xs:element name="subRule" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:attribute name="input" type="xs:string" use="required" />
+                                    <xs:attribute name="replace" type="xs:string" use="required" />
+                                </xs:complexType>
+                            </xs:element>
+
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <!-- Define tag for post substitutions -->
+                <xs:element name="postSub">
+                    <xs:complexType>
+                        <xs:sequence>
+
+                            <!-- Define tag for a general substitution -->
+                            <xs:element name="subRule" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:attribute name="input" type="xs:string" use="required" />
+                                    <xs:attribute name="replace" type="xs:string" use="required" />
+                                </xs:complexType>
+                            </xs:element>
+
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
