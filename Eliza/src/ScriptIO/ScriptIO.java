@@ -14,6 +14,8 @@ import java.util.Scanner;
 
 import javax.swing.text.html.CSS;
 
+import ScriptIO.Parser.ScriptParser;
+
 public class ScriptIO {
 
     public ScriptIO(String relativePath) {
@@ -54,7 +56,7 @@ public class ScriptIO {
 
         try (FileReader reader = new FileReader(file)) {
 
-            ScriptParser parser = new ScriptParser(reader);
+            ScriptParser parser = new ScriptParser(file);
 
         } catch (FileNotFoundException e) {
 
