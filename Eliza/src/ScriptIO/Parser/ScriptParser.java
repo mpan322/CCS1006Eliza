@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class ScriptParser {
 
     private final File FILE;
-    private LineTypeIdentifier currentLineType = LineTypeIdentifier.NONE;
+    private LineTypeIdentifier lineTypeDepth = LineTypeIdentifier.NONE;
 
     public ScriptParser(File scriptFile) {
 

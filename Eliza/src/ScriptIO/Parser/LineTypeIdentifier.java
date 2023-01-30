@@ -5,18 +5,26 @@ package ScriptIO.Parser;
  */
 public enum LineTypeIdentifier {
 
-    NONE(null),
-    KEYWORD("Keyword"),
-    DECOMPOSITION_RULE("Decomposition Rule"),
-    REASSEMBLY_RULE("Reassembly Rule"),
-    PRE_SUBSTITUTION("Pre-substitution"),
-    POST_SUBSTITUTION("Post-substitution");
+    NONE(null, null),
+    PRE_SUBSTITUTION("Pre-substitution", LineTypeIdentifier.NONE),
+    POST_SUBSTITUTION("Post-substitution", LineTypeIdentifier.NONE),
+    REASSEMBLY_RULE("Reassembly Rule", LineTypeIdentifier.POST_SUBSTITUTION),
+    DECOMPOSITION_RULE("Decomposition Rule", LineTypeIdentifier.REASSEMBLY_RULE),
+    KEYWORD("Keyword", LineTypeIdentifier.DECOMPOSITION_RULE);
 
     private final String IDENTIFIER;
-    private LineTypeIdentifier(String identifier) {
+    private final LineTypeIdentifier VALID_CHILD;
+    private LineTypeIdentifier(String identifier, LineTypeIdentifier validChild) {
 
         this.IDENTIFIER = identifier;
+        this.VALID_CHILD = validChild;
         
+    }
+
+    public LineTypeIdentifier getValidChildType() {
+        
+        return this.VALID_CHILD;
+
     }
 
     /**
