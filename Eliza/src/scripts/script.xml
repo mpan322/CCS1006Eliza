@@ -53,6 +53,12 @@
             </reassembly>
         </decomposition>
     </keyword>
+
+    <keyword word="*" priority="100">
+        <decomposition pattern="">
+            <reassembly pattern="Sorry, I am not sure how to respond"></reassembly>
+        </decomposition>
+    </keyword>
     
     <preSub>
         <subRule input="" replace="" />
