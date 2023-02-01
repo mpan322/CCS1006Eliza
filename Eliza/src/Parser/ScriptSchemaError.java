@@ -1,4 +1,4 @@
-package ScriptIO.Parser;
+package Parser;
 
 /**
  * Exception thrown when script is malformed
