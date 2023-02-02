@@ -1,0 +1,74 @@
+<?xml-model href="./script.xsd"?>
+<script>
+
+    <welcomeMsg>Welcome!</welcomeMsg>
+    <goodbyeMsg>Bye!</goodbyeMsg>
+
+    <quitKeywords>
+        <quitKeyword>quit</quitKeyword>
+        <quitKeyword>bye</quitKeyword>
+        <quitKeyword>logout</quitKeyword>
+    </quitKeywords>
+
+    <keyword word="feel" priority="0">
+        <decomposition pattern="I feel *">
+            <reassembly format="Why do you feel like 1?">
+                <postSub>
+                    <subRule input="my" replace="your" />
+                </postSub>
+            </reassembly>
+
+            <reassembly format="Sometime's I feel like 1 too." />
+        </decomposition>
+
+        <decomposition pattern="I cant feel *.">
+            <reassembly format="Oh that sounds awful, let me help you!" />
+
+            <reassembly format="When did you first start not being able to feel 1?">
+                <postSub>
+                    <subRule input="my" replace="your" />
+                </postSub>
+            </reassembly>
+        </decomposition>
+    </keyword>
+
+    <keyword word="feel" priority="0">
+        <decomposition pattern="I feel *">
+            <reassembly format="" />
+
+            <reassembly format="">
+                <postSub>
+                    <subRule input="" replace="" />
+                    <subRule input="" replace="" />
+                </postSub>
+            </reassembly>
+        </decomposition>
+
+        <decomposition pattern="">
+            <reassembly format="" />
+
+            <reassembly format="">
+                <postSub>
+                    <subRule input="" replace="" />
+                    <subRule input="" replace="" />
+                </postSub>
+            </reassembly>
+        </decomposition>
+    </keyword>
+
+    <keyword word="*" priority="100">
+        <decomposition pattern="">
+            <reassembly format="Sorry, I am not sure how to respond"></reassembly>
+        </decomposition>
+    </keyword>
+
+    <preSub>
+        <subRule input="" replace="" />
+        <subRule input="" replace="" />
+    </preSub>
+
+    <postSub>
+        <subRule input="" replace="" />
+        <subRule input="" replace="" />
+    </postSub>
+</script>

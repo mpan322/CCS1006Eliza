@@ -1,0 +1,46 @@
+{   
+    "$schema": "./script-schema.json",
+    "welcome-message": "Hey!",
+    "final-message": "Goodbye.",
+    "quit-keywords": ["quit", "bye"],
+    "main-script": [
+        {
+            "keyword": "feel",
+            "priority": 1,
+            "decompositon-rules": [
+                {
+                    "pattern": "I feel *",
+                    "reassembly-rules": [
+                        "Why do youn feel 1?"
+                    ]                    
+                }
+            ]
+        },
+        {
+            "keyword": "hello",
+            "priority": 2,
+            "decompositon-rules": [
+                {
+                    "pattern": "hello how are you?",
+                    "reassembly-rules": [
+                        "I am good! And you?"
+                    ]
+                }
+            ]
+        }
+    ],
+    "pre-substitutions": [
+        {
+            "input": "I",
+            "replacement": "you"
+        }
+    ],
+
+    "post-substitutions": [
+        {
+            "input": "hello",
+            "replacement": "goodbye"
+        }
+    ]
+
+}

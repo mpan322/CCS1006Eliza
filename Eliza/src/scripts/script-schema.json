@@ -1,0 +1,100 @@
+{
+    "$id": "./script-schema",
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "title": "",
+    "description": "",
+    "type": "object",
+
+    "properties": {
+        
+        "main-script" : {
+            "type" : "array",
+            "items": { 
+
+                "type" : "object",
+                "properties": {
+                    "keyword" : {
+                        "type" : "string"
+                    },
+                    "priority" : {
+                        "type" : "integer"
+                    },
+                    "decompositon-rules" : {
+                        "type": "array",
+                        "items": {
+                            "type" : "object",
+                            "properties" : {
+                                "pattern" : {
+                                    "type" : "string"
+                                },
+                                "reassembly-rules" : {
+                                    "type" : "array",
+                                    "items": {
+                                        "type" : "string"
+                                    },                    
+                                    "minItems" : 1            
+                                }
+                            },
+                            "required": ["pattern", "reassembly-rules"]
+                        },
+                        "minItems" : 1
+                    }
+                },
+
+                "minItems" : 1,
+
+                "required": ["keyword", "priority", "decompositon-rules"]
+            }
+        },
+
+        "pre-substitutions" : {
+            "type" : "array",
+            "items": {
+                "type" : "object",
+                "properties": {
+                    "input" : {
+                        "type" : "string"
+                    },
+                    "replacement" : {
+                        "type" : "string"
+                    }
+                },
+                "required": ["input", "replacement"]
+            }
+        },
+
+        "post-substitutions" : {
+            "type" : "array",
+            "items": {
+                "type" : "object",
+                "properties": {
+                    "input" : {
+                        "type" : "string"
+                    },
+                    "replacement" : {
+                        "type" : "string"
+                    }
+                },
+                "required": ["input", "replacement"]
+            }
+        },
+
+        "quit-keywords" : {
+            "type" : "array",
+            "items": {
+                "type" : "string"
+            }
+        },
+    
+        "welcome-message" : {
+            "type" : "string"
+        },
+        "final-message" : {
+            "type" : "string"
+        }
+
+    },
+
+    "required": ["main-script", "pre-substitutions", "quit-keywords", "post-substitutions", "welcome-message", "final-message"]
+
+}
