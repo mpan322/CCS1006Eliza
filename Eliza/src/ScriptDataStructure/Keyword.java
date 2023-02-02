@@ -3,28 +3,23 @@ package ScriptDataStructure;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+public class Keyword extends ArrayList<DecompositionRule> {
 
-public class Keyword extends ArrayList<Decomposition> implements ScriptDataStructureElement {
+    private final int PRIORITY;
+    private final String KEYWORD;
 
-    public Keyword(Node keyword) {
+    public Keyword(String keyword, int priority) {
 
-        NodeList decompositionRules = keyword.getChildNodes();
-
-        for (int i = 0; i < decompositionRules.getLength(); i++) {
-            
-            Node rule = decompositionRules.item(i);
-            this.add(new Decomposition(rule));
-
-        }
+        this.KEYWORD = keyword;
+        this.PRIORITY = priority;
 
     }
 
-    @Override
-    public void makeNewElement(Node node) {
-        // TODO Auto-generated method stub
-        
-    }
+
+    public String getKeyword() {
+
+        return this.KEYWORD;
     
+    }
+
 }

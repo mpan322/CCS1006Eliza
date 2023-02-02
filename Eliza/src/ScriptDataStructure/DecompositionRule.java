@@ -6,11 +6,11 @@ import java.util.List;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class Decomposition extends ArrayList<ReassemblyElement> implements ScriptDataStructureElement{
+public class DecompositionRule extends ArrayList<ReassemblyElement> implements ScriptDataStructureElement{
 
     private final String PATTERN;
 
-    public Decomposition(Node decompositionRule) {
+    public DecompositionRule(Node decompositionRule) {
 
         Node formatAttr = decompositionRule.getAttributes().getNamedItem("pattern");
         this.PATTERN = formatAttr.getNodeValue();
