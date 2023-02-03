@@ -1,49 +1,111 @@
 package ScriptDataStructure;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class Script {
 
-    private WelcomeMessage welcomeMessage;
-    private GoodbyeMessage goodbyeMessage;
+    private String welcomeMessage;
+    private String goodbyeMessage;
 
-    private Collection<QuitKeyword> quitKeywords;
+    private Collection<String> quitKeywords;
 
     private Substituter preSubstituter;
     private Substituter postSubstituter;
 
-    private Map<String, Keyword> keywordMap = new LinkedHashMap<>();
+    private List<Keyword> keywords = new ArrayList<>();
 
-    // needs to be a set as it will equal the keyset of keywordMap
-    // needs to be better ordered
-    private LinkedHashSet<String> keywords;
 
-    public void addKeyword(Keyword keyword) {
-
-        String word = keyword.getKeyword();
-        this.keywordMap.put(word, keyword);
-        // also need to add it to some list ordered by priority
-
-    }
-
-    public void setWelcomeMessage(WelcomeMessage welcomeMessage) {
+    // Setters
+    public void setWelcomeMessage(String welcomeMessage) {
 
         this.welcomeMessage = welcomeMessage;
 
     }
 
-    public void setGoodbyeMessage(GoodbyeMessage goodbyeMessage) {
+    public void setGoodbyeMessage(String goodbyeMessage) {
 
         this.goodbyeMessage = goodbyeMessage;
 
     }
 
-    public void addQuitKeyword(QuitKeyword quitKeyword) {
+    public void setPresubstituter(Substituter preSubstituter) {
+
+        this.preSubstituter = preSubstituter;
+
+    }
+
+    public void setGlobalPostSubstituter(Substituter postSubstituter) {
+
+        this.postSubstituter = postSubstituter;
+
+    }
+
+    public String getGoodbyeMessage() {
+
+        return this.goodbyeMessage;
+
+    }
+
+    public String getWelcomeMessage() {
+
+        return this.welcomeMessage;
+
+    }
+
+    public void addQuitKeyword(String quitKeyword) {
 
         this.quitKeywords.add(quitKeyword);
+
+    }
+
+    public void addKeyword(Keyword keyword) {
+
+        int priority = keyword.getPriority();
+        int i = 0;
+        Keyword curr = new Keyword(null, 0);
+        do {
+
+            curr = this.keywords.get(i);
+            i++;
+
+        } while (curr.getPriority() < priority);
+
+        this.keywords.add(i, keyword);
+
+    }
+
+    public boolean isQuit(String input) {
+
+        return this.quitKeywords.contains(input);
+
+    }
+
+    public String generateOutput(String input) {
+
+        Keyword keyword = this.findBestKeyword(input);
+        DecompositionRule decompositionRule = keyword.chooseDecompositionRule();
+        ReassemblyRule reassemblyRule = decompositionRule.chooseReassemblyRule();
+
+        return null;
+
+    }
+
+    private Keyword findBestKeyword(String input) {
+
+        for (Keyword keyword : keywords) {
+
+            if (keyword.containsKeyword(input)) {
+
+                return keyword;
+
+            }
+
+        }
+
+        return null;
 
     }
 

@@ -1,7 +1,9 @@
 package Parser;
 
+import org.w3c.dom.Node;
+
 public enum ScriptXMLTags {
-    
+
     NONE(""),
     SCRIPT("script"),
     WELOCME_MSG("welcomeMsg"),
@@ -17,7 +19,8 @@ public enum ScriptXMLTags {
     ;
 
     private final String TAG;
-    private ScriptXMLTags(String tag, String ... attrs) {
+
+    private ScriptXMLTags(String tag, String... attrs) {
 
         this.TAG = tag;
 
@@ -32,6 +35,12 @@ public enum ScriptXMLTags {
     public boolean isType(String tag) {
 
         return this.TAG.equals(tag);
+
+    }
+
+    public boolean isType(Node node) {
+
+        return this.isType(node.getNodeName());
 
     }
 
