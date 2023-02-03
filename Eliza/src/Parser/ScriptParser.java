@@ -58,20 +58,20 @@ public class ScriptParser {
 
     }
 
-    private void parseNodes(ScriptXMLTags tag, NodeParse func) {
+    private void parseNodes(ScriptXMLTags tag, NodeParse parsingFunc) {
 
         String tagString = tag.getTag();
         NodeList nodes = this.getTagNodes(tagString);
-        this.parseNodes(nodes, func);
+        this.parseNodes(nodes, parsingFunc);
 
     }
 
-    private void parseNodes(NodeList nodes, NodeParse func) {
+    private void parseNodes(NodeList nodes, NodeParse parsingFunc) {
 
         for (int i = 0; i < nodes.getLength(); i++) {
 
             Node node = nodes.item(i);
-            func.parse(node);
+            parsingFunc.parse(node);
 
         }
 
