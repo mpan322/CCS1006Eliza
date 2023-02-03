@@ -1,11 +1,7 @@
 package ScriptDataStructure;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class DecompositionRule extends ArrayList<ReassemblyRule> {
 
