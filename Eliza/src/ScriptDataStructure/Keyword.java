@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Keyword extends ArrayList<DecompositionRule> {
+public class Keyword extends ArrayList<DecompositionRule> implements ScriptElement {
 
     private final int PRIORITY;
     private final String KEYWORD;
@@ -40,10 +40,27 @@ public class Keyword extends ArrayList<DecompositionRule> {
     }
 
 
-    public DecompositionRule chooseDecompositionRule() {
+    private DecompositionRule chooseDecompositionRule(String input) {
 
         return null;
 
+    }
+
+
+    @Override
+    public String generateOutput(String input) {
+
+        DecompositionRule decompositionRule = this.chooseDecompositionRule(input);
+        decompositionRule.generateOutput(input);
+        return input;
+
+    }
+
+
+    @Override
+    public void print() {
+        // TODO Auto-generated method stub
+        
     }
 
 

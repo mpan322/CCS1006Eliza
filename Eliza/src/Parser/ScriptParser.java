@@ -54,6 +54,8 @@ public class ScriptParser {
         this.parseWelcomeMessage();
         this.parseGoodbyeMessages();
         this.parseQuitKeywords();
+        this.parseGlobalPostSubstitution();
+        this.parsePreSubstitution();
 
     }
 
@@ -107,6 +109,35 @@ public class ScriptParser {
 
         NodeList children = parent.getChildNodes();
         this.parseNodes(children, parsingFunc);
+
+    }
+
+    private void parseGlobalPostSubstitution() {
+
+        NodeList postSubstitutionNodes = this.SCRIPT_XML.getElementsByTagName(ScriptXMLTags.POST_SUBSTITUTION.getTag());
+        this.parseNodes(postSubstitutionNodes, (Node node) -> {
+
+            Node parent = node.getParentNode();
+            if (ScriptXMLTags.SCRIPT.isType(parent)) {
+
+                Substituter postSubtitution = this.parseSubstituter(node);
+                this.PARSED_SCRIPT.setGlobalPostSubstituter(postSubtitution);
+
+            }
+
+        });
+
+    }
+
+    private void parsePreSubstitution() {
+
+        NodeList preSubstitutionNodes = this.SCRIPT_XML.getElementsByTagName(ScriptXMLTags.PRE_SUBSTITUTION.getTag());
+        this.parseNodes(preSubstitutionNodes, (Node node) -> {
+
+            Substituter preSubtitution = this.parseSubstituter(node);
+            this.PARSED_SCRIPT.setGlobalPostSubstituter(preSubtitution);
+
+        });
 
     }
 
@@ -230,7 +261,6 @@ public class ScriptParser {
      * 
      * @param node           the node whose attributes are being gotten
      * @param attributeNames the names of attributes whose values are being gotten
-     * @param <T> the return type of the method, should be the expect XML value type
      * @return a list of the values ordered in the same way as the attributes were
      *         inputted.
      */
@@ -263,6 +293,7 @@ public class ScriptParser {
         });
 
         return substituter;
+
     }
 
     private Document getXMLDocument(File file) {

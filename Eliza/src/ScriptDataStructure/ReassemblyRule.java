@@ -3,7 +3,7 @@ package ScriptDataStructure;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class ReassemblyRule {
+public class ReassemblyRule implements ScriptElement {
 
     private Substituter postSubstituter;
     private final String FORMAT;
@@ -19,6 +19,18 @@ public class ReassemblyRule {
         
         this.postSubstituter = substituter;
 
+    }
+
+    @Override
+    public String generateOutput(String input) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void print() {
+        // TODO Auto-generated method stub
+        
     }
 
 }

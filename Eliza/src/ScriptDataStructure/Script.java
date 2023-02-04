@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Script {
+public class Script implements ScriptElement {
 
     private String welcomeMessage;
     private String goodbyeMessage;
@@ -43,15 +43,15 @@ public class Script {
 
     }
 
-    public String getGoodbyeMessage() {
+    public void sayGoodbyeMessage() {
 
-        return this.goodbyeMessage;
+        System.out.println(this.goodbyeMessage);
 
     }
 
-    public String getWelcomeMessage() {
+    public void sayWelcomeMessage() {
 
-        return this.welcomeMessage;
+        System.out.println(this.welcomeMessage);
 
     }
 
@@ -85,11 +85,17 @@ public class Script {
 
     public String generateOutput(String input) {
 
+        // global pre substitution
+        this.preSubstituter.generateOutput(input);
+        
+        // do main parsing step based on the keyword (decompositon, reassembly, etc)
         Keyword keyword = this.findBestKeyword(input);
-        DecompositionRule decompositionRule = keyword.chooseDecompositionRule();
-        ReassemblyRule reassemblyRule = decompositionRule.chooseReassemblyRule();
+        keyword.generateOutput(input);
 
-        return null;
+        // global post substitution
+        this.postSubstituter.generateOutput(input);
+
+        return input;
 
     }
 
@@ -107,6 +113,12 @@ public class Script {
 
         return null;
 
+    }
+
+    @Override
+    public void print() {
+        // TODO Auto-generated method stub
+        
     }
 
 }
