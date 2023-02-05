@@ -16,7 +16,13 @@ public class Script implements ScriptElement {
     private Substituter postSubstituter;
 
     private List<Keyword> keywords = new ArrayList<>();
+    private static final Keyword DEFAULT_KEYWORD = new Keyword("//DEFAULT//", -1);
 
+    public Script() {
+
+        this.quitKeywords = new ArrayList<>();
+
+    }
 
     // Setters
     public void setWelcomeMessage(String welcomeMessage) {
@@ -65,13 +71,19 @@ public class Script implements ScriptElement {
 
         int priority = keyword.getPriority();
         int i = 0;
-        Keyword curr = new Keyword(null, 0);
-        do {
 
-            curr = this.keywords.get(i);
-            i++;
+        int currPriority = Integer.MAX_VALUE;
+        while (currPriority > priority && i < keywords.size()) {
 
-        } while (curr.getPriority() < priority);
+            currPriority = this.keywords.get(i).getPriority();
+
+            if (currPriority > priority) {
+
+                i++;
+
+            }
+
+        }
 
         this.keywords.add(i, keyword);
 
@@ -87,7 +99,7 @@ public class Script implements ScriptElement {
 
         // global pre substitution
         this.preSubstituter.generateOutput(input);
-        
+
         // do main parsing step based on the keyword (decompositon, reassembly, etc)
         Keyword keyword = this.findBestKeyword(input);
         keyword.generateOutput(input);
@@ -99,6 +111,12 @@ public class Script implements ScriptElement {
 
     }
 
+    /**
+     * Finds the higest priority keyword in the input
+     * 
+     * @param input the input scentence
+     * @return the best keyword, or if none match then the default keyword
+     */
     private Keyword findBestKeyword(String input) {
 
         for (Keyword keyword : keywords) {
@@ -111,14 +129,33 @@ public class Script implements ScriptElement {
 
         }
 
-        return null;
+        return Script.DEFAULT_KEYWORD;
 
     }
 
     @Override
-    public void print() {
-        // TODO Auto-generated method stub
-        
+    public void print(int indentDepth) {
+
+        System.out.println("WELCOME: " + this.welcomeMessage);
+        System.out.println("GOODBYE: " + this.goodbyeMessage);
+
+        String indent = this.makeIndent(indentDepth);
+        String quitKeywordMesasage = String.join(", ", this.quitKeywords);
+        System.out.println(indent + "QUIT-KEYWORDS: " + quitKeywordMesasage + "\n");
+
+        this.keywords.forEach((keyword) -> {
+
+            keyword.print(indentDepth);
+            System.out.println();
+
+        });
+
+        System.out.println(indent + "POST-SUBSTITUTION: ");
+        this.postSubstituter.print(indentDepth + 1);
+
+        System.out.println(indent + "PRE-SUBSTITUTION: ");
+        this.preSubstituter.print(indentDepth + 1);
+
     }
 
 }

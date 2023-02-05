@@ -21,7 +21,6 @@
                 <xs:element name="keyword" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
-
                             <!-- Define tag for decomposition rule -->
                             <xs:element name="decomposition" maxOccurs="unbounded">
                                 <xs:complexType>

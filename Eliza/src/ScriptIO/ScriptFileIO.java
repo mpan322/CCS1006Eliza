@@ -12,7 +12,7 @@ public class ScriptFileIO {
 
     private final Path FILE_PATH;
 
-    public ScriptFileIO(String relativePath) {
+    public ScriptFileIO(String relativePath) throws ScriptPathException {
 
         this.FILE_PATH = this.resolveFilePath(relativePath);
 
@@ -24,23 +24,25 @@ public class ScriptFileIO {
 
     }
 
-    private Path resolveFilePath(String relativePath) {
+    private Path resolveFilePath(String relativePath) throws ScriptPathException {
 
         Path scriptPath = null;
         try {
 
-            Path absolutePath = Paths.get(".").toAbsolutePath();
+            Path absolutePath = Paths.get("").toAbsolutePath();
             scriptPath = absolutePath.resolve(relativePath).toAbsolutePath();
 
         } catch (IOError e) {
 
             e.printStackTrace();
+            throw new ScriptPathException("Exception: IOError trying to make path to file at " + relativePath + " relative to the working directory");
 
         } catch (SecurityException e) {
 
             e.printStackTrace();
+            throw new ScriptPathException("Exception: Secutiry exception trying to make path to file at " + relativePath + " relative to the working directory");
 
-        }
+        } 
 
         return scriptPath;
 

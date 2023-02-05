@@ -4,6 +4,7 @@ import org.w3c.dom.Node;
 
 public enum ScriptXMLTags {
 
+    TEXT("#text"),
     NONE(""),
     SCRIPT("script"),
     WELOCME_MSG("welcomeMsg"),

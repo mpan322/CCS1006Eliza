@@ -2,6 +2,11 @@ package Parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -48,7 +53,7 @@ public class ScriptParser {
 
     }
 
-    public void parseScript() {
+    public Script parseScript() {
 
         this.parseKeywords();
         this.parseWelcomeMessage();
@@ -56,6 +61,8 @@ public class ScriptParser {
         this.parseQuitKeywords();
         this.parseGlobalPostSubstitution();
         this.parsePreSubstitution();
+
+        return this.PARSED_SCRIPT;
 
     }
 
@@ -67,17 +74,29 @@ public class ScriptParser {
 
     /**
      * Parses a list of nodes using a given anonymous function, apply it to each
-     * node
+     * node, ignoring all nodes with tags in the filter
      * 
      * @param nodes       the nodes to parse
      * @param parsingFunc the anonymous function to apply
+     * @param filter      a list of node tages to not parse
      */
-    private void parseNodes(NodeList nodes, NodeParse parsingFunc) {
+    private void parseNodes(NodeList nodes, NodeParse parsingFunc, ScriptXMLTags... filter) {
+
+        List<String> filterList = Arrays.stream(filter)
+                .map((tag) -> {
+                    return tag.getTag();
+                })
+                .toList();
 
         for (int i = 0; i < nodes.getLength(); i++) {
 
             Node node = nodes.item(i);
-            parsingFunc.parse(node);
+
+            if (!filterList.contains(node.getNodeName())) {
+
+                parsingFunc.parse(node);
+
+            }
 
         }
 
@@ -105,17 +124,16 @@ public class ScriptParser {
      * @param parent      the parent node whose children are beign parsed
      * @param parsingFunc the anonymous function to apply
      */
-    private void parseChildren(Node parent, NodeParse parsingFunc) {
+    private void parseChildren(Node parent, NodeParse parsingFunc, ScriptXMLTags... filter) {
 
         NodeList children = parent.getChildNodes();
-        this.parseNodes(children, parsingFunc);
+        this.parseNodes(children, parsingFunc, filter);
 
     }
 
     private void parseGlobalPostSubstitution() {
 
-        NodeList postSubstitutionNodes = this.SCRIPT_XML.getElementsByTagName(ScriptXMLTags.POST_SUBSTITUTION.getTag());
-        this.parseNodes(postSubstitutionNodes, (Node node) -> {
+        this.parseNodes(ScriptXMLTags.POST_SUBSTITUTION, (Node node) -> {
 
             Node parent = node.getParentNode();
             if (ScriptXMLTags.SCRIPT.isType(parent)) {
@@ -131,11 +149,10 @@ public class ScriptParser {
 
     private void parsePreSubstitution() {
 
-        NodeList preSubstitutionNodes = this.SCRIPT_XML.getElementsByTagName(ScriptXMLTags.PRE_SUBSTITUTION.getTag());
-        this.parseNodes(preSubstitutionNodes, (Node node) -> {
+        this.parseNodes(ScriptXMLTags.PRE_SUBSTITUTION, (Node node) -> {
 
             Substituter preSubtitution = this.parseSubstituter(node);
-            this.PARSED_SCRIPT.setGlobalPostSubstituter(preSubtitution);
+            this.PARSED_SCRIPT.setPresubstituter(preSubtitution);
 
         });
 
@@ -148,8 +165,12 @@ public class ScriptParser {
 
         this.parseNodes(ScriptXMLTags.GOODBYE_MSG, (Node node) -> {
 
-            String goodbyeMessage = node.getNodeValue();
-            this.PARSED_SCRIPT.setGoodbyeMessage(goodbyeMessage);
+            this.parseChildren(node, (child) -> {
+
+                String goodbyeMessage = child.getNodeValue();
+                this.PARSED_SCRIPT.setGoodbyeMessage(goodbyeMessage);
+
+            });
 
         });
 
@@ -162,8 +183,12 @@ public class ScriptParser {
 
         this.parseNodes(ScriptXMLTags.QUIT_KEYWORD, (Node node) -> {
 
-            String quitKeyword = node.getNodeValue();
-            this.PARSED_SCRIPT.addQuitKeyword(quitKeyword);
+            this.parseChildren(node, (child) -> {
+
+                String quitKeyword = child.getNodeValue();
+                this.PARSED_SCRIPT.addQuitKeyword(quitKeyword);
+
+            });
 
         });
 
@@ -176,8 +201,12 @@ public class ScriptParser {
 
         this.parseNodes(ScriptXMLTags.WELOCME_MSG, (Node node) -> {
 
-            String welcomeMessage = node.getNodeValue();
-            this.PARSED_SCRIPT.setWelcomeMessage(welcomeMessage);
+            this.parseChildren(node, (child) -> {
+
+                String welcomeMessage = child.getNodeValue();
+                this.PARSED_SCRIPT.setWelcomeMessage(welcomeMessage);
+
+            });
 
         });
 
@@ -190,7 +219,7 @@ public class ScriptParser {
 
         this.parseNodes(ScriptXMLTags.KEYWORD, (Node node) -> {
 
-            // get the keyword and priority
+            // // get the keyword and priority
             Integer priority = Integer.parseInt(this.getAttributeValue(node, "priority"));
             String word = this.getAttributeValue(node, "word");
 
@@ -205,7 +234,7 @@ public class ScriptParser {
                 DecompositionRule decompositionRule = this.parseDecompositionRule(decompNode);
                 keyword.add(decompositionRule);
 
-            });
+            }, ScriptXMLTags.TEXT);
 
         });
 
@@ -220,6 +249,7 @@ public class ScriptParser {
     private DecompositionRule parseDecompositionRule(Node decompositionNode) {
 
         String pattern = this.getAttributeValue(decompositionNode, "pattern");
+
         DecompositionRule decompositionRule = new DecompositionRule(pattern);
 
         this.parseChildren(decompositionNode, (Node reassemblyNode) -> {
@@ -227,7 +257,7 @@ public class ScriptParser {
             ReassemblyRule reassemblyElement = this.parseReassemblyRule(reassemblyNode);
             decompositionRule.add(reassemblyElement);
 
-        });
+        }, ScriptXMLTags.TEXT);
 
         return decompositionRule;
 
@@ -249,7 +279,7 @@ public class ScriptParser {
             Substituter postSubs = this.parseSubstituter(node);
             reassemblyRule.setSubstituter(postSubs);
 
-        });
+        }, ScriptXMLTags.TEXT);
 
         return reassemblyRule;
     }
@@ -290,7 +320,7 @@ public class ScriptParser {
 
             substituter.put(inputWord, replaceWord);
 
-        });
+        }, ScriptXMLTags.TEXT);
 
         return substituter;
 
@@ -313,6 +343,7 @@ public class ScriptParser {
         } catch (IOException e) {
 
             System.out.println("getXMLDocument IOException");
+            e.printStackTrace();
 
         } catch (FactoryConfigurationError e) {
 

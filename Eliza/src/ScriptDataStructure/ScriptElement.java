@@ -13,6 +13,19 @@ public interface ScriptElement {
     /**
      * Prints the script elements info
      */
-    public void print();
+    public void print(int indentDepth);
+
+    default public String makeIndent(int depth) {
+
+        String indent = "";
+        for (int i = 0; i < depth; i++) {
+
+            indent += "  ";
+            
+        }
+
+        return indent;
+
+    }
 
 }

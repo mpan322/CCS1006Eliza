@@ -10,20 +10,17 @@
         <quitKeyword>logout</quitKeyword>
     </quitKeywords>
 
-    <keyword word="feel" priority="0">
+    <keyword word="3" priority="3">
         <decomposition pattern="I feel *">
             <reassembly format="Why do you feel like 1?">
                 <postSub>
                     <subRule input="my" replace="your" />
                 </postSub>
             </reassembly>
-
             <reassembly format="Sometime's I feel like 1 too." />
         </decomposition>
-
         <decomposition pattern="I cant feel *.">
             <reassembly format="Oh that sounds awful, let me help you!" />
-
             <reassembly format="When did you first start not being able to feel 1?">
                 <postSub>
                     <subRule input="my" replace="your" />
@@ -32,10 +29,29 @@
         </decomposition>
     </keyword>
 
-    <keyword word="feel" priority="0">
+    <keyword word="1" priority="1">
+        <decomposition pattern="I feel *">
+            <reassembly format="Why do you feel like 1?">
+                <postSub>
+                    <subRule input="my" replace="your" />
+                </postSub>
+            </reassembly>
+            <reassembly format="Sometime's I feel like 1 too." />
+        </decomposition>
+        <decomposition pattern="I cant feel *.">
+            <reassembly format="Oh that sounds awful, let me help you!" />
+            <reassembly format="When did you first start not being able to feel 1?">
+                <postSub>
+                    <subRule input="my" replace="your" />
+                </postSub>
+            </reassembly>
+        </decomposition>
+    </keyword>
+
+
+    <keyword word="2" priority="2">
         <decomposition pattern="I feel *">
             <reassembly format="" />
-
             <reassembly format="">
                 <postSub>
                     <subRule input="" replace="" />
@@ -43,10 +59,8 @@
                 </postSub>
             </reassembly>
         </decomposition>
-
         <decomposition pattern="">
-            <reassembly format="" />
-
+            <reassembly format="Hello" />
             <reassembly format="">
                 <postSub>
                     <subRule input="" replace="" />
@@ -56,7 +70,7 @@
         </decomposition>
     </keyword>
 
-    <keyword word="*" priority="100">
+    <keyword word="0" priority="0">
         <decomposition pattern="">
             <reassembly format="Sorry, I am not sure how to respond"></reassembly>
         </decomposition>

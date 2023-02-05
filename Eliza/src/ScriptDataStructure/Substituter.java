@@ -27,9 +27,15 @@ public class Substituter extends HashMap<String, String> implements ScriptElemen
     }
 
     @Override
-    public void print() {
-        // TODO Auto-generated method stub
-        
+    public void print(int indentDepth) {
+
+        String indent = this.makeIndent(indentDepth);
+        this.forEach((value, replace) -> {
+
+            System.out.println(indent + "SUBTITUTION: " + value + " " + replace);
+
+        });
+
     }
 
 }

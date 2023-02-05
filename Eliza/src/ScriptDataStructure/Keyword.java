@@ -58,8 +58,15 @@ public class Keyword extends ArrayList<DecompositionRule> implements ScriptEleme
 
 
     @Override
-    public void print() {
-        // TODO Auto-generated method stub
+    public void print(int indentDepth) {
+
+        String indent = this.makeIndent(indentDepth);
+        System.out.println(indent + "KEYWORD: " + this.KEYWORD);
+        this.forEach((decomp) -> {
+
+            decomp.print(indentDepth + 1);
+
+        });
         
     }
 

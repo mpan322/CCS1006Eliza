@@ -11,9 +11,11 @@ import org.w3c.dom.NodeList;
 public class DecompositionRule extends ArrayList<ReassemblyRule> implements ScriptElement {
 
     private final Pattern PATTERN;
+    private final String RAW_PATTERN;
 
     public DecompositionRule(String pattern) {
 
+        this.RAW_PATTERN = pattern;
         this.PATTERN = this.parsePattern(pattern);
 
     }
@@ -21,7 +23,7 @@ public class DecompositionRule extends ArrayList<ReassemblyRule> implements Scri
     private Pattern parsePattern(String pattern) {
 
         // make groups for all *s in the text to match anything
-        pattern = pattern.replaceAll("*", "(.*)");
+        pattern = pattern.replaceAll("[*]", "(.*)");
 
         // allow for extra accidental spaces
         pattern = pattern.replaceAll("\s", "\s+");
@@ -64,8 +66,15 @@ public class DecompositionRule extends ArrayList<ReassemblyRule> implements Scri
     }
 
     @Override
-    public void print() {
-        // TODO Auto-generated method stub
+    public void print(int indentDepth) {
+
+        String indent = this.makeIndent(indentDepth);
+        System.out.println(indent + "DECOMPOSITION: " + this.RAW_PATTERN);
+        this.forEach((reassembly) -> {
+
+            reassembly.print(indentDepth + 1);
+
+        });
 
     }
 
