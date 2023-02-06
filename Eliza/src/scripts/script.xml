@@ -158,6 +158,9 @@
     <keyword word="0" priority="0">
         <decomposition pattern="">
             <reassembly format="Sorry, I am not sure how to respond"></reassembly>
+            <reassembly format="Can you please elaborate?"></reassembly>
+            <reassembly format="Can you be more specific? "></reassembly>
+
         </decomposition>
     </keyword>
 
