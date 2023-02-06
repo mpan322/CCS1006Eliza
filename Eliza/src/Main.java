@@ -15,9 +15,9 @@ public class Main {
             ScriptFileIO scriptIO = new ScriptFileIO("./Eliza/src/scripts/script.xml");
             File scriptFile = scriptIO.getScript();
             ScriptParser parser = new ScriptParser(scriptFile);
-            Script script = parser.parseScript();
+            // Script script = parser.parseScript();
 
-            script.print(0);
+            // script.print(0);
 
         } catch (ScriptPathException e) {
 
