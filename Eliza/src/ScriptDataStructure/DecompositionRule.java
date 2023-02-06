@@ -20,6 +20,8 @@ public class DecompositionRule extends ArrayList<ReassemblyRule> implements Scri
 
     }
 
+    
+
     private Pattern parsePattern(String pattern) {
 
         // make groups for all *s in the text to match anything

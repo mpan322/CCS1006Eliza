@@ -15,7 +15,7 @@ public enum ScriptXMLTags {
     DECOMPOSITION("decomposition"),
     REASSEMBLY("reassembly"),
     POST_SUBSTITUTION("postSub"),
-    PRE_SUBSTITUTION("postSub"),
+    PRE_SUBSTITUTION("preSub"),
     SUBSTITUTION_RULE("subRule"),
     ;
 

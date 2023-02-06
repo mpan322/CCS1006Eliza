@@ -10,79 +10,94 @@
         <quitKeyword>logout</quitKeyword>
     </quitKeywords>
 
-    <keyword word="3" priority="3">
-        <decomposition pattern="I feel *">
-            <reassembly format="Why do you feel like 1?">
-                <postSub>
-                    <subRule input="my" replace="your" />
-                </postSub>
-            </reassembly>
-            <reassembly format="Sometime's I feel like 1 too." />
-        </decomposition>
-        <decomposition pattern="I cant feel *.">
-            <reassembly format="Oh that sounds awful, let me help you!" />
-            <reassembly format="When did you first start not being able to feel 1?">
-                <postSub>
-                    <subRule input="my" replace="your" />
-                </postSub>
-            </reassembly>
-        </decomposition>
-    </keyword>
 
-    <keyword word="1" priority="1">
-        <decomposition pattern="I feel *">
-            <reassembly format="Why do you feel like 1?">
-                <postSub>
-                    <subRule input="my" replace="your" />
-                </postSub>
-            </reassembly>
-            <reassembly format="Sometime's I feel like 1 too." />
-        </decomposition>
-        <decomposition pattern="I cant feel *.">
-            <reassembly format="Oh that sounds awful, let me help you!" />
-            <reassembly format="When did you first start not being able to feel 1?">
-                <postSub>
-                    <subRule input="my" replace="your" />
-                </postSub>
-            </reassembly>
-        </decomposition>
-    </keyword>
+    <keywords>
 
+        <!-- Need keyword -->
+        <keyword word="need" priority="3">
+            <decomposition pattern="I need *">
+                <reassembly format="Why do you need 1">
+                    <postSub>
+                        <subRule input="." replace="?" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
 
-    <keyword word="2" priority="2">
-        <decomposition pattern="I feel *">
-            <reassembly format="" />
-            <reassembly format="">
-                <postSub>
-                    <subRule input="" replace="" />
-                    <subRule input="" replace="" />
-                </postSub>
-            </reassembly>
-        </decomposition>
-        <decomposition pattern="">
-            <reassembly format="Hello" />
-            <reassembly format="">
-                <postSub>
-                    <subRule input="" replace="" />
-                    <subRule input="" replace="" />
-                </postSub>
-            </reassembly>
-        </decomposition>
-    </keyword>
+            <decomposition pattern="You need to *">
+                <reassembly format="Why do I need to 1">
+                    <postSub>
+                        <subRule input="." replace="?" />
+                    </postSub>
+                </reassembly>
+                <reassembly format="I dont want to!" />
+            </decomposition>
 
-    <keyword word="0" priority="0">
-        <decomposition pattern="">
-            <reassembly format="Sorry, I am not sure how to respond"></reassembly>
-        </decomposition>
-    </keyword>
+            <decomposition pattern="Do you need a time out?">
+                <reassembly format="No!" />
+            </decomposition>
+
+            <default>
+                <reassembly format=""></reassembly>
+            </default>
+
+        </keyword>
+
+        <!-- what -->
+        <keyword word="what" priority="1">
+            <decomposition pattern="What is your *">
+                <reassembly format="Ummmmmmmm. I duno!" />
+                <reassembly format="I love all *!" />
+                <reassembly format="I hate *!" />
+            </decomposition>
+            <decomposition pattern="What is a *">
+                <reassembly format="I duno." />
+            </decomposition>
+            <default>
+                <reassembly format=""></reassembly>
+            </default>
+        </keyword>
+
+        <keyword word="but" priority="1">
+            <decomposition pattern="But you *">
+                <reassembly format="I changed my mind!" />
+            </decomposition>
+            <default>
+                <reassembly format="">
+
+                </reassembly>
+            </default>
+        </keyword>
+
+        <default>
+            <decomposition pattern="a *">
+                <reassembly format="whats a *">
+                    <postSub>
+                        <subRule input="." replace="?" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+
+            <default>
+                <reassembly format="What does that mean?"></reassembly>
+            </default>
+        
+        </default>
+    </keywords>
 
     <preSub>
-        <subRule input="" replace="" />
-        <subRule input="" replace="" />
+        <subRule input="should" replace="need" />
+        <subRule input="must" replace="need" />
+        <subRule input="ought" replace="need" />
+        <subRule input="an" replace="a" />
+        <subRule input="*'s" replace=" is" />
+        <subRule input="*'t" replace=" not" />
+        <subRule input="time-out" replace="time out" />
     </preSub>
 
     <postSub>
-        <subRule input="" replace="" />
-        <subRule input="" replace="" />
+        <subRule input="my" replace="your" />
+        <subRule input="you" replace="I" />
+        <subRule input="your" replace="my" />
+        <subRule input="me" replace="you" />
     </postSub>
 </script>

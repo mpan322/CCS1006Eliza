@@ -2,22 +2,13 @@ package Parser;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.FactoryConfigurationError;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import ScriptDataStructure.DecompositionRule;
 import ScriptDataStructure.Keyword;
@@ -28,43 +19,17 @@ import ScriptDataStructure.Substituter;
 /**
  * ScriptParser
  */
-public class ScriptParser {
+public class ScriptParser extends XMLParser{
 
-    private final Document SCRIPT_XML;
     private final Script PARSED_SCRIPT;
 
     public ScriptParser(File scriptFile) {
 
-        this.SCRIPT_XML = this.getXMLDocument(scriptFile);
+        super(scriptFile);
         this.PARSED_SCRIPT = new Script();
 
     }
 
-    /**
-     * Gets all nodes in the XML DOM of a given tag
-     * 
-     * @param tag the tag type to get
-     * @return all nodes of that tag type
-     */
-    private NodeList getTagNodes(String tag) {
-
-        NodeList nodes = this.SCRIPT_XML.getElementsByTagName(tag);
-        return nodes;
-
-    }
-
-    public Script parseScript() {
-
-        this.parseKeywords();
-        this.parseWelcomeMessage();
-        this.parseGoodbyeMessages();
-        this.parseQuitKeywords();
-        this.parseGlobalPostSubstitution();
-        this.parsePreSubstitution();
-
-        return this.PARSED_SCRIPT;
-
-    }
 
     private interface NodeParse {
 
@@ -323,37 +288,6 @@ public class ScriptParser {
         }, ScriptXMLTags.TEXT);
 
         return substituter;
-
-    }
-
-    private Document getXMLDocument(File file) {
-
-        Document doc = null;
-
-        try {
-
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            doc = builder.parse(file);
-
-        } catch (ParserConfigurationException e) {
-
-            System.out.println("getXMLDocument ParserConfiguration Exception");
-
-        } catch (IOException e) {
-
-            System.out.println("getXMLDocument IOException");
-            e.printStackTrace();
-
-        } catch (FactoryConfigurationError e) {
-
-        } catch (SAXException e) {
-
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        return doc;
 
     }
 

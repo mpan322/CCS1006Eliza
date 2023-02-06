@@ -17,56 +17,236 @@
                     </xs:complexType>
                 </xs:element>
 
-                <!-- Define tag for general key words -->
-                <xs:element name="keyword" maxOccurs="unbounded">
+                <xs:element name="keywords" maxOccurs="1">
                     <xs:complexType>
                         <xs:sequence>
-                            <!-- Define tag for decomposition rule -->
-                            <xs:element name="decomposition" maxOccurs="unbounded">
+
+                            <!-- Define tag for general key words -->
+                            <xs:element name="keyword" maxOccurs="unbounded">
                                 <xs:complexType>
                                     <xs:sequence>
-
-                                        <xs:element name="reassembly"
-                                            maxOccurs="unbounded">
+                                        <!-- Define tag for decomposition rule -->
+                                        <xs:element name="decomposition" maxOccurs="unbounded">
                                             <xs:complexType>
-                                                <xs:all>
+                                                <xs:sequence>
 
-                                                    <!-- Define tag for post substitutions -->
-                                                    <xs:element name="postSub" minOccurs="0">
+                                                    <xs:element name="reassembly"
+                                                        maxOccurs="unbounded">
                                                         <xs:complexType>
-                                                            <xs:sequence>
+                                                            <xs:all>
 
-                                                                <!-- Define tag for a general
-                                                                substitution -->
-                                                                <xs:element name="subRule" maxOccurs="unbounded">
+                                                                <!-- Define tag for post
+                                                                substitutions -->
+                                                                <xs:element name="postSub"
+                                                                    minOccurs="0">
                                                                     <xs:complexType>
-                                                                        <xs:attribute name="input"
-                                                                            type="xs:string"
-                                                                            use="required" />
-                                                                        <xs:attribute name="replace"
-                                                                            type="xs:string"
-                                                                            use="required" />
+                                                                        <xs:sequence>
+
+                                                                            <!-- Define tag for a
+                                                                            general
+                                                                substitution -->
+                                                                            <xs:element
+                                                                                name="subRule"
+                                                                                maxOccurs="unbounded">
+                                                                                <xs:complexType>
+                                                                                    <xs:attribute
+                                                                                        name="input"
+                                                                                        type="xs:string"
+                                                                                        use="required" />
+                                                                                    <xs:attribute
+                                                                                        name="replace"
+                                                                                        type="xs:string"
+                                                                                        use="required" />
+                                                                                </xs:complexType>
+                                                                            </xs:element>
+
+                                                                        </xs:sequence>
                                                                     </xs:complexType>
                                                                 </xs:element>
 
-                                                            </xs:sequence>
+                                                            </xs:all>
+                                                            <xs:attribute name="format"
+                                                                type="xs:string"
+                                                                use="required" />
                                                         </xs:complexType>
                                                     </xs:element>
 
-                                                </xs:all>
-                                                <xs:attribute name="format" type="xs:string"
-                                                    use="required" />
+                                                </xs:sequence>
+                                                <xs:attribute name="pattern" use="required" />
+
+                                            </xs:complexType>
+                                        </xs:element>
+
+                                        <!-- Define tag for decomposition rule -->
+                                        <xs:element name="default" maxOccurs="1" minOccurs="1">
+                                            <xs:complexType>
+                                                <xs:sequence>
+
+                                                    <xs:element name="reassembly"
+                                                        maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:all>
+
+                                                                <!-- Define tag for post
+                                                                substitutions -->
+                                                                <xs:element name="postSub"
+                                                                    minOccurs="0">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+
+                                                                            <!-- Define tag for a
+                                                                            general
+                                                                                            substitution -->
+                                                                            <xs:element
+                                                                                name="subRule"
+                                                                                maxOccurs="unbounded">
+                                                                                <xs:complexType>
+                                                                                    <xs:attribute
+                                                                                        name="input"
+                                                                                        type="xs:string"
+                                                                                        use="required" />
+                                                                                    <xs:attribute
+                                                                                        name="replace"
+                                                                                        type="xs:string"
+                                                                                        use="required" />
+                                                                                </xs:complexType>
+                                                                            </xs:element>
+
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+
+                                                            </xs:all>
+                                                            <xs:attribute name="format"
+                                                                type="xs:string"
+                                                                use="required" />
+                                                        </xs:complexType>
+                                                    </xs:element>
+
+                                                </xs:sequence>
+
                                             </xs:complexType>
                                         </xs:element>
 
                                     </xs:sequence>
-                                    <xs:attribute name="pattern" use="required" />
+                                    <xs:attribute name="word" type="xs:string" use="required" />
+                                    <xs:attribute name="priority" type="xs:unsignedInt"
+                                        use="required" />
+                                </xs:complexType>
+                            </xs:element>
+
+                            <!-- Define tag for general key words -->
+                            <xs:element name="default" maxOccurs="1" minOccurs="1">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <!-- Define tag for decomposition rule -->
+                                        <xs:element name="decomposition" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+
+                                                    <xs:element name="reassembly"
+                                                        maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:all>
+
+                                                                <!-- Define tag for post
+                                                                                            substitutions -->
+                                                                <xs:element name="postSub"
+                                                                    minOccurs="0">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+
+                                                                            <!-- Define tag for a
+                                                                                                        general
+                                                                                            substitution -->
+                                                                            <xs:element
+                                                                                name="subRule"
+                                                                                maxOccurs="unbounded">
+                                                                                <xs:complexType>
+                                                                                    <xs:attribute
+                                                                                        name="input"
+                                                                                        type="xs:string"
+                                                                                        use="required" />
+                                                                                    <xs:attribute
+                                                                                        name="replace"
+                                                                                        type="xs:string"
+                                                                                        use="required" />
+                                                                                </xs:complexType>
+                                                                            </xs:element>
+
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+
+                                                            </xs:all>
+                                                            <xs:attribute name="format"
+                                                                type="xs:string"
+                                                                use="required" />
+                                                        </xs:complexType>
+                                                    </xs:element>
+
+                                                </xs:sequence>
+                                                <xs:attribute name="pattern" use="required" />
+
+                                            </xs:complexType>
+                                        </xs:element>
+
+                                        <!-- Define tag for decomposition rule -->
+                                        <xs:element name="default" maxOccurs="1" minOccurs="1">
+                                            <xs:complexType>
+                                                <xs:sequence>
+
+                                                    <xs:element name="reassembly"
+                                                        maxOccurs="unbounded">
+                                                        <xs:complexType>
+                                                            <xs:all>
+
+                                                                <!-- Define tag for post
+                                                                                            substitutions -->
+                                                                <xs:element name="postSub"
+                                                                    minOccurs="0">
+                                                                    <xs:complexType>
+                                                                        <xs:sequence>
+
+                                                                            <!-- Define tag for a
+                                                                                                        general
+                                                                                                                        substitution -->
+                                                                            <xs:element
+                                                                                name="subRule"
+                                                                                maxOccurs="unbounded">
+                                                                                <xs:complexType>
+                                                                                    <xs:attribute
+                                                                                        name="input"
+                                                                                        type="xs:string"
+                                                                                        use="required" />
+                                                                                    <xs:attribute
+                                                                                        name="replace"
+                                                                                        type="xs:string"
+                                                                                        use="required" />
+                                                                                </xs:complexType>
+                                                                            </xs:element>
+
+                                                                        </xs:sequence>
+                                                                    </xs:complexType>
+                                                                </xs:element>
+
+                                                            </xs:all>
+                                                            <xs:attribute name="format"
+                                                                type="xs:string"
+                                                                use="required" />
+                                                        </xs:complexType>
+                                                    </xs:element>
+
+                                                </xs:sequence>
+
+                                            </xs:complexType>
+                                        </xs:element>
+
+                                    </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
 
                         </xs:sequence>
-                        <xs:attribute name="word" type="xs:string" use="required" />
-                        <xs:attribute name="priority" type="xs:unsignedInt" use="required" />
                     </xs:complexType>
                 </xs:element>
 

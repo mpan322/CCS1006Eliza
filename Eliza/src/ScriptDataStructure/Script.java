@@ -67,6 +67,11 @@ public class Script implements ScriptElement {
 
     }
 
+    /**
+     * Adds a keyword to the script object
+     * 
+     * @param keyword the keyword to add
+     */
     public void addKeyword(Keyword keyword) {
 
         int priority = keyword.getPriority();
@@ -96,6 +101,8 @@ public class Script implements ScriptElement {
     }
 
     public String generateOutput(String input) {
+
+        boolean successfulGenerate = false;
 
         // global pre substitution
         this.preSubstituter.generateOutput(input);
