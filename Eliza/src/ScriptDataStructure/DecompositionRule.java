@@ -6,62 +6,74 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.w3c.dom.NodeList;
+public class DecompositionRule implements ScriptElement {
 
-public class DecompositionRule extends ArrayList<ReassemblyRule> implements ScriptElement {
-
-    private final Pattern PATTERN;
     private final String RAW_PATTERN;
+    private String pattern;
+    private final List<ReassemblyRule> REASSEMBLY_RULES = new ArrayList<>();
 
-    public DecompositionRule(String pattern) {
+    public DecompositionRule(String pattern, List<ReassemblyRule> reassemblyRules) {
 
         this.RAW_PATTERN = pattern;
-        this.PATTERN = this.parsePattern(pattern);
+
+        String regexPattern = this.parseRegexInsertIdentifiers(pattern);
+        this.pattern = ".*" + regexPattern + ".*";
+        // allow extra spaces for typos
+        this.pattern = this.pattern.replaceAll("\s", "\\\\s+");
+        this.REASSEMBLY_RULES.addAll(reassemblyRules);
 
     }
 
-    private Pattern parsePattern(String pattern) {
+    public void defaultParseStep() {
 
-        // make groups for all *s in the text to match anything
-        pattern = pattern.replaceAll("[*]", "(.*)");
-
-        // allow for extra accidental spaces
-        pattern = pattern.replaceAll("\s", "\s+");
-
-        return Pattern.compile(pattern);
+        this.pattern = "^.*$";
 
     }
 
     public ReassemblyRule chooseReassemblyRule() {
 
         Random rand = new Random();
-        int randInt = rand.nextInt(this.size());
-        return this.get(randInt);
+        int randInt = rand.nextInt(this.REASSEMBLY_RULES.size());
+        return this.REASSEMBLY_RULES.get(randInt);
 
     }
 
-    public List<String> getTextGroups(String input) {
+    /**
+     * Determines whether the decomposition rule's pattern matches to an inputted
+     * string
+     * 
+     * @param input
+     * @return whether or not it matches
+     */
+    public boolean matches(String input) {
 
-        Matcher matcher = this.PATTERN.matcher(input);
-
-        // get the text from where all the *'s would be
-        List<String> asteriskGroups = new ArrayList<>();
-        int groupCount = matcher.groupCount();
-        for (int i = 0; i < groupCount; i++) {
-
-            asteriskGroups.add(matcher.group(i));
-
-        }
-
-        return asteriskGroups;
+        Pattern pattern = Pattern.compile(this.pattern);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
 
     }
 
     @Override
     public String generateOutput(String input) {
 
-        // the decomposition rule does not modify the string
-        return input;
+        ReassemblyRule reassemblyRule = this.chooseReassemblyRule();
+        String reassemblyFormat = reassemblyRule.getFormat();
+
+        String output;
+        if(!reassemblyRule.containsGroupReplaces()) {
+
+            System.out.println(reassemblyFormat);
+            output = reassemblyFormat; 
+
+        } else {
+
+            output = input.replaceAll(this.pattern, reassemblyFormat);
+
+        }
+
+        output = reassemblyRule.doPostSubstitutions(output);
+
+        return output;
 
     }
 
@@ -70,7 +82,7 @@ public class DecompositionRule extends ArrayList<ReassemblyRule> implements Scri
 
         String indent = this.makeIndent(indentDepth);
         System.out.println(indent + "DECOMPOSITION: " + this.RAW_PATTERN);
-        this.forEach((reassembly) -> {
+        this.REASSEMBLY_RULES.forEach((reassembly) -> {
 
             reassembly.print(indentDepth + 1);
 

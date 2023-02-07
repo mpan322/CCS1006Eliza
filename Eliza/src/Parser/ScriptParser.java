@@ -1,23 +1,11 @@
 package Parser;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayDeque;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.function.Predicate;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.FactoryConfigurationError;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import ScriptDataStructure.DecompositionRule;
 import ScriptDataStructure.Keyword;
@@ -28,332 +16,225 @@ import ScriptDataStructure.Substituter;
 /**
  * ScriptParser
  */
-public class ScriptParser {
+public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
-    private final Document SCRIPT_XML;
-    private final Script PARSED_SCRIPT;
+    private static final Predicate<? super Node> DEFAULT_FILTER = (
+            Node node) -> node.getNodeName() != ScriptXMLTags.DEFAULT.getTag();
 
     public ScriptParser(File scriptFile) {
 
-        this.SCRIPT_XML = this.getXMLDocument(scriptFile);
-        this.PARSED_SCRIPT = new Script();
+        super(scriptFile);
 
     }
 
-    /**
-     * Gets all nodes in the XML DOM of a given tag
-     * 
-     * @param tag the tag type to get
-     * @return all nodes of that tag type
-     */
-    private NodeList getTagNodes(String tag) {
-
-        NodeList nodes = this.SCRIPT_XML.getElementsByTagName(tag);
-        return nodes;
-
-    }
-
+    @Override
     public Script parseScript() {
 
-        this.parseKeywords();
-        this.parseWelcomeMessage();
-        this.parseGoodbyeMessages();
-        this.parseQuitKeywords();
-        this.parseGlobalPostSubstitution();
-        this.parsePreSubstitution();
+        List<String> quitKeywords = this.parseQuitKeywords();
 
-        return this.PARSED_SCRIPT;
+        List<Keyword> keywords = this.parseKeywords();
+        Keyword defaultKeyword = this.getDefaultKeyword();
+
+        String goodbyeMessage = this.getTextFromATag(ScriptXMLTags.GOODBYE_MSG.getTag());
+        String welcomeMessage = this.getTextFromATag(ScriptXMLTags.WELOCME_MSG.getTag());
+
+        Substituter postSub = this.parseGlobalPostSubstitution();
+        Substituter preSub = this.parsePreSubstitution();
+
+        return new Script(defaultKeyword, keywords, preSub, postSub, welcomeMessage, goodbyeMessage, quitKeywords);
 
     }
 
-    private interface NodeParse {
+    private List<String> parseQuitKeywords() {
 
-        public void parse(Node nodes);
+        return this.streamByTagName(ScriptXMLTags.QUIT_KEYWORD.getTag())
+                .map(this::getNodeText)
+                .toList();
+
+    }
+
+    private Substituter parsePreSubstitution() {
+
+        return this.streamByTagName(ScriptXMLTags.PRE_SUBSTITUTION.getTag())
+                .limit(1)
+                .map(this::parseSubstituter)
+                .toList().get(0);
+
+    }
+
+    private Substituter parseGlobalPostSubstitution() {
+
+        String scriptTag = ScriptXMLTags.SCRIPT.getTag();
+        
+        // only keeps tags with script as their parent
+        Predicate<Node> hasScriptParent = (Node node) -> node.getParentNode().getNodeName().equals(scriptTag);
+
+        return this.streamByTagName(ScriptXMLTags.POST_SUBSTITUTION.getTag())
+                .filter(hasScriptParent)
+                .limit(1)
+                .map(this::parseSubstituter)
+                .toList().get(0);
 
     }
 
     /**
-     * Parses a list of nodes using a given anonymous function, apply it to each
-     * node, ignoring all nodes with tags in the filter
+     * Sorts the keywords by priority in descending order
      * 
-     * @param nodes       the nodes to parse
-     * @param parsingFunc the anonymous function to apply
-     * @param filter      a list of node tages to not parse
+     * @param keywords list keywords to be sorted
+     * @return the sorted list
      */
-    private void parseNodes(NodeList nodes, NodeParse parsingFunc, ScriptXMLTags... filter) {
+    private List<Keyword> sortKeywordsByPriority(List<Keyword> keywords) {
 
-        List<String> filterList = Arrays.stream(filter)
-                .map((tag) -> {
-                    return tag.getTag();
-                })
-                .toList();
+        List<Keyword> sorted = new ArrayList<>();
 
-        for (int i = 0; i < nodes.getLength(); i++) {
+        for (Keyword keyword : keywords) {
 
-            Node node = nodes.item(i);
+            int priority = keyword.getPriority();
+            int i = 0;
+            int currPriority = Integer.MAX_VALUE;
 
-            if (!filterList.contains(node.getNodeName())) {
+            // keep increasing i until the end of the list is reached
+            // or the keywords priority exceeds that of the (i-1)th element
+            while (currPriority > priority && i < keywords.size()) {
 
-                parsingFunc.parse(node);
+                currPriority = keywords.get(i).getPriority();
+
+                if (currPriority > priority) {
+
+                    i++;
+
+                }
 
             }
+
+            sorted.add(i, keyword);
 
         }
 
-    }
-
-    /**
-     * Parses all nodes of a given tag applying the given anonymous function to each
-     * node
-     * 
-     * @param tag         the tag of the nodes
-     * @param parsingFunc the anonymous function to apply
-     */
-    private void parseNodes(ScriptXMLTags tag, NodeParse parsingFunc) {
-
-        String tagString = tag.getTag();
-        NodeList nodes = this.getTagNodes(tagString);
-        this.parseNodes(nodes, parsingFunc);
+        return sorted;
 
     }
 
-    /**
-     * Parses all children of a given node applying the given anonymous function to
-     * each child
-     * 
-     * @param parent      the parent node whose children are beign parsed
-     * @param parsingFunc the anonymous function to apply
-     */
-    private void parseChildren(Node parent, NodeParse parsingFunc, ScriptXMLTags... filter) {
+    private List<Keyword> parseKeywords() {
 
-        NodeList children = parent.getChildNodes();
-        this.parseNodes(children, parsingFunc, filter);
+        List<Keyword> keywords = this.streamByTagName("keyword")
+                .map(this::parseKeyword)
+                .toList();
+
+        keywords = this.sortKeywordsByPriority(keywords);
+
+        return keywords;
 
     }
 
-    private void parseGlobalPostSubstitution() {
+    private String getTextFromATag(String tag) {
 
-        this.parseNodes(ScriptXMLTags.POST_SUBSTITUTION, (Node node) -> {
-
-            Node parent = node.getParentNode();
-            if (ScriptXMLTags.SCRIPT.isType(parent)) {
-
-                Substituter postSubtitution = this.parseSubstituter(node);
-                this.PARSED_SCRIPT.setGlobalPostSubstituter(postSubtitution);
-
-            }
-
-        });
+        return this.streamByTagName(tag)
+                .limit(1)
+                .map(this::getNodeText)
+                .toList().get(0);
 
     }
 
-    private void parsePreSubstitution() {
+    private Keyword getDefaultKeyword() {
 
-        this.parseNodes(ScriptXMLTags.PRE_SUBSTITUTION, (Node node) -> {
-
-            Substituter preSubtitution = this.parseSubstituter(node);
-            this.PARSED_SCRIPT.setPresubstituter(preSubtitution);
-
-        });
-
-    }
-
-    /**
-     * Parses the goodbye messages in the script adding them to the PARSED_SCRIPT
-     */
-    private void parseGoodbyeMessages() {
-
-        this.parseNodes(ScriptXMLTags.GOODBYE_MSG, (Node node) -> {
-
-            this.parseChildren(node, (child) -> {
-
-                String goodbyeMessage = child.getNodeValue();
-                this.PARSED_SCRIPT.setGoodbyeMessage(goodbyeMessage);
-
-            });
-
-        });
+        return this.streamByTagName(ScriptXMLTags.KEYWORDS.getTag())
+                .map(this::streamChildren)
+                .flatMap(stream -> stream) // join together all the streams
+                .filter(ScriptParser.DEFAULT_FILTER.negate())
+                .limit(1)
+                .map(this::parseKeyword)
+                .toList().get(0);
 
     }
 
-    /**
-     * Parses the quit keywords in the script adding them to the PARSED_SCRIPT
-     */
-    private void parseQuitKeywords() {
+    private Keyword parseKeyword(Node keyword) {
 
-        this.parseNodes(ScriptXMLTags.QUIT_KEYWORD, (Node node) -> {
+        String word = "";
+        String priorityString = "-1";
+        if (keyword.hasAttributes()) {
 
-            this.parseChildren(node, (child) -> {
+            word = this.getAttribute(keyword, "word");
+            priorityString = this.getAttribute(keyword, "priority");
 
-                String quitKeyword = child.getNodeValue();
-                this.PARSED_SCRIPT.addQuitKeyword(quitKeyword);
+        }
 
-            });
+        Integer priority = Integer.parseInt(priorityString);
 
-        });
+        List<DecompositionRule> decompositionRules = this.streamChildren(keyword)
+                .filter(DEFAULT_FILTER)
+                .filter(XMLParser.NON_TAG_FILTER)
+                .map(this::parseDecompositionRule)
+                .toList();
 
-    }
+        DecompositionRule defaultDecomposition = this.streamChildren(keyword)
+                .filter(DEFAULT_FILTER.negate())
+                .limit(1)
+                .map(this::parseDecompositionRule)
+                .toList().get(0);
 
-    /**
-     * Parses the welcome messages in the script adding them to the PARSED_SCRIPT
-     */
-    private void parseWelcomeMessage() {
+        defaultDecomposition.defaultParseStep();
 
-        this.parseNodes(ScriptXMLTags.WELOCME_MSG, (Node node) -> {
-
-            this.parseChildren(node, (child) -> {
-
-                String welcomeMessage = child.getNodeValue();
-                this.PARSED_SCRIPT.setWelcomeMessage(welcomeMessage);
-
-            });
-
-        });
+        return new Keyword(word, priority, decompositionRules, defaultDecomposition);
 
     }
 
-    /**
-     * Parses the keywords in the script adding them to the PARSED_SCRIPT
-     */
-    private void parseKeywords() {
-
-        this.parseNodes(ScriptXMLTags.KEYWORD, (Node node) -> {
-
-            // // get the keyword and priority
-            Integer priority = Integer.parseInt(this.getAttributeValue(node, "priority"));
-            String word = this.getAttributeValue(node, "word");
-
-            // create new keyword and add it to script
-            Keyword keyword = new Keyword(word, priority);
-            this.PARSED_SCRIPT.addKeyword(keyword);
-
-            // parse / add all decomposition rules to the keyword
-            NodeList decompositionRules = node.getChildNodes();
-            this.parseNodes(decompositionRules, (Node decompNode) -> {
-
-                DecompositionRule decompositionRule = this.parseDecompositionRule(decompNode);
-                keyword.add(decompositionRule);
-
-            }, ScriptXMLTags.TEXT);
-
-        });
-
-    }
-
-    /**
-     * Parses a decomposition rule into a java representation
-     * 
-     * @param decompositionNode the node representing the decomposition rule
-     * @return the parsed rule
-     */
     private DecompositionRule parseDecompositionRule(Node decompositionNode) {
 
-        String pattern = this.getAttributeValue(decompositionNode, "pattern");
+        String pattern = "";
+        if (decompositionNode.hasAttributes()) {
 
-        DecompositionRule decompositionRule = new DecompositionRule(pattern);
+            // get pattern
+            pattern = this.getAttribute(decompositionNode, "pattern");
 
-        this.parseChildren(decompositionNode, (Node reassemblyNode) -> {
+        }
 
-            ReassemblyRule reassemblyElement = this.parseReassemblyRule(reassemblyNode);
-            decompositionRule.add(reassemblyElement);
+        // get reassembly rules
+        List<ReassemblyRule> reassemblyRules = this.streamChildren(decompositionNode)
+                .filter(XMLParser.NON_TAG_FILTER)
+                .map(this::parseReassemblyRule)
+                .toList();
 
-        }, ScriptXMLTags.TEXT);
-
-        return decompositionRule;
-
-    }
-
-    /**
-     * Parses a reassembly rule into a java representation
-     * 
-     * @param reassmblyNode the node representing the reassembly rule
-     * @return the parsed rule
-     */
-    private ReassemblyRule parseReassemblyRule(Node reassmblyNode) {
-
-        String format = this.getAttributeValue(reassmblyNode, "format");
-        ReassemblyRule reassemblyRule = new ReassemblyRule(format);
-
-        this.parseChildren(reassmblyNode, (Node node) -> {
-
-            Substituter postSubs = this.parseSubstituter(node);
-            reassemblyRule.setSubstituter(postSubs);
-
-        }, ScriptXMLTags.TEXT);
-
-        return reassemblyRule;
-    }
-
-    /**
-     * Gets the values of the given attributes of the inputted node.
-     * The returned values will be in the same order they were passed into the
-     * method.
-     * 
-     * @param node           the node whose attributes are being gotten
-     * @param attributeNames the names of attributes whose values are being gotten
-     * @return a list of the values ordered in the same way as the attributes were
-     *         inputted.
-     */
-    private String getAttributeValue(Node node, String attributeName) {
-
-        NamedNodeMap attrs = node.getAttributes();
-
-        Node attrNode = attrs.getNamedItem(attributeName);
-        String value = attrNode.getNodeValue();
-
-        return value;
+        return new DecompositionRule(pattern, reassemblyRules);
 
     }
 
-    private Substituter parseSubstituter(Node postSubstitutionNode) {
+    private ReassemblyRule parseReassemblyRule(Node reassemblyNode) {
+
+        // get the format
+        String format = this.getAttribute(reassemblyNode, "format");
+
+        Substituter substituter = Substituter.EMPTY;
+        if (reassemblyNode.hasChildNodes()) {
+
+            // get the substituter
+            this.streamChildren(reassemblyNode)
+                    .limit(1)
+                    .map(this::parseSubstituter)
+                    .toList().get(0);
+
+        }
+
+        return new ReassemblyRule(format, substituter);
+
+    }
+
+    private Substituter parseSubstituter(Node substituterNode) {
 
         Substituter substituter = new Substituter();
 
-        this.parseChildren(postSubstitutionNode, (Node subsRuleNode) -> {
+        // get the inputs and replacements
+        this.streamChildren(substituterNode)
+                .filter(XMLParser.NON_TAG_FILTER)
+                .forEach((substitutionNode) -> {
 
-            NamedNodeMap attrs = subsRuleNode.getAttributes();
-            Node inputAttrNode = attrs.getNamedItem("input");
-            Node replaceAttrNode = attrs.getNamedItem("replace");
+                    String input = this.getAttribute(substitutionNode, "input");
+                    String replace = this.getAttribute(substitutionNode, "replace");
+                    substituter.put(input, replace);
 
-            String inputWord = inputAttrNode.getNodeValue();
-            String replaceWord = replaceAttrNode.getNodeValue();
-
-            substituter.put(inputWord, replaceWord);
-
-        }, ScriptXMLTags.TEXT);
+                });
 
         return substituter;
-
-    }
-
-    private Document getXMLDocument(File file) {
-
-        Document doc = null;
-
-        try {
-
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            doc = builder.parse(file);
-
-        } catch (ParserConfigurationException e) {
-
-            System.out.println("getXMLDocument ParserConfiguration Exception");
-
-        } catch (IOException e) {
-
-            System.out.println("getXMLDocument IOException");
-            e.printStackTrace();
-
-        } catch (FactoryConfigurationError e) {
-
-        } catch (SAXException e) {
-
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        return doc;
 
     }
 

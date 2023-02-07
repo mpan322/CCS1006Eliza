@@ -1,7 +1,7 @@
 package ScriptDataStructure;
 
 public interface ScriptElement {
-    
+
     /**
      * Generates an output string given an input
      * 
@@ -9,6 +9,21 @@ public interface ScriptElement {
      * @return the output message
      */
     public String generateOutput(String input);
+
+    public default String parseRegexInsertIdentifiers(String input){
+
+        String output = "" + input;
+        for (XMLGroupInserts insert :  XMLGroupInserts.values()) {
+            
+            String regex = insert.getRegex();
+            String identifier = insert.getIdentifier();
+            output = output.replaceAll("[$]" + identifier + "[$]", regex);
+
+        }
+
+        return output;
+        
+    }
 
     /**
      * Prints the script elements info
@@ -21,7 +36,7 @@ public interface ScriptElement {
         for (int i = 0; i < depth; i++) {
 
             indent += "  ";
-            
+
         }
 
         return indent;

@@ -1,5 +1,6 @@
 package ScriptDataStructure;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -7,107 +8,47 @@ import java.util.regex.Pattern;
 
 public class Script implements ScriptElement {
 
-    private String welcomeMessage;
-    private String goodbyeMessage;
+    private final String WELCOME_MESSAGE;
+    private final String GOODBYE_MESSAGE;
+ 
+    private final Collection<String> QUIT_KEYWORDS;
+    private final Substituter PRE_SUBSTITUTER;
+    private final Substituter POST_SUBSTITUTER;
 
-    private Collection<String> quitKeywords;
+    private final List<Keyword> KEYWORDS;
+    private final Keyword DEFAULT_KEYWORD;
 
-    private Substituter preSubstituter;
-    private Substituter postSubstituter;
+    public Script(Keyword defaultKeyword, List<Keyword> keywords, Substituter preSub, Substituter postSub, String welcomeMessage, String goodbyeMessage, List<String> quitKeywords) {
 
-    private List<Keyword> keywords = new ArrayList<>();
-    private static final Keyword DEFAULT_KEYWORD = new Keyword("//DEFAULT//", -1);
-
-    public Script() {
-
-        this.quitKeywords = new ArrayList<>();
-
-    }
-
-    // Setters
-    public void setWelcomeMessage(String welcomeMessage) {
-
-        this.welcomeMessage = welcomeMessage;
-
-    }
-
-    public void setGoodbyeMessage(String goodbyeMessage) {
-
-        this.goodbyeMessage = goodbyeMessage;
-
-    }
-
-    public void setPresubstituter(Substituter preSubstituter) {
-
-        this.preSubstituter = preSubstituter;
-
-    }
-
-    public void setGlobalPostSubstituter(Substituter postSubstituter) {
-
-        this.postSubstituter = postSubstituter;
-
-    }
-
-    public void sayGoodbyeMessage() {
-
-        System.out.println(this.goodbyeMessage);
-
-    }
-
-    public void sayWelcomeMessage() {
-
-        System.out.println(this.welcomeMessage);
-
-    }
-
-    public void addQuitKeyword(String quitKeyword) {
-
-        this.quitKeywords.add(quitKeyword);
-
-    }
-
-    public void addKeyword(Keyword keyword) {
-
-        int priority = keyword.getPriority();
-        int i = 0;
-
-        int currPriority = Integer.MAX_VALUE;
-        while (currPriority > priority && i < keywords.size()) {
-
-            currPriority = this.keywords.get(i).getPriority();
-
-            if (currPriority > priority) {
-
-                i++;
-
-            }
-
-        }
-
-        this.keywords.add(i, keyword);
+        this.QUIT_KEYWORDS = quitKeywords;
+        this.KEYWORDS = keywords;
+        this.PRE_SUBSTITUTER = preSub;
+        this.POST_SUBSTITUTER = postSub;
+        this.WELCOME_MESSAGE = welcomeMessage;
+        this.GOODBYE_MESSAGE = goodbyeMessage;
+        this.DEFAULT_KEYWORD = defaultKeyword;
 
     }
 
     public boolean isQuit(String input) {
 
-        return this.quitKeywords.contains(input);
+        return this.QUIT_KEYWORDS.contains(input);
 
     }
 
     public String generateOutput(String input) {
 
+        String output = input.toLowerCase();
+
         // global pre substitution
-        this.preSubstituter.generateOutput(input);
+        output = this.PRE_SUBSTITUTER.generateOutput(output);
 
-        // do main parsing step based on the keyword (decompositon, reassembly, etc)
-        Keyword keyword = this.findBestKeyword(input);
-        keyword.generateOutput(input);
+        Keyword keyword = this.findBestKeyword(output);
+        output = keyword.generateOutput(output);
 
-        // global post substitution
-        this.postSubstituter.generateOutput(input);
+        output = this.POST_SUBSTITUTER.generateOutput(output);
 
-        return input;
+        return output;
 
     }
 
@@ -119,7 +60,7 @@ public class Script implements ScriptElement {
      */
     private Keyword findBestKeyword(String input) {
 
-        for (Keyword keyword : keywords) {
+        for (Keyword keyword : KEYWORDS) {
 
             if (keyword.containsKeyword(input)) {
 
@@ -129,32 +70,34 @@ public class Script implements ScriptElement {
 
         }
 
-        return Script.DEFAULT_KEYWORD;
+        return this.DEFAULT_KEYWORD;
 
     }
 
     @Override
     public void print(int indentDepth) {
 
-        System.out.println("WELCOME: " + this.welcomeMessage);
-        System.out.println("GOODBYE: " + this.goodbyeMessage);
+        System.out.println("WELCOME: " + this.WELCOME_MESSAGE);
+        System.out.println("GOODBYE: " + this.GOODBYE_MESSAGE);
 
         String indent = this.makeIndent(indentDepth);
-        String quitKeywordMesasage = String.join(", ", this.quitKeywords);
+        String quitKeywordMesasage = String.join(", ", this.QUIT_KEYWORDS);
         System.out.println(indent + "QUIT-KEYWORDS: " + quitKeywordMesasage + "\n");
 
-        this.keywords.forEach((keyword) -> {
+        this.KEYWORDS.forEach((keyword) -> {
 
             keyword.print(indentDepth);
             System.out.println();
 
         });
 
+        this.DEFAULT_KEYWORD.print(indentDepth);
+
         System.out.println(indent + "POST-SUBSTITUTION: ");
-        this.postSubstituter.print(indentDepth + 1);
+        this.POST_SUBSTITUTER.print(indentDepth + 1);
 
         System.out.println(indent + "PRE-SUBSTITUTION: ");
-        this.preSubstituter.print(indentDepth + 1);
+        this.PRE_SUBSTITUTER.print(indentDepth + 1);
 
     }
 

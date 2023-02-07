@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -7,15 +8,26 @@ import java.util.regex.Pattern;
 public class Test {
 
     public static void main(String[] args) {
-        
-        Pattern x = Pattern.compile("hello (.*) my name is bob");
 
-        ArrayList<Integer> a = new ArrayList<>();
 
-        int i = 0;
-        a.add(i, 1);
+        String test = "([[+][*][$][\\\\]])";
+        String words = "don't aren't";
+        Pattern x = Pattern.compile(test);
+        Matcher m = x.matcher(words);
 
-        System.out.println(a);
+        System.err.println("hello".replaceAll("ell", "fllo"));
+
+        String out = words.replaceAll("([^\s]*)n't", "$1 not");
+
+        Matcher m2 = Pattern.compile("a (.*)").matcher("a elepant");
+
+        System.out.println(m2.matches());
+
+        // m.results().forEach((res) -> {
+
+        //     System.out.println(res.group());
+
+        // });        
 
     }
 

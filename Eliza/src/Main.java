@@ -8,7 +8,7 @@ import ScriptIO.ScriptPathException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
         try {
 
@@ -17,7 +17,9 @@ public class Main {
             ScriptParser parser = new ScriptParser(scriptFile);
             Script script = parser.parseScript();
 
-            script.print(0);
+            String out = script.generateOutput("whats your   favourite apple?");
+            System.out.println(out);
+
 
         } catch (ScriptPathException e) {
 
