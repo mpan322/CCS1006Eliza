@@ -73,28 +73,28 @@
 
 
     <keyword word=" remember " priority="4">
-        <decomposition pattern="I remember *">
+        <decomposition pattern="I remember $ANY$">
             <reassembly format="What made you think about 1 ?" />
             <reassembly format="Do you think about 1 often?">
         </decomposition>
-        <decomposition pattern="Do you remember *">
+        <decomposition pattern="Do you remember $ANY$">
             <reassembly format="I do not, can you tell me about it?" />
         </decomposition>?
     </keyword>
 
     <keyword word=" want " priority="4">
-        <decomposition pattern="I want *">
+        <decomposition pattern="I want $ANY$">
             <reassembly format="Why do you want 1 ?" />
             <reassembly format="What is it abput 1 that makes you want it?">
         </decomposition>
-        <decomposition pattern="I do not want *">
+        <decomposition pattern="I do not want $ANY$">
             <reassembly format="Why do you want 1 ?" />
             <reassembly format="What is it abput 1 that makes you want it?">
         </decomposition>?
     </keyword>
 
     <keyword word=" am " priority="4">
-        <decomposition pattern="I am *">
+        <decomposition pattern="I am $ANY$">
             <reassembly format="Why do you think you are 1 ?" />
             <reassembly format="When did you start being 1 ?">
             <reassembly format="How long have you been 1 ?">
@@ -102,7 +102,7 @@
     </keyword>
 
     <keyword word=" was " priority="4">
-        <decomposition pattern="I was *">
+        <decomposition pattern="I was $ANY$">
             <reassembly format="Why were you 1 ?" />
             <reassembly format="What made you 1 ?">
             <reassembly format="When did you start being 1 ?">
@@ -111,11 +111,11 @@
     </keyword>
 
     <keyword word=" are " priority="4">
-        <decomposition pattern="are you *">
+        <decomposition pattern="Are you $ANY$">
             <reassembly format="Yes, what about you ?" />
             <reassembly format="No, what about you??">
         </decomposition>
-        <decomposition pattern="you are *">
+        <decomposition pattern="You are $ANY$">
             <reassembly format="Why do you think I am 1 ?" />
             <reassembly format="What makes you think I am 1 ?">
         </decomposition>?
