@@ -16,9 +16,8 @@ public class Main {
             File scriptFile = scriptIO.getScript();
             ScriptParser parser = new ScriptParser(scriptFile);
             Script script = parser.parseScript();
-            String out = script.generateOutput("an elephant don't aren't");
-            script.print(0);
-            System.out.println(out);
+
+            String out = script.generateOutput("whats your   favourite apple?");
             System.out.println(out);
 
 

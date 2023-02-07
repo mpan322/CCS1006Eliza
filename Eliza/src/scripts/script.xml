@@ -15,7 +15,7 @@
 
         <!-- Need keyword -->
         <keyword word="need" priority="3">
-            <decomposition pattern="I need *">
+            <decomposition pattern="I need $ANY$">
                 <reassembly format="Why do you need 1">
                     <postSub>
                         <subRule input="." replace="?" />
@@ -23,8 +23,8 @@
                 </reassembly>
             </decomposition>
 
-            <decomposition pattern="You need to *">
-                <reassembly format="Why do I need to 1">
+            <decomposition pattern="You need to $ANY$">
+                <reassembly format="Why?">
                     <postSub>
                         <subRule input="." replace="?" />
                     </postSub>
@@ -44,36 +44,27 @@
 
         <!-- what -->
         <keyword word="what" priority="1">
-            <decomposition pattern="What is your *">
-                <reassembly format="Ummmmmmmm. I duno!" />
-                <reassembly format="I love all *!" />
-                <reassembly format="I hate *!" />
+            <decomposition pattern="what is your favourite $NON_PUNC$">
+                <reassembly format="Ummmmmmmm. I dont know!" />
+                <reassembly format="I love $1s!" />
+                <reassembly format="I hate $1s!" />
             </decomposition>
-            <decomposition pattern="What is a *">
-                <reassembly format="I duno." />
+            <decomposition pattern="What is a $ANY$">
+                <reassembly format="I dont know." />
             </decomposition>
             <default>
-                <reassembly format=""></reassembly>
+                <reassembly format="I dont know"></reassembly>
             </default>
         </keyword>
 
         <keyword word="but" priority="2">
-            <decomposition pattern="But you *">
+            <decomposition pattern="But you (.*)">
                 <reassembly format="I changed my mind!" />
             </decomposition>
             <default>
                 <reassembly format="">
 
                 </reassembly>
-            </default>
-        </keyword>
-
-        <keyword word="elephant" priority="1000">
-            <decomposition pattern="_">
-                <reassembly format=""></reassembly>
-            </decomposition>
-            <default>
-                <reassembly format="el-elsmphant"></reassembly>
             </default>
         </keyword>
 
@@ -98,6 +89,7 @@
         <subRule input="ought" replace="need" />
         <subRule input="an" replace="a" />
         <subRule input="it's" replace="it is" />
+        <subRule input="what('*)s" replace="what is" />
         <subRule input="([^\s]*)n't" replace="$1 not" />
         <subRule input="time-out" replace="time out" />
     </preSub>

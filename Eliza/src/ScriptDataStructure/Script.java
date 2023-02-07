@@ -38,11 +38,15 @@ public class Script implements ScriptElement {
 
     public String generateOutput(String input) {
 
-        // global pre substitution
-        String output = this.PRE_SUBSTITUTER.generateOutput(input);
+        String output = input.toLowerCase();
 
-        Keyword keyword = this.findBestKeyword(input);
-        System.out.println(keyword.getKeyword());
+        // global pre substitution
+        output = this.PRE_SUBSTITUTER.generateOutput(output);
+
+        Keyword keyword = this.findBestKeyword(output);
+        output = keyword.generateOutput(output);
+
+        output = this.POST_SUBSTITUTER.generateOutput(output);
 
         return output;
 
@@ -86,6 +90,8 @@ public class Script implements ScriptElement {
             System.out.println();
 
         });
+
+        this.DEFAULT_KEYWORD.print(indentDepth);
 
         System.out.println(indent + "POST-SUBSTITUTION: ");
         this.POST_SUBSTITUTER.print(indentDepth + 1);

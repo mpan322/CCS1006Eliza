@@ -19,7 +19,7 @@ public class Keyword implements ScriptElement {
         this.PRIORITY = priority;
 
         // pattern will match the keyword anywhere in a sentence
-        this.KEYWORD_PATTERN = Pattern.compile(".*\\b" + priority + "\\b.*");
+        this.KEYWORD_PATTERN = Pattern.compile(".*\\b" + keyword + "\\b.*");
         this.DECOMPOSITION_RULES.addAll(decompositionRules);
         this.DEFAULT_DECOMPOSITION_RULE = defaultDecomposition;
 
@@ -67,8 +67,8 @@ public class Keyword implements ScriptElement {
     public String generateOutput(String input) {
 
         DecompositionRule decompositionRule = this.chooseDecompositionRule(input);
-        decompositionRule.generateOutput(input);
-        return input;
+        String output = decompositionRule.generateOutput(input);
+        return output;
 
     }
 
@@ -83,6 +83,8 @@ public class Keyword implements ScriptElement {
             decomp.print(indentDepth + 1);
 
         });
+
+        this.DEFAULT_DECOMPOSITION_RULE.print(indentDepth + 1);
         
     }
 

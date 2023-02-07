@@ -173,6 +173,8 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
                 .map(this::parseDecompositionRule)
                 .toList().get(0);
 
+        defaultDecomposition.defaultParseStep();
+
         return new Keyword(word, priority, decompositionRules, defaultDecomposition);
 
     }

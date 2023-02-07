@@ -15,6 +15,8 @@ public class Test {
         Pattern x = Pattern.compile(test);
         Matcher m = x.matcher(words);
 
+        System.err.println("hello".replaceAll("ell", "fllo"));
+
         String out = words.replaceAll("([^\s]*)n't", "$1 not");
 
         Matcher m2 = Pattern.compile("a (.*)").matcher("a elepant");
