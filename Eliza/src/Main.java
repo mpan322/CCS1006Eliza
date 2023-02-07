@@ -8,16 +8,19 @@ import ScriptIO.ScriptPathException;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
         try {
 
             ScriptFileIO scriptIO = new ScriptFileIO("./Eliza/src/scripts/script.xml");
             File scriptFile = scriptIO.getScript();
             ScriptParser parser = new ScriptParser(scriptFile);
-            // Script script = parser.parseScript();
+            Script script = parser.parseScript();
+            String out = script.generateOutput("an elephant don't aren't");
+            script.print(0);
+            System.out.println(out);
+            System.out.println(out);
 
-            // script.print(0);
 
         } catch (ScriptPathException e) {
 

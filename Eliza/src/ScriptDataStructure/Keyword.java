@@ -1,20 +1,27 @@
 package ScriptDataStructure;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Keyword extends ArrayList<DecompositionRule> implements ScriptElement {
+public class Keyword implements ScriptElement {
 
     private final int PRIORITY;
     private final String KEYWORD;
     private final Pattern KEYWORD_PATTERN;
+    private final List<DecompositionRule> DECOMPOSITION_RULES = new ArrayList<>();
+    private final DecompositionRule DEFAULT_DECOMPOSITION_RULE;
 
-    public Keyword(String keyword, int priority) {
+    public Keyword(String keyword, int priority, List<DecompositionRule> decompositionRules, DecompositionRule defaultDecomposition) {
 
         this.KEYWORD = keyword;
         this.PRIORITY = priority;
-        this.KEYWORD_PATTERN = Pattern.compile("\\b" + priority + "\\b");
+
+        // pattern will match the keyword anywhere in a sentence
+        this.KEYWORD_PATTERN = Pattern.compile(".*\\b" + priority + "\\b.*");
+        this.DECOMPOSITION_RULES.addAll(decompositionRules);
+        this.DEFAULT_DECOMPOSITION_RULE = defaultDecomposition;
 
     }
 
@@ -41,7 +48,17 @@ public class Keyword extends ArrayList<DecompositionRule> implements ScriptEleme
 
     private DecompositionRule chooseDecompositionRule(String input) {
 
-        return null;
+        for (DecompositionRule decompositionRule : DECOMPOSITION_RULES) {
+            
+            if(decompositionRule.matches(input)) {
+
+                return decompositionRule;
+
+            }
+
+        }
+
+        return this.DEFAULT_DECOMPOSITION_RULE;
 
     }
 
@@ -61,7 +78,7 @@ public class Keyword extends ArrayList<DecompositionRule> implements ScriptEleme
 
         String indent = this.makeIndent(indentDepth);
         System.out.println(indent + "KEYWORD: " + this.KEYWORD);
-        this.forEach((decomp) -> {
+        this.DECOMPOSITION_RULES.forEach((decomp) -> {
 
             decomp.print(indentDepth + 1);
 

@@ -4,25 +4,27 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Substituter extends HashMap<String, String> implements ScriptElement{
+public class Substituter extends HashMap<String, String> implements ScriptElement {
 
     private static final String INPUT_ATTR = "input";
     private static final String REPLACE_ATTR = "replace";
 
+    public static final Substituter EMPTY = new Substituter();
 
     @Override
     public String generateOutput(String input) {
 
-        this.forEach((String value, String replacement) -> {
+        String output = input + "";
 
-            Pattern pattern = Pattern.compile(value);
-            Matcher matcher = pattern.matcher(input);
+        for (Entry<String, String> entry : this.entrySet()) {
 
-            matcher.replaceAll(replacement);
+            String value = entry.getKey();
+            String replacement = entry.getValue();
+            output = output.replaceAll(value, replacement);
 
-        });
+        }
 
-        return input;
+        return output;
 
     }
 
@@ -35,6 +37,14 @@ public class Substituter extends HashMap<String, String> implements ScriptElemen
             System.out.println(indent + "SUBTITUTION: " + value + " " + replace);
 
         });
+
+    }
+
+    @Override
+    public String put(String key, String value) {
+
+        String regexKey = "\\b" + key + "\\b";
+        return super.put(regexKey, value);
 
     }
 

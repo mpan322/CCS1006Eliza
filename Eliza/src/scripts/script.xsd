@@ -191,7 +191,7 @@
                                             </xs:complexType>
                                         </xs:element>
 
-                                        <!-- Define tag for decomposition rule -->
+                                        <!-- Define tag for default decomposition rule -->
                                         <xs:element name="default" maxOccurs="1" minOccurs="1">
                                             <xs:complexType>
                                                 <xs:sequence>
@@ -243,6 +243,7 @@
                                         </xs:element>
 
                                     </xs:sequence>
+    
                                 </xs:complexType>
                             </xs:element>
 

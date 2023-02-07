@@ -6,21 +6,19 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.w3c.dom.NodeList;
-
-public class DecompositionRule extends ArrayList<ReassemblyRule> implements ScriptElement {
+public class DecompositionRule implements ScriptElement {
 
     private final Pattern PATTERN;
     private final String RAW_PATTERN;
+    private final List<ReassemblyRule> REASSEMBLY_RULES = new ArrayList<>();
 
-    public DecompositionRule(String pattern) {
+    public DecompositionRule(String pattern, List<ReassemblyRule> reassemblyRules) {
 
         this.RAW_PATTERN = pattern;
         this.PATTERN = this.parsePattern(pattern);
+        this.REASSEMBLY_RULES.addAll(reassemblyRules);
 
     }
-
-    
 
     private Pattern parsePattern(String pattern) {
 
@@ -37,8 +35,8 @@ public class DecompositionRule extends ArrayList<ReassemblyRule> implements Scri
     public ReassemblyRule chooseReassemblyRule() {
 
         Random rand = new Random();
-        int randInt = rand.nextInt(this.size());
-        return this.get(randInt);
+        int randInt = rand.nextInt(this.REASSEMBLY_RULES.size());
+        return this.REASSEMBLY_RULES.get(randInt);
 
     }
 
@@ -59,6 +57,20 @@ public class DecompositionRule extends ArrayList<ReassemblyRule> implements Scri
 
     }
 
+    /**
+     * Determines whether the decomposition rule's pattern matches to an inputted
+     * string
+     * 
+     * @param input
+     * @return whether or not it matches
+     */
+    public boolean matches(String input) {
+
+        Matcher matcher = this.PATTERN.matcher(input);
+        return matcher.matches();
+
+    }
+
     @Override
     public String generateOutput(String input) {
 
@@ -72,7 +84,7 @@ public class DecompositionRule extends ArrayList<ReassemblyRule> implements Scri
 
         String indent = this.makeIndent(indentDepth);
         System.out.println(indent + "DECOMPOSITION: " + this.RAW_PATTERN);
-        this.forEach((reassembly) -> {
+        this.REASSEMBLY_RULES.forEach((reassembly) -> {
 
             reassembly.print(indentDepth + 1);
 

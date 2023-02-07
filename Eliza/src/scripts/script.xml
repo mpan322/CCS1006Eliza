@@ -57,7 +57,7 @@
             </default>
         </keyword>
 
-        <keyword word="but" priority="1">
+        <keyword word="but" priority="2">
             <decomposition pattern="But you *">
                 <reassembly format="I changed my mind!" />
             </decomposition>
@@ -68,9 +68,18 @@
             </default>
         </keyword>
 
+        <keyword word="elephant" priority="1000">
+            <decomposition pattern="_">
+                <reassembly format=""></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="el-elsmphant"></reassembly>
+            </default>
+        </keyword>
+
         <default>
-            <decomposition pattern="a *">
-                <reassembly format="whats a *">
+            <decomposition pattern="a (.*)">
+                <reassembly format="whats a $1">
                     <postSub>
                         <subRule input="." replace="?" />
                     </postSub>
@@ -80,7 +89,6 @@
             <default>
                 <reassembly format="What does that mean?"></reassembly>
             </default>
-        
         </default>
     </keywords>
 
@@ -89,8 +97,8 @@
         <subRule input="must" replace="need" />
         <subRule input="ought" replace="need" />
         <subRule input="an" replace="a" />
-        <subRule input="*'s" replace=" is" />
-        <subRule input="*'t" replace=" not" />
+        <subRule input="it's" replace="it is" />
+        <subRule input="([^\s]*)n't" replace="$1 not" />
         <subRule input="time-out" replace="time out" />
     </preSub>
 

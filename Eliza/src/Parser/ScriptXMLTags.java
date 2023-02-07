@@ -17,6 +17,8 @@ public enum ScriptXMLTags {
     POST_SUBSTITUTION("postSub"),
     PRE_SUBSTITUTION("preSub"),
     SUBSTITUTION_RULE("subRule"),
+    DEFAULT("default"),
+    KEYWORDS("keywords")
     ;
 
     private final String TAG;

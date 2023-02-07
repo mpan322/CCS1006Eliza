@@ -18,14 +18,18 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import ScriptDataStructure.Script;
-
 /**
  * Class providing utitlies for parsing XML documents
  */
 public class XMLParser {
 
     private final Document DOC;
+
+    // filters out nodes with names that have #'s ex. #document, #text, #comment
+    protected static final Predicate<Node> NON_TAG_FILTER = (Node node) -> !node.getNodeName().contains("#");
+
+    // filters out all text nodes
+    protected static final Predicate<Node> TEXT_NODE_FILTER = (Node node) -> !node.getNodeName().equals("#text");
 
 
     /**
@@ -148,28 +152,25 @@ public class XMLParser {
     protected String getAttribute(Node node, String attributeName) {
 
         NamedNodeMap attributes = node.getAttributes();
+    
         Node attrNode = attributes.getNamedItem(attributeName);
         return attrNode.getNodeValue();
-
+        
     }
 
     /**
      * Makes a predicate which filters out all nodes with a given name (tag)
      * 
      * @param nodeName the node name to fileter
-     * @param include  whether to include or exclude this node tag type
      * @return a predicate filtering out this node type
      */
-    protected Predicate<? super Node> makeNodeNameFilter(boolean include, String... nodeNames) {
+    protected Predicate<? super Node> makeNodeNameFilter(String... nodeNames) {
 
         return (Node node) -> {
 
             String tag = node.getNodeName();
             boolean isTagType = Arrays.asList(nodeNames).contains(tag);
-
-            // only keep in the stream if not including and not node name
-            // or if including and does have the node name
-            return !(include ^ isTagType);
+            return ! isTagType;
 
         };
 
@@ -178,11 +179,9 @@ public class XMLParser {
     protected String getNodeText(Node node) {
 
         return this.streamChildren(node)
-                .filter(this.makeNodeNameFilter(true, "#text"))
+                .filter(XMLParser.TEXT_NODE_FILTER.negate())
                 .map(Node::getNodeValue)
-                .reduce((a, b) -> {
-                    return a + b;
-                })
+                .reduce(String::concat)
                 .get();
 
     }
@@ -240,6 +239,12 @@ public class XMLParser {
 
     }
 
+    protected void deepPrintNode(Node node) {
+
+        this.deepPrintNode(node, 0);
+
+    }
+
     /**
      * Prints a node and all its children
      * 
@@ -259,7 +264,7 @@ public class XMLParser {
         System.out.println(indent + node.getNodeName() + " " + attrText);
 
         this.streamChildren(node)
-                .filter(this.makeNodeNameFilter(false, "#text"))
+                .filter(XMLParser.NON_TAG_FILTER)
                 .forEach((Node child) -> {
 
                     this.deepPrintNode(child, indentDepth + 1);
