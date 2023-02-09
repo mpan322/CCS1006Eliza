@@ -3,10 +3,19 @@ package ScriptDataStructure;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
-public class Substituter extends HashMap<String, String> implements ScriptElement {
+public class Substituter implements ScriptElement {
 
-    public static final Substituter EMPTY = new Substituter();
+    public static final Substituter EMPTY = new Substituter(new HashMap<String, String>());
+    private final Map<String, String> SUBSTITUTIONS;
+
+    public Substituter(Map<String, String> substitutions) {
+
+        this.SUBSTITUTIONS = substitutions;
+
+    }
 
     /**
      * Perform substitutions on a any number of strings
@@ -40,7 +49,7 @@ public class Substituter extends HashMap<String, String> implements ScriptElemen
         // make a copy of the input
         String output = "" + input;
 
-        for (Entry<String, String> entry : this.entrySet()) {
+        for (Entry<String, String> entry : this.SUBSTITUTIONS.entrySet()) {
 
             // get the value to be substituted and its replacement
             String value = entry.getKey();
@@ -59,19 +68,11 @@ public class Substituter extends HashMap<String, String> implements ScriptElemen
     public void print(int indentDepth) {
 
         String indent = this.makeIndent(indentDepth);
-        this.forEach((value, replace) -> {
+        this.SUBSTITUTIONS.forEach((value, replace) -> {
 
             System.out.println(indent + "SUBTITUTION: " + value + " " + replace);
 
         });
-
-    }
-
-    @Override
-    public String put(String key, String value) {
-
-        String regexKey = "\\b" + key + "\\b";
-        return super.put(regexKey, value);
 
     }
 

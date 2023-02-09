@@ -57,6 +57,15 @@
 
         </keyword>
 
+        <keyword word="[z]+" priority="1">
+            <decomposition pattern="$ANY$">
+                <reassembly format="Z found"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""></reassembly>
+            </default>
+        </keyword>
+
         <!-- what -->
         <keyword word="what" priority="1">
             <decomposition pattern="What is a $ANY$">

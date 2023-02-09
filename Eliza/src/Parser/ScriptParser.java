@@ -48,6 +48,11 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
     }
 
+    /**
+     * Parses the quit keywords
+     * 
+     * @return the list of quit keywords
+     */
     private List<String> parseQuitKeywords() {
 
         return this.streamByTagName(ScriptXMLTags.QUIT_KEYWORD.getTag())
@@ -56,6 +61,11 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
     }
 
+    /**
+     * Parses the presubstions
+     * 
+     * @return a substituter which will substitute using the presubstitutions
+     */
     private Substituter parsePreSubstitution() {
 
         return this.streamByTagName(ScriptXMLTags.PRE_SUBSTITUTION.getTag())
@@ -65,6 +75,11 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
     }
 
+    /**
+     * Parses the global post substitutions
+     * 
+     * @return parser which will substitute using the gloabl post substitutions
+     */
     private Substituter parseGlobalPostSubstitution() {
 
         String scriptTag = ScriptXMLTags.SCRIPT.getTag();
@@ -118,6 +133,11 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
     }
 
+    /**
+     * Parses the keywords
+     * 
+     * @return a list of keywords (objects)
+     */
     private List<Keyword> parseKeywords() {
 
         List<Keyword> keywords = this.streamByTagName("keyword")
@@ -130,10 +150,16 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
     }
 
+    /**
+     * Gets the text from the first tag a specifc type found
+     * 
+     * @param tag the tag type
+     * @return the text is contains
+     */
     private String getTextFromATag(String tag) {
 
         return this.streamByTagName(tag)
-                .limit(1)
+                .limit(1) // limit to first one found (avoid malformed)
                 .map(this::getNodeText)
                 .toList().get(0);
 
@@ -144,9 +170,9 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
         return this.streamByTagName(ScriptXMLTags.KEYWORDS.getTag())
                 .map(this::streamChildren)
                 .flatMap(stream -> stream) // join together all the streams
-                .filter(ScriptParser.DEFAULT_FILTER.negate())
-                .limit(1)
-                .map(this::parseKeyword)
+                .filter(ScriptParser.DEFAULT_FILTER.negate()) // only include tags named default
+                .limit(1) // only include the first found (avoid malformation errors)
+                .map(this::parseKeyword) 
                 .toList().get(0);
 
     }
@@ -164,15 +190,18 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
         Integer priority = Integer.parseInt(priorityString);
 
+        // parse non default decomposition rules
         List<DecompositionRule> decompositionRules = this.streamChildren(keyword)
                 .filter(DEFAULT_FILTER)
                 .filter(XMLParser.NON_TAG_FILTER)
                 .map(this::parseDecompositionRule)
                 .toList();
 
+        
+        // parse default decomposition rules
         DecompositionRule defaultDecomposition = this.streamChildren(keyword)
                 .filter(DEFAULT_FILTER.negate())
-                .limit(1)
+                .limit(1) // limit to 1 to avoid malformed
                 .map(this::parseDecompositionRule)
                 .toList().get(0);
 
@@ -190,7 +219,7 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
         }
 
-        // get reassembly rules
+        // parse reassembly rules associated with this decomposition rule
         List<ReassemblyRule> reassemblyRules = this.streamChildren(decompositionNode)
                 .filter(XMLParser.NON_TAG_FILTER)
                 .map(this::parseReassemblyRule)
@@ -208,9 +237,9 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
         Substituter substituter = Substituter.EMPTY;
         if (reassemblyNode.hasChildNodes()) {
 
-            // get the substituter
+            // parse the substituter
             this.streamChildren(reassemblyNode)
-                    .limit(1)
+                    .limit(1) // limit to 1 to avoid malformed
                     .map(this::parseSubstituter)
                     .toList().get(0);
 
@@ -222,8 +251,7 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
     private Substituter parseSubstituter(Node substituterNode) {
 
-        Substituter substituter = new Substituter();
-
+        // anonymous functions for getting the input and replace attributes
         Function<? super Node, String> getInput = (Node node) -> this.getAttribute(node, "input");
         Function<? super Node, String> getReplace = (Node node) -> this.getAttribute(node, "replace");
 
@@ -232,7 +260,8 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
                 .filter(XMLParser.NON_TAG_FILTER)
                 .collect(Collectors.toMap(getInput, getReplace));
 
-        substituter.putAll(substitutions);
+        Substituter substituter = new Substituter(substitutions);
+        
         return substituter;
 
     }
