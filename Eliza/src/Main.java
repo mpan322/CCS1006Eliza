@@ -18,7 +18,7 @@ public class Main {
 
         try {
 
-            ScriptFileIO scriptIO = new ScriptFileIO("./Eliza/src/scripts/script.xml");
+            ScriptFileIO scriptIO = new ScriptFileIO("./Eliza/src/scripts/8YearOldScript.xml");
             File scriptFile = scriptIO.getScript();
             ScriptParser parser = new ScriptParser(scriptFile);
             Script script = parser.parseScript();

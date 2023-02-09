@@ -16,14 +16,14 @@
         <!-- Need keyword -->
         <keyword word="(:?need)|(:?require)" priority="3">
             <decomposition pattern="I need $ANY$">
-                <reassembly format="Why do you need 1">
+                <reassembly format="Why do you need $1">
                     <postSub>
                         <subRule input="." replace="?" />
                     </postSub>
                 </reassembly>
             </decomposition>
 
-            <decomposition pattern="You need to $ANY$">
+            <decomposition pattern="You need to $ANY$$END_ANY$">
                 <reassembly format="Why?">
                     <postSub>
                         <subRule input="." replace="?" />
@@ -63,24 +63,22 @@
                 <reassembly format="I love all $1!" />
                 <reassembly format="I dont like $1!" />
             </decomposition>
-            <decomposition pattern="which of my $ANY$$END_ANY$(?:is)|(?:are) your favourite[?*]">
+            <decomposition pattern="which of $ANY$ is your favourite[?]*">
                 <reassembly format="Ummmmmmmm. I dont know!" />
                 <reassembly format="I love all $1!" />
                 <reassembly format="I dont like $1!" />
             </decomposition>
             <default>
-                <reassembly format="Ummmmmm. I dont know!"></reassembly>
+                <reassembly format="Ummmmmm. I dont know! (DEFAULT)"></reassembly>
             </default>
         </keyword>
 
         <keyword word="but" priority="2">
-            <decomposition pattern="But you (?:said)|(?:wrote) $ANY$">
-                <reassembly format="I changed my mind!" />
+            <decomposition pattern="But you said $ANY$">
+                <reassembly format="I changed $my$ mind!" />
             </decomposition>
             <default>
-                <reassembly format="">
-
-                </reassembly>
+                <reassembly format="Woah whats that" />
             </default>
         </keyword>
 
@@ -125,7 +123,7 @@
 
     <postSub>
         <subRule input="my" replace="your" />
-        <subRule input="you" replace="I" />
+        <subRule input="\\byou\\b" replace="I" />
         <subRule input="your" replace="my" />
         <subRule input="me" replace="you" />
     </postSub>

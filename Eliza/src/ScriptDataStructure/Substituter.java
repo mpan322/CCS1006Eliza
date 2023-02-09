@@ -20,7 +20,7 @@ public class Substituter extends HashMap<String, String> implements ScriptElemen
 
             String value = entry.getKey();
             String replacement = entry.getValue();
-            output = output.replaceAll(value, replacement);
+            output = output.replaceAll("\\b" + value + "\\b", "__" + replacement + "__");
 
         }
 

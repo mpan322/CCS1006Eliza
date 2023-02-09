@@ -3,7 +3,11 @@ package Parser;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.w3c.dom.Node;
 
@@ -223,17 +227,18 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
         Substituter substituter = new Substituter();
 
+        Function<? super Node, String> getInput = (Node node) -> this.getAttribute(node, "input");
+        Function<? super Node, String> getReplace = (Node node) -> this.getAttribute(node, "replace");
+
+
         // get the inputs and replacements
-        this.streamChildren(substituterNode)
+        Map<String, String> substitutions = this.streamChildren(substituterNode)
                 .filter(XMLParser.NON_TAG_FILTER)
-                .forEach((substitutionNode) -> {
+                .collect(Collectors.toMap(getInput, getReplace));
 
-                    String input = this.getAttribute(substitutionNode, "input");
-                    String replace = this.getAttribute(substitutionNode, "replace");
-                    substituter.put(input, replace);
+        System.out.println(substitutions);
 
-                });
-
+        substituter.putAll(substitutions);
         return substituter;
 
     }

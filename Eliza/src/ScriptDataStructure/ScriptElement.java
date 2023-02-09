@@ -17,7 +17,7 @@ public interface ScriptElement {
             
             String regex = insert.getRegex();
             String identifier = insert.getIdentifier();
-            output = output.replaceAll("[$]" + identifier + "[$]", regex);
+            output = output.replaceAll("(?:[$]" + identifier + "[$])", regex);
 
         }
 
