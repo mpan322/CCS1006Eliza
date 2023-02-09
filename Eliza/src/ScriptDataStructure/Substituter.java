@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class Substituter implements ScriptElement {
+public class Substituter extends ScriptElement {
 
     public static final Substituter EMPTY = new Substituter(new HashMap<String, String>());
     private final Map<String, String> SUBSTITUTIONS;
@@ -65,7 +65,7 @@ public class Substituter implements ScriptElement {
     }
 
     @Override
-    public void print(int indentDepth) {
+    protected void print(int indentDepth) {
 
         String indent = this.makeIndent(indentDepth);
         this.SUBSTITUTIONS.forEach((value, replace) -> {

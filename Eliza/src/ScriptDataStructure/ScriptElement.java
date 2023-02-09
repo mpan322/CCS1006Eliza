@@ -1,8 +1,8 @@
 package ScriptDataStructure;
 
-public interface ScriptElement {
+abstract class ScriptElement {
 
-    public default String parseRegexInsertIdentifiers(String input){
+    protected String parseRegexInsertIdentifiers(String input){
 
         String output = "" + input;
         for (XMLGroupInserts insert :  XMLGroupInserts.values()) {
@@ -20,9 +20,9 @@ public interface ScriptElement {
     /**
      * Prints the script elements info
      */
-    public void print(int indentDepth);
+    protected abstract void print(int indentDepth);
 
-    default public String makeIndent(int depth) {
+    public String makeIndent(int depth) {
 
         String indent = "";
         for (int i = 0; i < depth; i++) {

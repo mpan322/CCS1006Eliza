@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ReassemblyRule implements ScriptElement {
+public class ReassemblyRule extends ScriptElement {
 
     private final Substituter POST_SUBSTITUTER;
     private final String FORMAT;
@@ -66,7 +66,7 @@ public class ReassemblyRule implements ScriptElement {
     }
 
     @Override
-    public void print(int indentDepth) {
+    protected void print(int indentDepth) {
 
         String indent = this.makeIndent(indentDepth);
         System.out.println(indent + "REASSEMBLY: " + this.FORMAT);

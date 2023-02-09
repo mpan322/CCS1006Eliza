@@ -6,7 +6,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DecompositionRule implements ScriptElement {
+public class DecompositionRule extends ScriptElement {
 
     private final String RAW_PATTERN;
     private final Pattern PATTERN;
@@ -16,7 +16,7 @@ public class DecompositionRule implements ScriptElement {
 
         this.RAW_PATTERN = pattern;
 
-        String regexPattern = this.parseRegexInsertIdentifiers(pattern);
+        String regexPattern = super.parseRegexInsertIdentifiers(pattern);
 
         // pre parsing so the pattern is more flexible (lowercase, extra spaces, and
         // any leading / trailing text)
@@ -79,7 +79,7 @@ public class DecompositionRule implements ScriptElement {
     }
 
     @Override
-    public void print(int indentDepth) {
+    protected void print(int indentDepth) {
 
         String indent = this.makeIndent(indentDepth);
         System.out.println(indent + "DECOMPOSITION: " + this.RAW_PATTERN);

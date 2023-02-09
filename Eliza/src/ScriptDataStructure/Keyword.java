@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Keyword implements ScriptElement {
+public class Keyword extends ScriptElement {
 
     private final int PRIORITY;
     private final String KEYWORD;
@@ -63,7 +63,7 @@ public class Keyword implements ScriptElement {
     }
 
     @Override
-    public void print(int indentDepth) {
+    protected void print(int indentDepth) {
 
         String indent = this.makeIndent(indentDepth);
         System.out.println(indent + "KEYWORD: " + this.KEYWORD);

@@ -3,7 +3,7 @@ package ScriptDataStructure;
 import java.util.Collection;
 import java.util.List;
 
-public class Script implements ScriptElement {
+public class Script extends ScriptElement {
 
     private final String WELCOME_MESSAGE;
     private final String GOODBYE_MESSAGE;
@@ -81,8 +81,14 @@ public class Script implements ScriptElement {
 
     }
 
+    public void print() {
+
+        this.print(0);
+
+    }
+
     @Override
-    public void print(int indentDepth) {
+    protected void print(int indentDepth) {
 
         System.out.println("WELCOME: " + this.WELCOME_MESSAGE);
         System.out.println("GOODBYE: " + this.GOODBYE_MESSAGE);

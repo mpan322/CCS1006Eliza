@@ -22,7 +22,7 @@ public class Main {
             Reader reader = new FileReader(new File("Eliza/src/Tests/test.txt"));
             BufferedReader br = new BufferedReader(reader);
 
-            script.print(0);
+            script.print();
 
             while (br.ready()) {
 
