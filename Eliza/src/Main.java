@@ -1,11 +1,7 @@
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.List;
 
 import Parser.ScriptParser;
 import ScriptDataStructure.Script;
@@ -25,6 +21,9 @@ public class Main {
 
             Reader reader = new FileReader(new File("Eliza/src/Tests/test.txt"));
             BufferedReader br = new BufferedReader(reader);
+
+            script.print();
+
             while (br.ready()) {
 
                 String line = br.readLine();

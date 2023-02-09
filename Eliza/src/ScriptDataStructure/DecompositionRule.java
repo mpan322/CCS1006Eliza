@@ -6,28 +6,27 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DecompositionRule implements ScriptElement {
+public class DecompositionRule extends ScriptElement {
 
     private final String RAW_PATTERN;
-    private String pattern;
+    private final Pattern PATTERN;
     private final List<ReassemblyRule> REASSEMBLY_RULES = new ArrayList<>();
 
     public DecompositionRule(String pattern, List<ReassemblyRule> reassemblyRules) {
 
         this.RAW_PATTERN = pattern;
 
-        String regexPattern = this.parseRegexInsertIdentifiers(pattern);
-        this.pattern = ".*" + regexPattern + ".*";
-        // allow extra spaces for typos
-        this.pattern = this.pattern.replaceAll("\s", "\\\\s+");
-        this.pattern = this.pattern.toLowerCase();
+        String regexPattern = super.parseRegexInsertIdentifiers(pattern);
+
+        // pre parsing so the pattern is more flexible (lowercase, extra spaces, and
+        // any leading / trailing text)
+        regexPattern = ".*" + regexPattern + ".*";
+        regexPattern = regexPattern.replaceAll("\s", "\\\\s+");
+        regexPattern = regexPattern.toLowerCase();
+
+        this.PATTERN = Pattern.compile(regexPattern);
+
         this.REASSEMBLY_RULES.addAll(reassemblyRules);
-
-    }
-
-    public void defaultParseStep() {
-
-        this.pattern = "^.*$";
 
     }
 
@@ -48,37 +47,39 @@ public class DecompositionRule implements ScriptElement {
      */
     public boolean matches(String input) {
 
-        Pattern pattern = Pattern.compile(this.pattern);
-        Matcher matcher = pattern.matcher(input);
+        Matcher matcher = this.PATTERN.matcher(input);
         return matcher.matches();
 
     }
 
-    @Override
-    public String generateOutput(String input) {
+    /**
+     * Gets all strings captured by the capture groups in the decomposition rule
+     * 
+     * @param input the string
+     * @return the strings captured by the groups
+     */
+    public List<String> getCaptureGroups(String input) {
 
-        ReassemblyRule reassemblyRule = this.chooseReassemblyRule();
-        String reassemblyFormat = reassemblyRule.getFormat();
+        List<String> captures = new ArrayList<>();
 
-        String output;
-        if(!reassemblyRule.containsGroupReplaces()) {
+        Matcher decompositionMatcher = this.PATTERN.matcher(input);
+        decompositionMatcher.matches();
 
-            output = reassemblyFormat; 
+        // store all strings captured by groups in list
+        int groupCount = decompositionMatcher.groupCount();
+        for (int i = 1; i <= groupCount; i++) {
 
-        } else {
-
-            output = input.replaceAll(this.pattern, reassemblyFormat);
+            String group = decompositionMatcher.group(i);
+            captures.add(group);
 
         }
 
-        output = reassemblyRule.doPostSubstitutions(output);
-
-        return output;
+        return captures;
 
     }
 
     @Override
-    public void print(int indentDepth) {
+    protected void print(int indentDepth) {
 
         String indent = this.makeIndent(indentDepth);
         System.out.println(indent + "DECOMPOSITION: " + this.RAW_PATTERN);
