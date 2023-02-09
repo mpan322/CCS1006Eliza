@@ -42,6 +42,21 @@
 
         </keyword>
 
+        <!-- go -->
+        <keyword word="go" priority="1">
+            <decomposition pattern="(?:you)|(?:we) need to go to $ANY$">
+                <reassembly format="But I don't want to go to $1!"></reassembly>
+                <reassembly format="Do I really have to go to $1?"></reassembly>
+            </decomposition>
+            <decomposition pattern="I have to go to $ANY$">
+                <reassembly format="Do you really have to go to $1?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""></reassembly>
+            </default>
+
+        </keyword>
+
         <!-- what -->
         <keyword word="what" priority="1">
             <decomposition pattern="What is a $ANY$">
@@ -115,6 +130,7 @@
         <subRule input="must" replace="need" />
         <subRule input="ought" replace="need" />
         <subRule input="an" replace="a" />
+        <subRule input="have to" replace="need to" />
         <subRule input="it's" replace="it is" />
         <subRule input="what('*)s" replace="what is" />
         <subRule input="([^\s]*)n't" replace="$1 not" />

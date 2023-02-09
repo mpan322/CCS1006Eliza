@@ -1,208 +1,173 @@
 <?xml-model href="./script.xsd"?>
 <script>
-<keywords>
 
-    <welcomeMsg>Welcome!</welcomeMsg>
-    <goodbyeMsg>Bye!</goodbyeMsg>
+    <welcomeMsg>Hello my names is Eliza and I am going to be your therapist today.</welcomeMsg>
+    <goodbyeMsg>Goodbye, it was a pleasure.</goodbyeMsg>
 
     <quitKeywords>
         <quitKeyword>quit</quitKeyword>
         <quitKeyword>bye</quitKeyword>
         <quitKeyword>logout</quitKeyword>
+        <quitKeyword>goodbye</quitKeyword>
+        <quitKeyword>see you</quitKeyword>
     </quitKeywords>
 
-    <keyword word="3" priority="3">
-        <decomposition pattern="I feel *">
-            <reassembly format="Why do you feel like 1?">
-                <postSub>
-                    <subRule input="my" replace="your" />
-                </postSub>
-            </reassembly>
-        </decomposition>
-        <decomposition pattern="I cant feel *.">
-            <reassembly format="When did you first start not being able to feel 1?">
-                <postSub>
-                    <subRule input="my" replace="your" />
-                </postSub>
-            </reassembly>
-        </decomposition>
-    </keyword>
+    <keywords>
 
-
-    <keyword word="2" priority="2">
-        <decomposition pattern="I feel *">
-            <reassembly format="" />
-            <reassembly format="">
-                <postSub>
-                    <subRule input="" replace="" />
-                    <subRule input="" replace="" />
-                </postSub>
-            </reassembly>
-        </decomposition>
-        <decomposition pattern="">
-            <reassembly format="Hello" />
-            <reassembly format="">
-                <postSub>
-                    <subRule input="" replace="" />
-                    <subRule input="" replace="" />
-                </postSub>
-            </reassembly>
-        </decomposition>
-    </keyword>
-
-
-
-    <keyword word=" remember " priority="4">
+    <keyword word="remember" priority="30">
         <decomposition pattern="I remember $ANY$">
-            <reassembly format="What made you think about 1?" />
-            <reassembly format="Do you think about 1 often?">
+            <reassembly format="What made you think about $$1?" />
+            <reassembly format="Do you think about $$1 often?"/>
         </decomposition>
         <decomposition pattern="Do you remember $ANY$">
             <reassembly format="I do not, can you tell me about it?" />
-        </decomposition>?
+        </decomposition>
+        <default>
+            <reassembly format=""/>
+        </default>
     </keyword>
 
-    <keyword word=" want " priority="4">
+    <keyword word="want" priority="30">
         <decomposition pattern="I want $ANY$">
-            <reassembly format="Why do you want 1?" />
-            <reassembly format="What is it abput 1 that makes you want it?">
+            <reassembly format="Why do you want $$1?" />
+            <reassembly format="What is it abput $$1 that makes you want it?"/>
         </decomposition>
         <decomposition pattern="I do not want $ANY$">
-            <reassembly format="Why do you want 1?" />
-            <reassembly format="What is it abput 1 that makes you want it?">
-        </decomposition>?know
+            <reassembly format="Why do you want $$1?" />
+            <reassembly format="What is it abput $$1 that makes you want it?"/>
+        </decomposition>
+        <default>
+            <reassembly format=""/>
+        </default>
     </keyword>
 
-    <keyword word=" am " priority="4">
+    <keyword word="am" priority="1">
         <decomposition pattern="I am $ANY$">
-            <reassembly format="Why do you think you are 1?" />
-            <reassembly format="When did you start being 1?">
-            <reassembly format="How long have you been 1?">
+            <reassembly format="Why do you think you are $$1?" />
+            <reassembly format="When did you start being $$1?"/>
+            <reassembly format="How long have you been $$1?"/>
         </decomposition>
+        <default>
+            <reassembly format=""/>
+        </default>
     </keyword>
 
-    <keyword word=" was " priority="4">
+    <keyword word="was" priority="1">
         <decomposition pattern="I was $ANY$">
-            <reassembly format="Why were you 1?" />
-            <reassembly format="What made you 1?">
-            <reassembly format="When did you start being 1?">
+            <reassembly format="Why were you $1?" />
+            <reassembly format="What made you $1?"/>
+            <reassembly format="When did you start being $1?"/>
 
         </decomposition>
 
-        <decomposition pattern="$ANY$ was $ANY2$">
-            <reassembly format="Why do you think 1 was 2 ?" />
-            <reassembly format="What about 1 made made you believe it was 2?">
+        <decomposition pattern="$ANY$ was $ANY$">
+            <reassembly format="Why do you think $1 was $2?" />
+            <reassembly format="What about $1 made made you believe it was $2?"/>
 
         </decomposition>
+        <default>
+            <reassembly format=""/>
+        </default>
+        
     </keyword>
 
-    <keyword word=" are " priority="4">
+    <keyword word="are" priority="1">
         <decomposition pattern="Are you $ANY$">
-            <reassembly format="Yes, what about you ?" />
-            <reassembly format="No, what about you??">
+            <reassembly format="Yes, what about you?" />
+            <reassembly format="No, what about you?"/>
         </decomposition>
         <decomposition pattern="You are $ANY$">
-            <reassembly format="Why do you think I am 1?" />
-            <reassembly format="What makes you think I am 1?">
+            <reassembly format="Why do you think I am $1?" />
+            <reassembly format="What makes you think I am $1?"/>
         </decomposition>
-        <decomposition pattern="$ANY$ are $ANY2$">
-            <reassembly format="What makes you believe 1 are 2 ?" />
+        <decomposition pattern="$ANY$ are $ANY$">
+            <reassembly format="What makes you believe $1 are $2?" />
         </decomposition>
+        <default>
+            <reassembly format=""/>
+        </default>
     </keyword>
 
-    <keyword word=" is " priority="4">
-        <decomposition pattern=" $ANY$ is $ANY2$ ">
-            <reassembly format="Why do you think 1 is 2 ?" />
-            <reassembly format="?">
+    <keyword word="is" priority="1">
+        <decomposition pattern=" $ANY$ is $ANY$ ">
+            <reassembly format="Why do you think $1 is $2?" />
+            <reassembly format="What about $$1 makes you believe it is $$2"/> 
         </decomposition>
-        <decomposition pattern="I do not want $ANY$">
-            <reassembly format="Why do you want 1?" />
-            <reassembly format="What is it about 1 that makes you want it?">
-        </decomposition>?
+        <default>
+            <reassembly format=""/>
+        </default>
     </keyword>
 
 
 
-    <keyword word=" feel " priority="2">
+    <keyword word="feel" priority="20">
         <decomposition pattern="I feel $ANY$">
-            <reassembly format="" />
-            <reassembly format="">
-                <postSub>
-                    <subRule input="" replace="" />
-                    <subRule input="" replace="" />
-                </postSub>
-            </reassembly>
+            <reassembly format="Why do you believe you feel $1?" />
+            <reassembly format="What dou you think is making you feel $1?"/>
         </decomposition>
-        <decomposition pattern="">
-            <reassembly format="Hello" />
-            <reassembly format="">
-                <postSub>
-                    <subRule input=" my " replace=" your " />
-                </postSub>
-            </reassembly>
+        <decomposition pattern="$ANY$ makes me feel $ANY$">
+            <reassembly format="Why do you think it is that $1 makes you feel $2?"/>
         </decomposition>
+        <default>
+            <reassembly format=""/>
+        </default>
     </keyword>
 
-    <keyword word=" need " priority="2">
+    <keyword word="(:?need)|(:?require)" priority="30">
         <decomposition pattern="I need $ANY$">
-            <reassembly format="Why do you need 1?" />
-            <reassembly format="What about 1 makes you think you need it? ">
-                <postSub>
-                    <subRule input=" my " replace=" your " />
-                </postSub>
-            </reassembly>
+            <reassembly format="Why do you need $1?" />
+            <reassembly format="What about $1 makes you think you need it? "/>
+
         </decomposition>
+        <default>
+            <reassembly format="Ummmmmm. I dont know! (DEFAULT)"/>
+        </default>
     </keyword>
 
-    <keyword word=" know " priority="2">
-        <decomposition pattern="Do you know $ANY%">
-            <reassembly format="No, could you tell me more about 1?" />
-                <postSub>
-                    <subRule input=" my " replace=" your " />
-                </postSub>
-            </reassembly>
+    <keyword word="know" priority="30">
+        <decomposition pattern="do you know $ANY$">
+            <reassembly format="No, could you tell me more about $1?" />
         </decomposition>
 
         <decomposition pattern="What do you know about $ANY%">
-            <reassembly format="Not much, what can you tell me about 1?" />
-                <postSub>
-                    <subRule input=" my " replace=" your " />
-                </postSub>
-            </reassembly>
+            <reassembly format="Not much, what can you tell me about $1?" />
         </decomposition>
+        <default>
+            <reassembly format="Ummmmmm. I dont know! (DEFAULT)"/>
+        </default>
     </keyword>
 
-    <keyword word=" hate " priority="2">
+    <keyword word="(:?hate)|(:?loathe)" priority="20">
         <decomposition pattern="I hate $ANY$">
-            <reassembly format="What about 1 makes you hate it?" />
-                <postSub>
-                    <subRule input=" my " replace=" your " />
-                </postSub>
-            </reassembly>
+            <reassembly format="What about $1 makes you hate it?" />
         </decomposition>
+        <default>
+            <reassembly format=""/>
+        </default>
+    </keyword>
 
-    <keyword word=" love " priority="2">
+    <keyword word="(:?love)|(:?adore)|(:?like)" priority="20">
         <decomposition pattern="I love $ANY$">
-            <reassembly format="What about 1 makes you love it?" />
-                <postSub>
-                    <subRule input=" my " replace=" your " />
-                </postSub>
-            </reassembly>
+            <reassembly format="What about $1 makes you like it?" />
         </decomposition>
+        <default>
+            <reassembly format=""></reassembly>
+        </default>
     </keyword>
 
 
 
-
-
-    <keyword word="0" priority="0">
-        <decomposition pattern="">
-            <reassembly format="Sorry, I am not sure how to respond"></reassembly>
+    <default>
+        <decomposition pattern="a (.*)">
+            <reassembly format=""></reassembly>
             <reassembly format="Can you please elaborate?"></reassembly>
             <reassembly format="Can you be more specific? "></reassembly>
-
         </decomposition>
-    </keyword>
+
+        <default>
+            <reassembly format="What does that mean?"></reassembly>
+        </default>
+    </default>
 
     </keywords>
 
@@ -210,10 +175,11 @@
         <subRule input="should" replace="need" />
         <subRule input="must" replace="need" />
         <subRule input="ought" replace="need" />
+        <subRule input="have to" replace="need to" />
         <subRule input="an" replace="a" />
         <subRule input="it's" replace="it is" />
         <subRule input="what('*)s" replace="what is" />
-        <subRule input="([^\s]*)n't" replace="$1 not" />
+        <subRule input="([^\s]*)n't" replace="$$1 not" />
         <subRule input="time-out" replace="time out" />
     </preSub>
 
