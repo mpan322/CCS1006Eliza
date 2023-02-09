@@ -67,6 +67,17 @@
             </default>
         </keyword>
 
+        <!-- like -->
+        <keyword word="(:?love)|(:?adore)|(:?like)" priority="20">
+            <decomposition pattern="Do you like $ANY$ ?">
+                <reassembly format="No, I think $ANY$ stink!" />
+                <reassembly format="Yes, $ANY$ are the best!" />
+            </decomposition>
+            <default>
+                <reassembly format=""></reassembly>
+            </default>
+        </keyword>
+
         <keyword word="favourite" priority="3">
             <decomposition pattern="what is your favourite $NEXT_WORD$ $NON_TERM_PUNC$">
                 <reassembly format="Ummmmmmmm. I dont know!" />
