@@ -1,4 +1,10 @@
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 
 import Parser.ScriptParser;
@@ -8,7 +14,7 @@ import ScriptIO.ScriptPathException;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
 
         try {
 
@@ -17,9 +23,17 @@ public class Main {
             ScriptParser parser = new ScriptParser(scriptFile);
             Script script = parser.parseScript();
 
-            String out = script.generateOutput("whats your   favourite apple?");
-            System.out.println(out);
+            Reader reader = new FileReader(new File("Eliza/src/Tests/test.txt"));
+            BufferedReader br = new BufferedReader(reader);
+            while (br.ready()) {
 
+                String line = br.readLine();
+                System.out.println("--" + line + "--");
+                String out = script.generateOutput(line);
+                System.out.println(out);
+                System.out.println();
+
+            }
 
         } catch (ScriptPathException e) {
 

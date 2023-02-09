@@ -20,6 +20,7 @@ public class DecompositionRule implements ScriptElement {
         this.pattern = ".*" + regexPattern + ".*";
         // allow extra spaces for typos
         this.pattern = this.pattern.replaceAll("\s", "\\\\s+");
+        this.pattern = this.pattern.toLowerCase();
         this.REASSEMBLY_RULES.addAll(reassemblyRules);
 
     }
@@ -62,7 +63,6 @@ public class DecompositionRule implements ScriptElement {
         String output;
         if(!reassemblyRule.containsGroupReplaces()) {
 
-            System.out.println(reassemblyFormat);
             output = reassemblyFormat; 
 
         } else {
