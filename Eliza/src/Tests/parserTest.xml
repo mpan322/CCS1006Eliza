@@ -1,0 +1,49 @@
+<?xml-model href="../scripts/script.xsd"?>
+<script>
+    <welcomeMsg></welcomeMsg>
+    <goodbyeMsg></goodbyeMsg>
+    <quitKeywords>
+        <quitKeyword></quitKeyword>
+    </quitKeywords>
+
+    <keywords>
+        <keyword word="hello" priority="1">
+            <decomposition pattern="">
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+        <default>
+            <decomposition pattern="">
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </default>
+    </keywords>
+    <preSub>
+        <subRule input="" replace="" />
+    </preSub>
+    <postSub>
+        <subRule input="" replace="" />
+    </postSub>
+</script>

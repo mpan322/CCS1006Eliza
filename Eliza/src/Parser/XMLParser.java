@@ -1,15 +1,11 @@
 package Parser;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
@@ -37,40 +33,9 @@ public class XMLParser {
      * 
      * @param url
      */
-    public XMLParser(File scriptFile) {
+    public XMLParser(Document scriptDocument) {
 
-        this.DOC = this.getXMLDocument(scriptFile);
-
-    }
-
-    private Document getXMLDocument(File file) {
-
-        Document doc = null;
-
-        try {
-
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            doc = builder.parse(file);
-
-        } catch (ParserConfigurationException e) {
-
-            System.out.println("getXMLDocument ParserConfiguration Exception");
-
-        } catch (IOException e) {
-
-            System.out.println("getXMLDocument IOException");
-            e.printStackTrace();
-
-        } catch (FactoryConfigurationError e) {
-
-        } catch (SAXException e) {
-
-        } catch (IllegalArgumentException e) {
-
-        }
-
-        return doc;
+        this.DOC = scriptDocument;
 
     }
 
@@ -205,7 +170,8 @@ public class XMLParser {
      */
     public void print() throws MalformedURLException, SAXException, IOException, ParserConfigurationException {
 
-        this.deepPrintNode(this.DOC, 0);
+        Node root = this.DOC.getDocumentElement();
+        this.deepPrintNode(root, 0);
 
     }
 
@@ -226,11 +192,7 @@ public class XMLParser {
 
             attrText = attrStream
                     .map(Node::toString)
-                    .reduce((a, b) -> {
-
-                        return a + " " + b;
-
-                    })
+                    .reduce((a, b) ->  a + " " + b)
                     .get();
 
         }

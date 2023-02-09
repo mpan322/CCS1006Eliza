@@ -1,50 +1,50 @@
 package ScriptIO;
 
 import java.io.File;
-import java.io.IOError;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.FactoryConfigurationError;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
  * 
  */
 public class ScriptFileIO {
 
-    private final Path FILE_PATH;
+    public static Document getXMLDocument(String filePath) {
 
-    public ScriptFileIO(String relativePath) throws ScriptPathException {
+        Document doc = null;
+        File file = new File(filePath);
 
-        this.FILE_PATH = this.resolveFilePath(relativePath);
-
-    }
-
-    public File getScript() {
-
-        return new File(this.FILE_PATH.toString());
-
-    }
-
-    private Path resolveFilePath(String relativePath) throws ScriptPathException {
-
-        Path scriptPath = null;
         try {
 
-            Path absolutePath = Paths.get("").toAbsolutePath();
-            scriptPath = absolutePath.resolve(relativePath).toAbsolutePath();
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            doc = builder.parse(file);
 
-        } catch (IOError e) {
+        } catch (ParserConfigurationException e) {
 
+            System.out.println("getXMLDocument ParserConfiguration Exception");
+
+        } catch (IOException e) {
+
+            System.out.println("getXMLDocument IOException");
             e.printStackTrace();
-            throw new ScriptPathException("Exception: IOError trying to make path to file at " + relativePath + " relative to the working directory");
 
-        } catch (SecurityException e) {
+        } catch (FactoryConfigurationError e) {
 
-            e.printStackTrace();
-            throw new ScriptPathException("Exception: Secutiry exception trying to make path to file at " + relativePath + " relative to the working directory");
+        } catch (SAXException e) {
 
-        } 
+        } catch (IllegalArgumentException e) {
 
-        return scriptPath;
+        }
+
+        return doc;
 
     }
 

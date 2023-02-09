@@ -1,6 +1,5 @@
 package Parser;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +7,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import ScriptDataStructure.DecompositionRule;
@@ -21,12 +21,13 @@ import ScriptDataStructure.Substituter;
  */
 public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
+    // filters out default tags
     private static final Predicate<? super Node> DEFAULT_FILTER = (
             Node node) -> node.getNodeName() != ScriptXMLTags.DEFAULT.getTag();
 
-    public ScriptParser(File scriptFile) {
+    public ScriptParser(Document scriptDocument) {
 
-        super(scriptFile);
+        super(scriptDocument);
 
     }
 
@@ -261,7 +262,7 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
                 .collect(Collectors.toMap(getInput, getReplace));
 
         Substituter substituter = new Substituter(substitutions);
-        
+
         return substituter;
 
     }
