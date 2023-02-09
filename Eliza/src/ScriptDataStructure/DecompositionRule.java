@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class DecompositionRule implements ScriptElement {
 
     private final String RAW_PATTERN;
-    private String pattern;
+    private final Pattern PATTERN;
     private final List<ReassemblyRule> REASSEMBLY_RULES = new ArrayList<>();
 
     public DecompositionRule(String pattern, List<ReassemblyRule> reassemblyRules) {
@@ -17,17 +17,14 @@ public class DecompositionRule implements ScriptElement {
         this.RAW_PATTERN = pattern;
 
         String regexPattern = this.parseRegexInsertIdentifiers(pattern);
-        this.pattern = ".*" + regexPattern + ".*";
-        // allow extra spaces for typos
-        this.pattern = this.pattern.replaceAll("\s", "\\\\s+");
-        this.pattern = this.pattern.toLowerCase();
+        regexPattern = ".*" + regexPattern + ".*";
+        // allow extra spaces 
+        regexPattern = regexPattern.replaceAll("\s", "\\\\s+");
+        regexPattern = regexPattern.toLowerCase();
+
+        this.PATTERN = Pattern.compile(regexPattern);
+
         this.REASSEMBLY_RULES.addAll(reassemblyRules);
-
-    }
-
-    public void defaultParseStep() {
-
-        this.pattern = "^.*$";
 
     }
 
@@ -48,8 +45,7 @@ public class DecompositionRule implements ScriptElement {
      */
     public boolean matches(String input) {
 
-        Pattern pattern = Pattern.compile(this.pattern);
-        Matcher matcher = pattern.matcher(input);
+        Matcher matcher = this.PATTERN.matcher(input);
         return matcher.matches();
 
     }
@@ -59,15 +55,18 @@ public class DecompositionRule implements ScriptElement {
 
         ReassemblyRule reassemblyRule = this.chooseReassemblyRule();
         String reassemblyFormat = reassemblyRule.getFormat();
+        
+        // make the output a copy of the reassembly format so it does not modify the format
+        String output = reassemblyFormat + "";
 
-        String output;
-        if(!reassemblyRule.containsGroupReplaces()) {
-
-            output = reassemblyFormat; 
-
-        } else {
-
-            output = input.replaceAll(this.pattern, reassemblyFormat);
+        Matcher decompositionMatcher = this.PATTERN.matcher(input);
+        decompositionMatcher.matches();
+        
+        int groupCount = decompositionMatcher.groupCount();
+        for (int i = 0; i < groupCount; i++) {
+            
+            String group = decompositionMatcher.group(i + 1);
+            output = output.replaceAll(i + "", group);
 
         }
 
