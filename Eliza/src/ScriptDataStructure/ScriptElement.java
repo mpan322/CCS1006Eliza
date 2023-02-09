@@ -2,14 +2,6 @@ package ScriptDataStructure;
 
 public interface ScriptElement {
 
-    /**
-     * Generates an output string given an input
-     * 
-     * @param input the string to use to generate output
-     * @return the output message
-     */
-    public String generateOutput(String input);
-
     public default String parseRegexInsertIdentifiers(String input){
 
         String output = "" + input;

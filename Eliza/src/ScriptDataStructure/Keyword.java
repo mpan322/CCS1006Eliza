@@ -46,7 +46,7 @@ public class Keyword implements ScriptElement {
     }
 
 
-    private DecompositionRule chooseDecompositionRule(String input) {
+    public DecompositionRule findDecompositionRule(String input) {
 
         for (DecompositionRule decompositionRule : DECOMPOSITION_RULES) {
             
@@ -61,17 +61,6 @@ public class Keyword implements ScriptElement {
         return this.DEFAULT_DECOMPOSITION_RULE;
 
     }
-
-
-    @Override
-    public String generateOutput(String input) {
-
-        DecompositionRule decompositionRule = this.chooseDecompositionRule(input);
-        String output = decompositionRule.generateOutput(input);
-        return output;
-
-    }
-
 
     @Override
     public void print(int indentDepth) {

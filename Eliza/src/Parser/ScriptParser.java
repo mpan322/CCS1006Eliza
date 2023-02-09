@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.w3c.dom.Node;
@@ -69,7 +68,7 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
     private Substituter parseGlobalPostSubstitution() {
 
         String scriptTag = ScriptXMLTags.SCRIPT.getTag();
-        
+
         // only keeps tags with script as their parent
         Predicate<Node> hasScriptParent = (Node node) -> node.getParentNode().getNodeName().equals(scriptTag);
 
@@ -228,13 +227,10 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
         Function<? super Node, String> getInput = (Node node) -> this.getAttribute(node, "input");
         Function<? super Node, String> getReplace = (Node node) -> this.getAttribute(node, "replace");
 
-
         // get the inputs and replacements
         Map<String, String> substitutions = this.streamChildren(substituterNode)
                 .filter(XMLParser.NON_TAG_FILTER)
                 .collect(Collectors.toMap(getInput, getReplace));
-
-        System.out.println(substitutions);
 
         substituter.putAll(substitutions);
         return substituter;

@@ -23,7 +23,7 @@
                 </reassembly>
             </decomposition>
 
-            <decomposition pattern="You need to $ANY$$END_ANY$">
+            <decomposition pattern="You need to $ANY$">
                 <reassembly format="Why?">
                     <postSub>
                         <subRule input="." replace="?" />
@@ -74,8 +74,8 @@
         </keyword>
 
         <keyword word="but" priority="2">
-            <decomposition pattern="But you said $ANY$">
-                <reassembly format="I changed $my$ mind!" />
+            <decomposition pattern="But you said">
+                <reassembly format="I changed my mind!" />
             </decomposition>
             <default>
                 <reassembly format="Woah whats that" />
@@ -123,8 +123,8 @@
 
     <postSub>
         <subRule input="my" replace="your" />
-        <subRule input="\\byou\\b" replace="I" />
         <subRule input="your" replace="my" />
+        <subRule input="you" replace="I" />
         <subRule input="me" replace="you" />
     </postSub>
 </script>

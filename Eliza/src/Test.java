@@ -9,24 +9,15 @@ public class Test {
     public static void main(String[] args) {
 
 
-        String test = "([[+][*][$][\\\\]])";
-        String words = "don't aren't";
-        Pattern x = Pattern.compile(test);
-        Matcher m = x.matcher(words);
+            Pattern p = Pattern.compile("hello (.*)");
+            Matcher m = p.matcher("hello bob my name is sally");
+            m.matches();
 
-        System.err.println("hello".replaceAll("ell", "fllo"));
+            for (int i = 1; i <= m.groupCount(); i++) {
 
-        String out = words.replaceAll("([^\s]*)n't", "$1 not");
-
-        Matcher m2 = Pattern.compile("a (.*)").matcher("a elepant");
-
-        System.out.println(m2.matches());
-
-        // m.results().forEach((res) -> {
-
-        //     System.out.println(res.group());
-
-        // });        
+                System.out.println(m.group(i));
+                
+            }
 
     }
 

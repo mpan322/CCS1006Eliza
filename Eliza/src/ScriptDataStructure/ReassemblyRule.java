@@ -1,5 +1,6 @@
 package ScriptDataStructure;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,17 +33,35 @@ public class ReassemblyRule implements ScriptElement {
 
     }
 
-    public String getFormat() {
+    /**
+     * Replaces all group replace identifiers (ex. $1) with their associated capture
+     * group (ex. group 1)
+     * 
+     * @param groupCaptures the text captured by each capture group
+     * 
+     * @return the ressembled output
+     */
+    public String generateOutput(List<String> groupCaptures) {
 
-        return this.FORMAT;
+        // make a copy of the format to not edit it
+        String output = this.FORMAT + "";
+
+        for (int i = 0; i < groupCaptures.size(); i++) {
+
+            // get the ith capture group and replace its identifier 
+            // (identifiers are indexed from 1 not 0 unlike the list)
+            String capture = groupCaptures.get(i);
+            output = output.replaceAll("[$]" + (i + 1), capture);
+
+        }
+
+        return output;
 
     }
 
-    @Override
-    public String generateOutput(String inputText) {
+    public String getFormat() {
 
-        System.out.println("WRONG REASSEMBLY RULE GENERATE METHOD");
-        return "";
+        return this.FORMAT;
 
     }
 
@@ -60,9 +79,9 @@ public class ReassemblyRule implements ScriptElement {
 
     }
 
-    public String doPostSubstitutions(String output) {
+    public Substituter getPostSubstituter() {
 
-        return this.POST_SUBSTITUTER.generateOutput(output);
+        return this.POST_SUBSTITUTER;
 
     }
 

@@ -17,8 +17,10 @@ public class DecompositionRule implements ScriptElement {
         this.RAW_PATTERN = pattern;
 
         String regexPattern = this.parseRegexInsertIdentifiers(pattern);
+
+        // pre parsing so the pattern is more flexible (lowercase, extra spaces, and
+        // any leading / trailing text)
         regexPattern = ".*" + regexPattern + ".*";
-        // allow extra spaces 
         regexPattern = regexPattern.replaceAll("\s", "\\\\s+");
         regexPattern = regexPattern.toLowerCase();
 
@@ -50,29 +52,29 @@ public class DecompositionRule implements ScriptElement {
 
     }
 
-    @Override
-    public String generateOutput(String input) {
+    /**
+     * Gets all strings captured by the capture groups in the decomposition rule
+     * 
+     * @param input the string
+     * @return the strings captured by the groups
+     */
+    public List<String> getCaptureGroups(String input) {
 
-        ReassemblyRule reassemblyRule = this.chooseReassemblyRule();
-        String reassemblyFormat = reassemblyRule.getFormat();
-        
-        // make the output a copy of the reassembly format so it does not modify the format
-        String output = reassemblyFormat + "";
+        List<String> captures = new ArrayList<>();
 
         Matcher decompositionMatcher = this.PATTERN.matcher(input);
         decompositionMatcher.matches();
-        
+
+        // store all strings captured by groups in list
         int groupCount = decompositionMatcher.groupCount();
-        for (int i = 0; i < groupCount; i++) {
-            
-            String group = decompositionMatcher.group(i + 1);
-            output = output.replaceAll(i + "", group);
+        for (int i = 1; i <= groupCount; i++) {
+
+            String group = decompositionMatcher.group(i);
+            captures.add(group);
 
         }
 
-        output = reassemblyRule.doPostSubstitutions(output);
-
-        return output;
+        return captures;
 
     }
 

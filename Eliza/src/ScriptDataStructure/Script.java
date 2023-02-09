@@ -1,10 +1,7 @@
 package ScriptDataStructure;
 
-import java.security.Key;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class Script implements ScriptElement {
 
@@ -38,15 +35,23 @@ public class Script implements ScriptElement {
 
     public String generateOutput(String input) {
 
+        // get the keyword / reassembly and decompostion rules
+        Keyword keyword = this.findBestKeyword(input);
+        DecompositionRule decompositionRule = keyword.findDecompositionRule(input);
+        ReassemblyRule reassemblyRule = decompositionRule.chooseReassemblyRule();
+
         String output = input.toLowerCase();
 
         // global pre substitution
-        output = this.PRE_SUBSTITUTER.generateOutput(output);
-
-        Keyword keyword = this.findBestKeyword(output);
-        output = keyword.generateOutput(output);
-
-        output = this.POST_SUBSTITUTER.generateOutput(output);
+        output = this.PRE_SUBSTITUTER.doSubstitutions(output);
+        
+        // get the capture groups and do the post substitutions on them
+        List<String> captureGroups = decompositionRule.getCaptureGroups(output);
+        captureGroups = reassemblyRule.getPostSubstituter().doSubstitutions(captureGroups);
+        captureGroups = this.POST_SUBSTITUTER.doSubstitutions(captureGroups);
+    
+        // insert capture group into the string where needed
+        output = reassemblyRule.generateOutput(captureGroups);
 
         return output;
 
