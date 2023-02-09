@@ -30,6 +30,7 @@ public class ScriptFileIO {
         } catch (ParserConfigurationException e) {
 
             System.out.println("getXMLDocument ParserConfiguration Exception");
+            e.printStackTrace();
 
         } catch (IOException e) {
 

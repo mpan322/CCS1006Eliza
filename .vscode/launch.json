@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch ScriptParserTester",
+            "request": "launch",
+            "mainClass": "Tests.ScriptParserTester",
+            "projectName": "CCS1006Eliza_1c78e9b5"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"

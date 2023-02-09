@@ -4,6 +4,6 @@ import ScriptDataStructure.Script;
 
 public interface ScriptParserInterface {
     
-    public Script parseScript(); 
+    public Script parseScript() throws MalformedScriptException; 
 
 }

@@ -32,7 +32,7 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
     }
 
     @Override
-    public Script parseScript() {
+    public Script parseScript() throws MalformedScriptException {
 
         List<String> quitKeywords = this.parseQuitKeywords();
 
@@ -53,12 +53,22 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
      * Parses the quit keywords
      * 
      * @return the list of quit keywords
+     * @throws MalformedScriptException
      */
-    private List<String> parseQuitKeywords() {
+    private List<String> parseQuitKeywords() throws MalformedScriptException {
 
-        return this.streamByTagName(ScriptXMLTags.QUIT_KEYWORD.getTag())
+        List<String> quitKeywords = this.streamByTagName(ScriptXMLTags.QUIT_KEYWORD.getTag())
                 .map(this::getNodeText)
                 .toList();
+
+        // if no quit keywords found throw an exception
+        if (quitKeywords.isEmpty()) {
+
+            throw new MalformedScriptException("No Quit Keywords Found");
+
+        }
+
+        return quitKeywords;
 
     }
 
@@ -173,7 +183,7 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
                 .flatMap(stream -> stream) // join together all the streams
                 .filter(ScriptParser.DEFAULT_FILTER.negate()) // only include tags named default
                 .limit(1) // only include the first found (avoid malformation errors)
-                .map(this::parseKeyword) 
+                .map(this::parseKeyword)
                 .toList().get(0);
 
     }
@@ -198,7 +208,6 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
                 .map(this::parseDecompositionRule)
                 .toList();
 
-        
         // parse default decomposition rules
         DecompositionRule defaultDecomposition = this.streamChildren(keyword)
                 .filter(DEFAULT_FILTER.negate())

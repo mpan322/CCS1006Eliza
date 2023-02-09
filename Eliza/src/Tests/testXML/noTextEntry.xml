@@ -1,13 +1,13 @@
-<?xml-model href="../scripts/script.xsd"?>
+<?xml-model href="../../scripts/script.xsd"?>
 <script>
-    <welcomeMsg></welcomeMsg>
-    <goodbyeMsg></goodbyeMsg>
+    <welcomeMsg />
+    <goodbyeMsg />
     <quitKeywords>
-        <quitKeyword></quitKeyword>
+        <quitKeyword />
     </quitKeywords>
 
     <keywords>
-        <keyword word="hello" priority="1">
+        <keyword word="" priority="1">
             <decomposition pattern="">
                 <reassembly format="">
                     <postSub>

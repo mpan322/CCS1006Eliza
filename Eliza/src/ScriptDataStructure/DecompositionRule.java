@@ -30,6 +30,9 @@ public class DecompositionRule extends ScriptElement {
 
     }
 
+    /**
+     * @return a randomly chosen reassembly rule
+     */
     public ReassemblyRule chooseReassemblyRule() {
 
         Random rand = new Random();
