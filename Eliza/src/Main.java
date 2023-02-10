@@ -27,7 +27,7 @@ public class Main {
             ScriptParser parser = new ScriptParser(scriptDocument);
             Script script = parser.parseScript();
 
-            script.print();
+            // script.print();
 
             // interactive eliza
             System.out.println("STARTING ELIZA ENGINE WITH SCRIPT: " + choiceFile + "\n");
