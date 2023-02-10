@@ -1,6 +1,10 @@
-1
-hello
-my 
-nameo
-os
+2
+Normal input
+
+Previous was empty line
+$$$ regex .* + identifeirs
+He is old (test regex replace)
+Hello 
+I hate apples (test synonym hate/loathe)
+I loathe apples (test synonym hate/loathe)
 $END_TEST$
