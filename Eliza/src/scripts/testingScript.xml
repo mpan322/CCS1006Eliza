@@ -42,8 +42,8 @@
             </default>
         </keyword>
         <keyword word="test3-any" priority="3">
-            <decomposition pattern="$ANY$">
-                <reassembly format="$1 got matched! - success" />
+            <decomposition pattern="$ANY_START$ test $ANY$">
+                <reassembly format="$1 $2 -- success!" />
             </decomposition>
             <default>
                 <reassembly format="test3-occur">
@@ -53,9 +53,69 @@
                 </reassembly>
             </default>
         </keyword>
+        <keyword word="test5-default decomposition" priority="5">
+            <decomposition pattern="NO MATCH">
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="test5-default decomposition is a SUCCESS" />
+            </default>
+        </keyword>
+        <keyword word="(?:(?:test6-synonym)|(?:test7-synonym))" priority="6">
+            <decomposition pattern="$ANY_START$">
+                <reassembly format="$1">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="test-6/7 occur">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+        <keyword word="test8-next-word" priority="8">
+            <decomposition pattern="next-word $NEXT_WORD$">
+                <reassembly format="The next word should be apple : $1 -- success">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+        <keyword word="test9-regex-identifiers" priority="9">
+            <decomposition pattern="$ANY_START$">
+                <reassembly format="$1">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
         <default>
-            <decomposition pattern="$ANY$">
-                <reassembly format="no test matched">
+            <decomposition pattern="$ANY_START$">
+                <reassembly format="$1">
                     <postSub>
                         <subRule input="" replace="" />
                     </postSub>

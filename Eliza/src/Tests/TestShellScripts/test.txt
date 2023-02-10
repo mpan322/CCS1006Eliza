@@ -1,5 +1,11 @@
 -137
 test1-regex regex is cool yes test1 passed
-test2-postSub replace1 replace2 replace3
-test3-any hey matchme
+test2-postSub replace1 replace2 replace3 (for reassembly rule post sub)
+test3-any hey match me to any start test and me to any
+test4-the next one is an empty line test for no crashing (this also tests default keyword)
+
+test5-default decomposition
+test6-synonym success
+test7-synonym success
+test8-next-word next-word apple
 $END_TEST$
