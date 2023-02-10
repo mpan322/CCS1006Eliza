@@ -6,7 +6,7 @@ package ScriptDataStructure;
  */
 public enum XMLRegexInsert {
 
-    EXCLUDE_TERMINAL_PUNCTUATION_GROUP("NON_TERM_PUNC", "([^[?][.]!]*)"), // matches any non punctuation character
+    EXCLUDE_TERMINAL_PUNCTUATION_GROUP("NON_TERM_PUNC", "([^[?][.]!]*)*"), // matches any non punctuation character
     ANY_GROUP("ANY", "(.*)"), // matches anything until $END_ANY$ or the end of the line
     NEXT_WORD_GROUP("NEXT_WORD", "((?:\\\\w+){1})"), // selects the next word in a line
     QUESTION_WORDS("Q_WORDS", "((?:who)|(?:when)|(?:what)|(?:where)|(?:why)|(?:how))"), // matches all question words

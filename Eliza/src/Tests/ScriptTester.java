@@ -35,9 +35,8 @@ public class ScriptTester extends Tester {
     public static void testGoodbyeMessage() throws MalformedScriptException, IOException {
 
         Script script = ScriptTester.getTestScript();
-        String goodbyeMessage = script.getGoodbyeMessage();
-        boolean isSuccess = goodbyeMessage.equals("TEST GOODBYE MESSAGE");
-        System.out.println("Is Success: " + isSuccess);
+        script.sayGoodbye();
+        System.out.println("Expected: TEXT GOODBYE MESSAGE");
 
     }
 
@@ -45,9 +44,8 @@ public class ScriptTester extends Tester {
     public static void testWelcomeMessage() throws MalformedScriptException, IOException {
 
         Script script = ScriptTester.getTestScript();
-        String goodbyeMessage = script.getWelcomeMessage();
-        boolean isSuccess = goodbyeMessage.equals("TEST WELCOME MESSAGE");
-        System.out.println("Is Success: " + isSuccess);
+        script.sayWelcome();
+        System.out.println("Expected: TEST WELCOME MESSAGE");
 
     }
 

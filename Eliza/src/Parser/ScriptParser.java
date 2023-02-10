@@ -167,10 +167,15 @@ public class ScriptParser extends XMLParser {
      */
     private Keyword getDefaultKeyword() {
 
-        return this.streamByTagName(ScriptXMLTag.KEYWORDS.getTag())
-                .map(this::streamChildren)
-                .flatMap(stream -> stream) // join together all the streams
-                .filter(ScriptParser.DEFAULT_FILTER.negate()) // only include tags named default
+        Predicate<Node> parentIsKeywords = (Node node) -> {
+            
+            String parentName = node.getParentNode().getNodeName();
+            return parentName.equals(ScriptXMLTag.KEYWORDS.getTag());
+        
+        };
+
+        return this.streamByTagName(ScriptXMLTag.DEFAULT.getTag())
+                .filter(parentIsKeywords) // parent is keywords -> must be default keyword
                 .limit(1) // only include the first found (avoid malformation errors)
                 .map(this::parseKeyword)
                 .toList().get(0);
