@@ -40,7 +40,13 @@
                 <reassembly format="Hmmm, meditate on those feelings you should. What to them leads you?"></reassembly>
             </decomposition>
             <decomposition pattern="i feel $NEXT_WORD$">
-                <reassembly format="To the dark side $ANY$ leads, control your emotions you must."></reassembly>
+                <reassembly format="To the dark side $1 feeling leads, control your emotions you must.">
+                <postSub>
+                    <subRule input="angry" replace="anger" />
+                    <subRule input="sad" replace="saddnes" />
+                    <subRule input="happy" replace="happness" />
+                </postSub>
+            </reassembly>   
             </decomposition>
             <default>
                 <reassembly format=""/>

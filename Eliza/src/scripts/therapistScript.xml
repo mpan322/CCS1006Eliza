@@ -120,7 +120,7 @@
     </keyword>
 
     <keyword word="is" priority="2">
-        <decomposition pattern="$ANY_START$ is $ANY$ ">
+        <decomposition pattern="$ANY_START$ is $ANY$">
             <reassembly format="Why do you think $1 is $2?" >
                 <postSub>
                     <subRule input="he" replace="him" />
@@ -155,12 +155,12 @@
 
 
     <keyword word="(?:(?:feel)|(?:felt)|(?:have been feeling))" priority="20">
-        <decomposition pattern="I (?:(?:feel)|(?:felt)|(?:have been feeling)) $ANY$">
-            <reassembly format="Why do you believe you (?:(?:feel)|(?:felt)|(?:have been feeling)) $1?" />
-            <reassembly format="What dou you think is making you (?:(?:feel)|(?:felt)|(?:have been feeling)) $1?"/>
+        <decomposition pattern="I ((?:feel)|(?:felt)|(?:have been feeling)) $ANY$">
+            <reassembly format="Why do you believe you $1 $2?" />
+            <reassembly format="What do you think is making you feel $2?"/>
         </decomposition>
         <decomposition pattern="$ANY_START$ makes me (?:(?:feel)|(?:felt)|(?:have been feeling)) $ANY$">
-            <reassembly format="Why do you think it is that $1 makes you (?:(?:feel)|(?:felt)|(?:have been feeling)) $2?"/>
+            <reassembly format="Why do you think it is that $1 makes you feel $2?"/>
         </decomposition>
         <default>
             <reassembly format=""/>
