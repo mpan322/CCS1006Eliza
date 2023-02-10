@@ -1,8 +1,8 @@
 #!/bin/bash
 find -name "*.java" > sources.txt
 javac @sources.txt
-rm "soruces.txt"
-cd "./Eliza/src/"
+rm "sources.txt"
+
 java Main
 find -name "*.class" > classFiles.txt
 for f in $(cat classFiles.txt) ; do

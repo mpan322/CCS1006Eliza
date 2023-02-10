@@ -20,8 +20,8 @@ public class ScriptIOTester extends Tester {
 
         try {
 
-            ScriptFileIO.getXMLDocument("./Eliza/src/Tests/testXML/notFollowingSchema.xml",
-                    "./Eliza/src/scripts/script.xsd");
+            ScriptFileIO.getXMLDocument("./Tests/testXML/notFollowingSchema.xml",
+                    "./scripts/script.xsd");
 
         } catch (MalformedScriptException e) {
 
@@ -40,7 +40,7 @@ public class ScriptIOTester extends Tester {
 
         try {
 
-            ScriptFileIO.getXMLDocument("./Eliza/src/Tests/testXML/nonExist.xml", "./Eliza/src/scripts/script.xsd");
+            ScriptFileIO.getXMLDocument("./Tests/testXML/nonExist.xml", "./Eliza/src/scripts/script.xsd");
 
         } catch (FileNotFoundException e) {
 
@@ -59,7 +59,7 @@ public class ScriptIOTester extends Tester {
 
         try {
 
-            ScriptFileIO.getXMLDocument("./Eliza/src/Tests/testXML/malformedXML.xml", "./Eliza/src/scripts/script.xsd");
+            ScriptFileIO.getXMLDocument("./Tests/testXML/malformedXML.xml", "./Eliza/src/scripts/script.xsd");
 
         } catch (MalformedScriptException e) {
 
@@ -78,7 +78,7 @@ public class ScriptIOTester extends Tester {
 
         try {
 
-            ScriptFileIO.getXMLDocument(null, "./Eliza/src/scripts/script.xsd");
+            ScriptFileIO.getXMLDocument(null, "./scripts/script.xsd");
 
         } catch (IOException e) {
 
@@ -97,7 +97,7 @@ public class ScriptIOTester extends Tester {
 
         try {
 
-            ScriptFileIO.getXMLDocument("./Eliza/src/Tests/testXML/malformedXML.xml", "./Eliza/src/scripts/script.xsd");
+            ScriptFileIO.getXMLDocument("./Tests/testXML/malformedXML.xml", "./scripts/script.xsd");
 
         } catch (MalformedScriptException e) {
 
@@ -116,7 +116,7 @@ public class ScriptIOTester extends Tester {
 
         try {
 
-            ScriptFileIO.getXMLDocument("./Eliza/src/Tests/testXML/nonXML.txt", "./Eliza/src/scripts/script.xsd");
+            ScriptFileIO.getXMLDocument("./Tests/testXML/nonXML.txt", "./scripts/script.xsd");
             System.out.println("TEST FAILED: Desired error not thrown");
 
         } catch (IOException e) {
