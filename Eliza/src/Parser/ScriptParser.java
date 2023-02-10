@@ -19,11 +19,11 @@ import ScriptDataStructure.Substituter;
 /**
  * ScriptParser
  */
-public class ScriptParser extends XMLParser implements ScriptParserInterface {
+public class ScriptParser extends XMLParser {
 
     // filters out default tags
     private static final Predicate<? super Node> DEFAULT_FILTER = (
-            Node node) -> node.getNodeName() != ScriptXMLTags.DEFAULT.getTag();
+            Node node) -> node.getNodeName() != ScriptXMLTag.DEFAULT.getTag();
 
     public ScriptParser(Document scriptDocument) {
 
@@ -31,7 +31,6 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
     }
 
-    @Override
     public Script parseScript() throws MalformedScriptException {
 
         List<String> quitKeywords = this.parseQuitKeywords();
@@ -39,8 +38,8 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
         List<Keyword> keywords = this.parseKeywords();
         Keyword defaultKeyword = this.getDefaultKeyword();
 
-        String goodbyeMessage = this.getTextFromATag(ScriptXMLTags.GOODBYE_MSG.getTag());
-        String welcomeMessage = this.getTextFromATag(ScriptXMLTags.WELOCME_MSG.getTag());
+        String goodbyeMessage = this.getTextFromFirstTagWithName(ScriptXMLTag.GOODBYE_MSG.getTag());
+        String welcomeMessage = this.getTextFromFirstTagWithName(ScriptXMLTag.WELOCME_MSG.getTag());
 
         Substituter postSub = this.parseGlobalPostSubstitution();
         Substituter preSub = this.parsePreSubstitution();
@@ -57,7 +56,7 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
      */
     private List<String> parseQuitKeywords() throws MalformedScriptException {
 
-        List<String> quitKeywords = this.streamByTagName(ScriptXMLTags.QUIT_KEYWORD.getTag())
+        List<String> quitKeywords = this.streamByTagName(ScriptXMLTag.QUIT_KEYWORD.getTag())
                 .map(this::getNodeText)
                 .toList();
 
@@ -73,14 +72,14 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
     }
 
     /**
-     * Parses the presubstions
+     * Parses the presubstion tag (only one per script)
      * 
      * @return a substituter which will substitute using the presubstitutions
      */
     private Substituter parsePreSubstitution() {
 
-        return this.streamByTagName(ScriptXMLTags.PRE_SUBSTITUTION.getTag())
-                .limit(1)
+        return this.streamByTagName(ScriptXMLTag.PRE_SUBSTITUTION.getTag())
+                .limit(1) // limit to 1 - avoid malformed
                 .map(this::parseSubstituter)
                 .toList().get(0);
 
@@ -93,12 +92,12 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
      */
     private Substituter parseGlobalPostSubstitution() {
 
-        String scriptTag = ScriptXMLTags.SCRIPT.getTag();
+        String scriptTag = ScriptXMLTag.SCRIPT.getTag();
 
         // only keeps tags with script as their parent
         Predicate<Node> hasScriptParent = (Node node) -> node.getParentNode().getNodeName().equals(scriptTag);
 
-        return this.streamByTagName(ScriptXMLTags.POST_SUBSTITUTION.getTag())
+        return this.streamByTagName(ScriptXMLTag.POST_SUBSTITUTION.getTag())
                 .filter(hasScriptParent)
                 .limit(1)
                 .map(this::parseSubstituter)
@@ -162,23 +161,13 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
     }
 
     /**
-     * Gets the text from the first tag a specifc type found
+     * Gets the default keyword in the script and parses it
      * 
-     * @param tag the tag type
-     * @return the text is contains
+     * @return the default keyword
      */
-    private String getTextFromATag(String tag) {
-
-        return this.streamByTagName(tag)
-                .limit(1) // limit to first one found (avoid malformed)
-                .map(this::getNodeText)
-                .toList().get(0);
-
-    }
-
     private Keyword getDefaultKeyword() {
 
-        return this.streamByTagName(ScriptXMLTags.KEYWORDS.getTag())
+        return this.streamByTagName(ScriptXMLTag.KEYWORDS.getTag())
                 .map(this::streamChildren)
                 .flatMap(stream -> stream) // join together all the streams
                 .filter(ScriptParser.DEFAULT_FILTER.negate()) // only include tags named default
@@ -188,6 +177,12 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
     }
 
+    /**
+     * Parses a keyword node into a keyword script object
+     * 
+     * @param keyword the keyword node
+     * @return the keyword script object
+     */
     private Keyword parseKeyword(Node keyword) {
 
         String word = "";
@@ -219,6 +214,12 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
     }
 
+    /**
+     * Parses a decomposition rule node into a decomposition rule object
+     * 
+     * @param decompositionNode the node
+     * @return the object version
+     */
     private DecompositionRule parseDecompositionRule(Node decompositionNode) {
 
         String pattern = "";
@@ -239,6 +240,12 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
     }
 
+    /**
+     * Parses a reassembly rule node into a reassembly rule object
+     * 
+     * @param reassemblyNode the reassembly rule node
+     * @return the object version
+     */
     private ReassemblyRule parseReassemblyRule(Node reassemblyNode) {
 
         // get the format
@@ -259,6 +266,12 @@ public class ScriptParser extends XMLParser implements ScriptParserInterface {
 
     }
 
+    /**
+     * Parses a node which is a substituter (pre or post) into a substituter object
+     * 
+     * @param substituterNode the substituter node
+     * @return the object version
+     */
     private Substituter parseSubstituter(Node substituterNode) {
 
         // anonymous functions for getting the input and replace attributes

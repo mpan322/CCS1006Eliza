@@ -1,29 +1,16 @@
 package Tests;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Text;
-import org.xml.sax.SAXException;
-
-import Parser.ScriptParser;
-import ScriptIO.ScriptFileIO;
-import java.lang.annotation.Annotation;
-import java.lang.annotation.Target;
 
 public class Tester {
 
     public static void main(String[] args) {
         
         ScriptParserTester.test();
+        ScriptIOTester.test();
+        ScriptTester.test();
 
     }
 

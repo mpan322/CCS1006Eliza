@@ -1,6 +1,6 @@
 <?xml-model href="../../scripts/script.xsd"?>
 <script>
-    <welcomeMsg />
+    <welcomeMsg></welcomeMsg>
     <goodbyeMsg />
     <quitKeywords>
         <quitKeyword />

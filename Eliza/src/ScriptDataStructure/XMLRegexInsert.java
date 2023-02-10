@@ -4,7 +4,7 @@ package ScriptDataStructure;
  * Common regex groups that can be inserted dinto the script when wanted using
  * the given identifier
  */
-public enum XMLGroupInserts {
+public enum XMLRegexInsert {
 
     EXCLUDE_TERMINAL_PUNCTUATION_GROUP("NON_TERM_PUNC", "([^[?][.]!]*)"), // matches any non punctuation character
     ANY_GROUP("ANY", "(.*)"), // matches anything until $END_ANY$ or the end of the line
@@ -16,7 +16,7 @@ public enum XMLGroupInserts {
     private final String REGEX;
     private final String IDENTIFIER;
 
-    private XMLGroupInserts(String identifier, String regex) {
+    private XMLRegexInsert(String identifier, String regex) {
 
         this.REGEX = regex;
         this.IDENTIFIER = identifier;
@@ -29,7 +29,7 @@ public enum XMLGroupInserts {
 
     }
 
-    String getIdentifier() {
+    public String getIdentifier() {
 
         return this.IDENTIFIER;
 

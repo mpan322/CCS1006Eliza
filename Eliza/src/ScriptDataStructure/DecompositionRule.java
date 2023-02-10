@@ -5,18 +5,20 @@ import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class DecompositionRule extends ScriptElement {
 
     private final String RAW_PATTERN;
     private final Pattern PATTERN;
-    private final List<ReassemblyRule> REASSEMBLY_RULES = new ArrayList<>();
+    private final List<ReassemblyRule> REASSEMBLY_RULES;
 
-    public DecompositionRule(String pattern, List<ReassemblyRule> reassemblyRules) {
+    public DecompositionRule(String patternString, List<ReassemblyRule> reassemblyRules) {
 
-        this.RAW_PATTERN = pattern;
+        this.RAW_PATTERN = patternString;
 
-        String regexPattern = super.parseRegexInsertIdentifiers(pattern);
+        // replace all insert identifeirs with their correspondign regex (ex. $$ANY$$)
+        String regexPattern = super.replaceRegexInsertIdentifiers(patternString);
 
         // pre parsing so the pattern is more flexible (lowercase, extra spaces, and
         // any leading / trailing text)
@@ -24,9 +26,21 @@ public class DecompositionRule extends ScriptElement {
         regexPattern = regexPattern.replaceAll("\s", "\\\\s+");
         regexPattern = regexPattern.toLowerCase();
 
-        this.PATTERN = Pattern.compile(regexPattern);
+        // try to assign pattern and if malformed regex then error
+        Pattern pattern;
+        try {
 
-        this.REASSEMBLY_RULES.addAll(reassemblyRules);
+            pattern = Pattern.compile(regexPattern);
+
+        } catch (PatternSyntaxException e) {
+            
+            System.out.println("WARNING: Malformed regex " + regexPattern + " found in decomposition rule");
+            pattern = Pattern.compile("/MALFORMED_REGEX_ERROR/");
+
+        }
+
+        this.PATTERN = pattern;
+        this.REASSEMBLY_RULES = reassemblyRules;
 
     }
 

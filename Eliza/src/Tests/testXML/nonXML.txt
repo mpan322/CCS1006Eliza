@@ -1,0 +1,166 @@
+<?xml-model href="./script.xsd"?>
+<script>
+
+    <welcomeMsg>Welcome!</welcomeMsg>
+    <goodbyeMsg>Bye!</goodbyeMsg>
+
+    <quitKeywords>
+        <quitKeyword>quit</quitKeyword>
+        <quitKeyword>bye</quitKeyword>
+        <quitKeyword>logout</quitKeyword>
+    </quitKeywords>
+
+
+    <keywords>
+
+        <!-- Need keyword -->
+        <keyword word="(:?need)|(:?require)" priority="3">
+            <decomposition pattern="I need $ANY$">
+                <reassembly format="Why do you need $1">
+                    <postSub>
+                        <subRule input="." replace="?" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+
+            <decomposition pattern="You need to $ANY$">
+                <reassembly format="Why?">
+                    <postSub>
+                        <subRule input="." replace="?" />
+                    </postSub>
+                </reassembly>
+                <reassembly format="I dont want to!" />
+            </decomposition>
+
+            <decomposition pattern="Do you need a time out?">
+                <reassembly format="No!" />
+            </decomposition>
+
+            <default>
+                <reassembly format=""></reassembly>
+            </default>
+
+        </keyword>
+
+        <!-- go -->
+        <keyword word="go" priority="1">
+            <decomposition pattern="(?:you)|(?:we) need to go to $ANY$">
+                <reassembly format="But I don't want to go to $1!"></reassembly>
+                <reassembly format="Do I really have to go to $1?"></reassembly>
+            </decomposition>
+            <decomposition pattern="I have to go to $ANY$">
+                <reassembly format="Do you really have to go to $1?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""></reassembly>
+            </default>
+
+        </keyword>
+
+        <keyword word="[z]+" priority="1">
+            <decomposition pattern="$ANY$">
+                <reassembly format="Z found"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""></reassembly>
+            </default>
+        </keyword>
+
+        <!-- what -->
+        <keyword word="what" priority="1">
+            <decomposition pattern="What is a $ANY$">
+                <reassembly format="I dont know." />
+            </decomposition>
+            <default>
+                <reassembly format="I dont know"></reassembly>
+            </default>
+        </keyword>
+
+        <!-- like -->
+        <keyword word="(:?love)|(:?adore)|(:?like)" priority="20">
+            <decomposition pattern="Do you like $ANY$ ?">
+                <reassembly format="No, I think $ANY$ stink!" />
+                <reassembly format="Yes, $ANY$ are the best!" />
+            </decomposition>
+            <default>
+                <reassembly format=""></reassembly>
+            </default>
+        </keyword>
+
+        <keyword word="favourite" priority="3">
+            <decomposition pattern="what is your favourite $NEXT_WORD$ $NON_TERM_PUNC$">
+                <reassembly format="Ummmmmmmm. I dont know!" />
+                <reassembly format="I love all $1s $2!" />
+                <reassembly format="I hate all $1s $2!" />
+            </decomposition>
+            <decomposition pattern="which is your favourite of $NON_TERM_PUNC$">
+                <reassembly format="Ummmmmmmm. I dont know!" />
+                <reassembly format="I love all $1!" />
+                <reassembly format="I dont like $1!" />
+            </decomposition>
+            <decomposition pattern="which of $ANY$ is your favourite[?]*">
+                <reassembly format="Ummmmmmmm. I dont know!" />
+                <reassembly format="I love all $1!" />
+                <reassembly format="I dont like $1!" />
+            </decomposition>
+            <default>
+                <reassembly format="Ummmmmm. I dont know! (DEFAULT)"></reassembly>
+            </default>
+        </keyword>
+
+        <keyword word="but" priority="2">
+            <decomposition pattern="But you said">
+                <reassembly format="I changed my mind!" />
+            </decomposition>
+            <default>
+                <reassembly format="Woah whats that" />
+            </default>
+        </keyword>
+
+        <keyword word="test" priority="1000">
+            <decomposition pattern="next-word $NEXT_WORD$ $ANY$">
+                <reassembly format="$1 -- $2" />
+            </decomposition>
+            <default>
+                <reassembly format="NO SELECTION">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+
+        <default>
+            <decomposition pattern="a (.*)">
+                <reassembly format="whats a $1">
+                    <postSub>
+                        <subRule input="." replace="?" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+
+            <default>
+                <reassembly format="What does that mean?"></reassembly>
+            </default>
+        </default>
+    </keywords>
+
+    <preSub>
+        <subRule input="should" replace="need" />
+        <subRule input="must" replace="need" />
+        <subRule input="ought" replace="need" />
+        <subRule input="an" replace="a" />
+        <subRule input="have to" replace="need to" />
+        <subRule input="it's" replace="it is" />
+        <subRule input="what('*)s" replace="what is" />
+        <subRule input="([^\s]*)n't" replace="$1 not" />
+        <subRule input="time-out" replace="time out" />
+    </preSub>
+
+    <postSub>
+        <subRule input="my" replace="your" />
+        <subRule input="your" replace="my" />
+        <subRule input="you" replace="I" />
+        <subRule input="me" replace="you" />
+    </postSub>
+</script>

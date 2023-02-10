@@ -1,11 +1,9 @@
 package Parser;
 
-import org.w3c.dom.Node;
-
 /**
  * Enum of representations of the XML tags in the script
  */
-public enum ScriptXMLTags {
+public enum ScriptXMLTag {
 
     TEXT("#text"),
     DOCUMENT("#document"),
@@ -25,7 +23,7 @@ public enum ScriptXMLTags {
 
     private final String TAG;
 
-    private ScriptXMLTags(String tag, String... attrs) {
+    private ScriptXMLTag(String tag) {
 
         this.TAG = tag;
 
@@ -37,26 +35,6 @@ public enum ScriptXMLTags {
     public String getTag() {
 
         return this.TAG;
-
-    }
-
-    /**
-     * @param tagName the name to check
-     * @return whether or not the inputted name matches this tag
-     */
-    public boolean isType(String tagName) {
-
-        return this.TAG.equals(tagName);
-
-    }
-
-    /**
-     * @param node a XML node
-     * @return whether the node is this tag type
-     */
-    public boolean isType(Node node) {
-
-        return this.isType(node.getNodeName());
 
     }
 

@@ -2,10 +2,10 @@ package ScriptDataStructure;
 
 abstract class ScriptElement {
 
-    protected String parseRegexInsertIdentifiers(String input){
+    protected String replaceRegexInsertIdentifiers(String input){
 
         String output = "" + input;
-        for (XMLGroupInserts insert :  XMLGroupInserts.values()) {
+        for (XMLRegexInsert insert :  XMLRegexInsert.values()) {
             
             String regex = insert.getRegex();
             String identifier = insert.getIdentifier();
@@ -22,7 +22,7 @@ abstract class ScriptElement {
      */
     protected abstract void print(int indentDepth);
 
-    public String makeIndent(int depth) {
+    protected String makeIndent(int depth) {
 
         String indent = "";
         for (int i = 0; i < depth; i++) {

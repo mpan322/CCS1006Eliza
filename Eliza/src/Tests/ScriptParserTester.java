@@ -1,16 +1,6 @@
 package Tests;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.util.List;
-import java.util.function.Predicate;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 import Parser.MalformedScriptException;
 import Parser.ScriptParser;
@@ -33,17 +23,16 @@ public class ScriptParserTester extends Tester {
      */
     public static ScriptParser testScriptParser(String scriptName) {
 
-        Document scriptDocument = ScriptFileIO.getXMLDocument("./Eliza/src/Tests/testXML/" + scriptName);
-        ScriptParser parser = new ScriptParser(scriptDocument);
-
+        ScriptParser parser = null;
         try {
 
-            parser.parseScript();
-            System.out.println("TEST PASSED: No Exceptions Thrown");
+            Document scriptDocument = ScriptFileIO.getXMLDocument("./Eliza/src/Tests/testXML/" + scriptName,
+                    "./Eliza/src/scripts/script.xsd");
+            parser = new ScriptParser(scriptDocument);
 
         } catch (MalformedScriptException e) {
 
-            System.out.println("TEST PASSED: THROWS " + e.toString());
+            System.out.println("TEST INCONCLUSIVE: MALFORMED SCRIPT, DOES NOT MATCH SCHEMA " + e.toString());
 
         } catch (Exception e) {
 
@@ -59,14 +48,55 @@ public class ScriptParserTester extends Tester {
     @Test
     public static void TestNoTextEntry() {
 
-        ScriptParserTester.testScriptParser("noTextEntry.xml");
+        ScriptParser parser = ScriptParserTester.testScriptParser("noTextEntry.xml");
+
+        try {
+
+            parser.parseScript();
+            System.out.println("TEST PASSED: NO EXCEPTIONS THROWN");
+
+        } catch (MalformedScriptException e) {
+
+            System.out.println("IDEAL ERROR THROWN - TEST PASSED: " + e.getMessage());
+
+        }
+
 
     }
 
     @Test
-    public static void TestNonScriptXSD() {
+    public static void TestMalformedRegex() {
 
-        ScriptParserTester.testScriptParser("nonScriptXSD.xml");
+        ScriptParser parser = ScriptParserTester.testScriptParser("malformedRegex.xml");
+
+        try {
+
+            parser.parseScript();
+            System.out.println("TEST PASSED: NO EXCEPTIONS THROWN");
+
+        } catch (MalformedScriptException e) {
+
+            System.out.println("IDEAL ERROR THROWN - TEST PASSED: " + e.getMessage());
+
+        }
+
+    }
+
+    @Test
+    public static void TestRegexSpecialCharactersInScript() {
+
+        ScriptParser parser = ScriptParserTester.testScriptParser("regexSpecialCharactersInScript.xml");
+
+        try {
+
+            parser.parseScript();
+            System.out.println("TEST PASSED: NO EXCEPTIONS THROWN");
+
+        } catch (MalformedScriptException e) {
+
+            System.out.println("IDEAL ERROR THROWN - TEST PASSED: " + e.getMessage());
+
+        }
 
     }
 

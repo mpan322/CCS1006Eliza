@@ -1,0 +1,49 @@
+<?xml-model href="../../scripts/script.xsd"?>
+<script>
+    <welcomeMsg>(?:sd^\)</welcomeMsg>
+    <goodbyeMsg>(?:sd^\)</goodbyeMsg>
+    <quitKeywords>
+        <quitKeyword>(?:sd^\)</quitKeyword>
+    </quitKeywords>
+
+    <keywords>
+        <keyword word="(?:sd^\)" priority="1">
+            <decomposition pattern="(?:sd^\)">
+                <reassembly format="(?:sd^\)">
+                    <postSub>
+                        <subRule input="(?:sd^\)" replace="(?:sd^\)" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="(?:sd^\)">
+                    <postSub>
+                        <subRule input="(?:sd^\)" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+        <default>
+            <decomposition pattern="(?:sd^\)">
+                <reassembly format="(?:sd^\)">
+                    <postSub>
+                        <subRule input="(?:sd^\)" replace="(?:sd^\)" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="(?:sd^\)">
+                    <postSub>
+                        <subRule input="(?:sd^\)" replace="(?:sd^\)" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </default>
+    </keywords>
+    <preSub>
+        <subRule input="(?:sd^\)" replace="(?:sd^\)" />
+    </preSub>
+    <postSub>
+        <subRule input="(?:sd^\)" replace="(?:sd^\)" />
+    </postSub>
+</script>

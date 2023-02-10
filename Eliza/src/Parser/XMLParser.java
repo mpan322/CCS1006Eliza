@@ -27,15 +27,38 @@ public class XMLParser {
     // filters out all text nodes
     protected static final Predicate<Node> TEXT_NODE_FILTER = (Node node) -> !node.getNodeName().equals("#text");
 
-
     /**
      * Creates a new XMLDocument parser using the XML file found at an inputted url
      * 
      * @param url
      */
-    public XMLParser(Document scriptDocument) {
+    public XMLParser(Document document) {
 
-        this.DOC = scriptDocument;
+        this.DOC = document;
+
+    }
+
+    /**
+     * @return the document being parsed
+     */
+    protected Document getDoc() {
+
+        return this.DOC;
+
+    }
+
+    /**
+     * Gets the text from the first tag a specifc type found
+     * 
+     * @param tagName the tag type
+     * @return the text is contains
+     */
+    protected String getTextFromFirstTagWithName(String tagName) {
+
+        return this.streamByTagName(tagName)
+                .limit(1) // limit to first one found (avoid malformed)
+                .map(this::getNodeText)
+                .toList().get(0);
 
     }
 
@@ -60,7 +83,9 @@ public class XMLParser {
     }
 
     /**
-     * Builds a stream of all elements in the document with a speciifc tag
+     * Builds a stream of all elements in the document with a speciifc tag. If no
+     * nodes
+     * are found then null is returned
      * 
      * @param tag the tag to select
      * @return the stream of nodes
@@ -68,7 +93,16 @@ public class XMLParser {
     protected Stream<Node> streamByTagName(String tag) {
 
         NodeList nodes = this.DOC.getElementsByTagName(tag);
-        return this.nodeListToStream(nodes);
+
+        if (nodes != null) {
+
+            return this.nodeListToStream(nodes);
+
+        } else {
+
+            return null;
+
+        }
 
     }
 
@@ -117,10 +151,10 @@ public class XMLParser {
     protected String getAttribute(Node node, String attributeName) {
 
         NamedNodeMap attributes = node.getAttributes();
-    
+
         Node attrNode = attributes.getNamedItem(attributeName);
         return attrNode.getNodeValue();
-        
+
     }
 
     /**
@@ -135,7 +169,7 @@ public class XMLParser {
 
             String tag = node.getNodeName();
             boolean isTagType = Arrays.asList(nodeNames).contains(tag);
-            return ! isTagType;
+            return !isTagType;
 
         };
 
@@ -143,35 +177,19 @@ public class XMLParser {
 
     protected String getNodeText(Node node) {
 
-        return this.streamChildren(node)
-                .filter(XMLParser.TEXT_NODE_FILTER.negate())
-                .map(Node::getNodeValue)
-                .reduce(String::concat)
-                .get();
+        if (node.getFirstChild() != null) {
 
-    }
+            return this.streamChildren(node)
+                    .filter(XMLParser.TEXT_NODE_FILTER.negate())
+                    .map(Node::getNodeValue)
+                    .reduce(String::concat)
+                    .get();
 
-    /**
-     * @return the document being parsed
-     */
-    protected Document getDoc() {
+        } else {
 
-        return this.DOC;
+            return "";
 
-    }
-
-    /**
-     * Prints out a representation the XML document being parsed
-     * 
-     * @throws ParserConfigurationException
-     * @throws IOException
-     * @throws SAXException
-     * @throws MalformedURLException
-     */
-    public void print() throws MalformedURLException, SAXException, IOException, ParserConfigurationException {
-
-        Node root = this.DOC.getDocumentElement();
-        this.deepPrintNode(root, 0);
+        }
 
     }
 
@@ -192,7 +210,7 @@ public class XMLParser {
 
             attrText = attrStream
                     .map(Node::toString)
-                    .reduce((a, b) ->  a + " " + b)
+                    .reduce((a, b) -> a + " " + b)
                     .get();
 
         }
@@ -201,9 +219,18 @@ public class XMLParser {
 
     }
 
-    protected void deepPrintNode(Node node) {
+    /**
+     * Prints out a representation the XML document being parsed
+     * 
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     * @throws MalformedURLException
+     */
+    public void print() throws MalformedURLException, SAXException, IOException, ParserConfigurationException {
 
-        this.deepPrintNode(node, 0);
+        Node root = this.DOC.getDocumentElement();
+        this.deepPrintNode(root, 0);
 
     }
 
@@ -213,7 +240,7 @@ public class XMLParser {
      * @param node        the node to deep print
      * @param indentDepth the number of indents needed
      */
-    protected void deepPrintNode(Node node, int indentDepth) {
+    private void deepPrintNode(Node node, int indentDepth) {
 
         String indent = "";
         for (int i = 0; i < indentDepth; i++) {

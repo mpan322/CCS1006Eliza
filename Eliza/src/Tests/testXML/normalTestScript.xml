@@ -1,0 +1,120 @@
+<?xml-model href="../../scripts/script.xsd"?>
+<script>
+    <welcomeMsg>TEST WELCOME MESSAGE</welcomeMsg>
+    <goodbyeMsg>TEST GOODBYE MESSAGE</goodbyeMsg>
+    <quitKeywords>
+        <quitKeyword>TEST IS QUIT 1</quitKeyword>
+        <quitKeyword>TEST IS QUIT 2</quitKeyword>
+        <quitKeyword>TEST IS QUIT 3</quitKeyword>
+    </quitKeywords>
+
+    <keywords>
+        <keyword word="e" priority="5">
+            <decomposition pattern="">
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+
+        <keyword word="b" priority="2">
+            <decomposition pattern="">
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+
+        <keyword word="c" priority="3">
+            <decomposition pattern="">
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+
+        <keyword word="a" priority="1">
+            <decomposition pattern="">
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+
+        <keyword word="d" priority="4">
+            <decomposition pattern="">
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+
+        <default>
+            <decomposition pattern="">
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </default>
+    </keywords>
+    <preSub>
+        <subRule input="" replace="" />
+    </preSub>
+    <postSub>
+        <subRule input="" replace="" />
+    </postSub>
+</script>

@@ -33,7 +33,7 @@
             <reassembly format="What is it abput $$1 that makes you want it?"/>
         </decomposition>
         <decomposition pattern="I do not want $ANY$">
-            <reassembly format="Why do you want $$1?" />
+            <reassembly format="Why do you want $1?" />
             <reassembly format="What is it abput $$1 that makes you want it?"/>
         </decomposition>
         <default>

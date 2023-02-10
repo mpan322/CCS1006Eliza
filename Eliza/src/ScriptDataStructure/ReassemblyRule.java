@@ -19,17 +19,26 @@ public class ReassemblyRule extends ScriptElement {
 
     }
 
+    /**
+     * @return whether or not the reassembly rule contains group replacements (ex.
+     *         $1)
+     */
+    public boolean containsGroupReplaces() {
+
+        return this.CONTAINS_GROUP_REPLACEMENT;
+
+    }
+
+    /**
+     * Determines whether or not the format contains the a group replacement
+     * @param format
+     * @return whether or not one is containted
+     */
     private boolean determineIfContainsGroupReplacement(String format) {
 
         Pattern groupReplacePattern = Pattern.compile(".*[$][0-9]+.*");
         Matcher matcher = groupReplacePattern.matcher(format);
         return matcher.find();
-
-    }
-
-    public boolean containsGroupReplaces() {
-
-        return this.CONTAINS_GROUP_REPLACEMENT;
 
     }
 
@@ -48,7 +57,7 @@ public class ReassemblyRule extends ScriptElement {
 
         for (int i = 0; i < groupCaptures.size(); i++) {
 
-            // get the ith capture group and replace its identifier 
+            // get the ith capture group and replace its identifier
             // (identifiers are indexed from 1 not 0 unlike the list)
             String capture = groupCaptures.get(i);
             output = output.replaceAll("[$]" + (i + 1), capture);
@@ -56,12 +65,6 @@ public class ReassemblyRule extends ScriptElement {
         }
 
         return output;
-
-    }
-
-    public String getFormat() {
-
-        return this.FORMAT;
 
     }
 

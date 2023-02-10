@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -8,16 +11,12 @@ public class Test {
 
     public static void main(String[] args) {
 
+            Random rand = new Random();
+            System.out.println(rand.nextInt(100));
 
-            Pattern p = Pattern.compile("hello (.*)");
-            Matcher m = p.matcher("hello bob my name is sally");
-            m.matches();
-
-            for (int i = 1; i <= m.groupCount(); i++) {
-
-                System.out.println(m.group(i));
-                
-            }
+            List<String> list = new ArrayList<>();
+            list.addAll(null);
+            System.out.println(list);
 
     }
 

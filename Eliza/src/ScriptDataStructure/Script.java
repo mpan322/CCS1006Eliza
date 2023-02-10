@@ -28,14 +28,43 @@ public class Script extends ScriptElement {
 
     }
 
+    /**
+     * Prints welcome message
+     */
+    public void sayWelcome() {
+
+        System.out.println(this.WELCOME_MESSAGE);
+
+    }
+
+    /**
+     * Prints goodbye message
+     */
+    public void sayGoodbye() {
+
+        System.out.println(this.GOODBYE_MESSAGE);
+
+    }
+
+    /**
+     * Determines if the input is a quit statement
+     * 
+     * @param input
+     * @return whether it is a quit statement
+     */
     public boolean isQuit(String input) {
 
         return this.QUIT_KEYWORDS.contains(input);
 
     }
 
+    /**
+     * Generates output message
+     * 
+     * @param input the users message
+     * @return the generated output message
+     */
     public String generateOutput(String input) {
-
 
         String output = input.toLowerCase();
         // global pre substitution
@@ -45,7 +74,6 @@ public class Script extends ScriptElement {
         Keyword keyword = this.findBestKeyword(output);
         DecompositionRule decompositionRule = keyword.findDecompositionRule(output);
         ReassemblyRule reassemblyRule = decompositionRule.chooseReassemblyRule();
-
 
         // get the capture groups and do the post substitutions on them
         List<String> captureGroups = decompositionRule.getCaptureGroups(output);
