@@ -113,10 +113,10 @@
         </default>
     </keyword>
 
-    <keyword word="(:?need)|(:?require)" priority="30">
-        <decomposition pattern="I need $ANY$">
-            <reassembly format="Why do you need $1?" />
-            <reassembly format="What about $1 makes you think you need it? "/>
+    <keyword word="(?:(?:need)|(?:require))" priority="30">
+        <decomposition pattern="I (?:(?:need)|(?:require)) $ANY$">
+            <reassembly format="Why do you (?:(?:need)|(?:require)) $1?" />
+            <reassembly format="What about $1 makes you think you (?:(?:need)|(?:require)) it? "/>
 
         </decomposition>
         <default>
@@ -137,7 +137,7 @@
         </default>
     </keyword>
 
-    <keyword word="(:?hate)|(:?loathe)" priority="20">
+    <keyword word="(?:(?:hate)|(?:loathe))" priority="20">
         <decomposition pattern="I hate $ANY$">
             <reassembly format="What about $1 makes you hate it?" />
         </decomposition>
@@ -146,9 +146,9 @@
         </default>
     </keyword>
 
-    <keyword word="(:?love)|(:?adore)|(:?like)" priority="20">
-        <decomposition pattern="I love $ANY$">
-            <reassembly format="What about $1 makes you like it?" />
+    <keyword word="(?:(?:love)|(?:adore)|(?:like))" priority="20">
+        <decomposition pattern="I (?:(?:love)|(?:adore)|(?:like)) $ANY$">
+            <reassembly format="What about $1 makes you (?:(?:love)|(?:adore)|(?:like)) it?" />
         </decomposition>
         <default>
             <reassembly format=""></reassembly>

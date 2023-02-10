@@ -35,8 +35,14 @@
         </keyword>
 
         <keyword word="know" priority="10">
+
+            <decomposition pattern="what do you know of $ANY$">
+                <reassembly format="Know of $1 I do not, tell me about it more you should."></reassembly>
+                <reassembly format="Unknown $1 to me is, tell me about it what can you?"></reassembly>
+            </decomposition>
+
             <decomposition pattern="do you know $ANY$">
-                <reassembly format="Revealed the secrets of $1 the Force has not to me. Tell me about it what can you?"></reassembly>
+                <reassembly format="Revealed the secrets of $1 the Force has not to me. Tell me about it, what can you?"></reassembly>
             </decomposition>
             <default>
                 <reassembly format=""/>
