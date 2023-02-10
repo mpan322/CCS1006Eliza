@@ -105,7 +105,11 @@
         </keyword>
     
         <keyword word="is" priority="1">
+<<<<<<< HEAD
             <decomposition pattern=" $NEXT_WORD$ is $ANY$">
+=======
+            <decomposition pattern=" $NEXT_WORD$ is $NEXT_WORD$">
+>>>>>>> 1568926677a3f217ec3c325de9eda6eb9db2224f
                 <reassembly format="Did the force reveal that $1 $2 is to you? " />
             </decomposition>
             <default>
