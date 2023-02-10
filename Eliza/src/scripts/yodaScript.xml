@@ -1,0 +1,149 @@
+<?xml-model href="./script.xsd"?>
+<script>
+    <welcomeMsg>Greeting my padawan.</welcomeMsg>
+    <goodbyeMsg>May the force with you be.</goodbyeMsg>
+
+    <quitKeywords>
+        <quitKeyword>quit</quitKeyword>
+        <quitKeyword>bye</quitKeyword>
+        <quitKeyword>logout</quitKeyword>
+        <quitKeyword>goodbye</quitKeyword>
+        <quitKeyword>see you</quitKeyword>
+        <quitKeyword>may the force be with you</quitKeyword>
+    </quitKeywords>
+
+    <keywords>
+        <keyword word="feel" priority="100">
+            <decomposition pattern="i feel that $ANY$">
+                <reassembly format="Hmmm, meditate on those feelings you should. What to them leads you?"></reassembly>
+            </decomposition>
+            <decomposition pattern="i feel $NEXT_WORD$">
+                <reassembly format="To the dark side $ANY$ leads, control your emotions you must."></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="(?:he)|(?:she)" priority="1">
+            <decomposition pattern="he is">
+                <reassembly format="The Sith lord we looking have been for they might be. What else tell me about them can you?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="know" priority="10">
+            <decomposition pattern="do you know $ANY$">
+                <reassembly format="Revealed the secrets of $1 the Force has not to me. Tell me about it what can you?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="hate" priority="20">
+            <decomposition pattern="$ANY$ hate $ANY$">
+                <reassembly format="Hate leads to suffering."></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="want" priority="30">
+            <decomposition pattern="I want $ANY$">
+                <reassembly format="Long for nothing a true Jedi should. Why go against the code you do?" />
+            </decomposition>
+            <decomposition pattern="I do not want $ANY$">
+                <reassembly format="That the way of the Jedi is. Most proud you make me." />
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+        <keyword word="am" priority="1">
+            <decomposition pattern="I am $ANY$">
+                <reassembly format="Most disturbing that you $1 are. How come this to be did?"/>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+    
+        <keyword word="was" priority="1">
+            <decomposition pattern="I was $ANY$">
+                <reassembly format="Terible news this is. To change what lead you?"/>
+    
+            </decomposition>
+    
+            <decomposition pattern="$ANY$ was $ANY$">
+                <reassembly format="What about $1 made made you believe it was $2?"/>
+    
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+            
+        </keyword>
+    
+        <keyword word="are" priority="1">
+            <decomposition pattern="Are you $ANY$">
+                <reassembly format="Have always been $1. You what about?" />
+            </decomposition>
+            <decomposition pattern="You are $ANY$">
+                <reassembly format="A grandmaster of the order of the Jedi I am. How could I be $1" />
+
+            </decomposition>
+            <decomposition pattern="$ANY$ are $ANY$">
+                <reassembly format="What other secrets the force revealed to you has?" />
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+    
+        <keyword word="is" priority="1">
+            <decomposition pattern=" $ANY$ is $ANY$ ">
+                <reassembly format="Did the force reveal that $1 $2 is to you? " />
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+    
+
+        <default>
+            <decomposition pattern="a (.*)">
+                <reassembly format=""></reassembly>
+                <reassembly format="Knowledge of the Force understand you helps me not. "></reassembly>
+                <reassembly format="A great disturbance in your syntax I sense."></reassembly>
+                <reassembly format="A bad feeling about this sentence I have."></reassembly>
+            </decomposition>
+    
+            <default>
+                <reassembly format="What does that mean?"></reassembly>
+            </default>
+        </default>
+    </keywords>
+
+        <preSub>
+            <subRule input="should" replace="need" />
+            <subRule input="must" replace="need" />
+            <subRule input="ought" replace="need" />
+            <subRule input="have to" replace="need to" />
+            <subRule input="an" replace="a" />
+            <subRule input="it's" replace="it is" />
+            <subRule input="what('*)s" replace="what is" />
+            <subRule input="([^\s]*)n't" replace="$$1 not" />
+            <subRule input="time-out" replace="time out" />
+        </preSub>
+    
+        <postSub>
+            <subRule input="my" replace="your" />
+            <subRule input="you" replace="I" />
+            <subRule input="your" replace="my" />
+            <subRule input="me" replace="you" />
+        </postSub>
+</script>
