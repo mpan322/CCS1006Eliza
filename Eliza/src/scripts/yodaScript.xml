@@ -209,13 +209,12 @@
 
         <default>
             <decomposition pattern="(.*)">
-                <reassembly format=""></reassembly>
                 <reassembly format="Knowledge of the Force understand you helps me not. Elaborate you should"></reassembly>
                 <reassembly format="No knowledge of this in the archives is. Elaborate you must."></reassembly>
             </decomposition>
     
             <default>
-                <reassembly format="What does that mean?"></reassembly>
+                <reassembly format=""></reassembly>
             </default>
         </default>
     </keywords>
