@@ -49,8 +49,8 @@
             </default>
         </keyword>
 
-        <keyword word="hate" priority="20">
-            <decomposition pattern="$ANY$ hate $ANY$">
+        <keyword word="((?:hate)|(?:dislike))" priority="20">
+            <decomposition pattern="$ANY$ ((?:hate)|(?:dislike)) $ANY$">
                 <reassembly format="Hate leads to suffering."></reassembly>
             </decomposition>
             <default>
