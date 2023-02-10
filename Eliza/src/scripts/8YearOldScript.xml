@@ -135,7 +135,7 @@
         </keyword>
 
         <!-- go -->
-        <keyword word="go" priority="1">
+        <keyword word="go" priority="30">
             <decomposition pattern="(?:(?:you)|(?:we)) need to go to $ANY$">
                 <reassembly format="But I don't want to go to $1!"></reassembly>
                 <reassembly format="Do I really have to go to $1?"></reassembly>
@@ -153,7 +153,7 @@
         </keyword>
 
         <!-- what -->
-        <keyword word="what" priority="1">
+        <keyword word="what" priority="10">
             <decomposition pattern="What is a $ANY$">
                 <reassembly format="I dont know." />
             </decomposition>
@@ -163,7 +163,7 @@
             </default>
         </keyword>
 
-        <keyword word="why" priority="1">
+        <keyword word="why" priority="10">
             <decomposition pattern="why">
                 <reassembly format="I am 8, how should I know?" />
             </decomposition>

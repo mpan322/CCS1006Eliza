@@ -98,11 +98,11 @@
             </default>
         </keyword>
         <keyword word="am" priority="1">
-            <decomposition pattern="I am $ANY$">
+            <decomposition pattern="am $ANY$">
                 <reassembly format="Most disturbing that you $1 are. How come this to be did?"/>
             </decomposition>
             <default>
-                <reassembly format=""/>
+                <reassembly format="A bad feeling about you now I have."/>
             </default>
         </keyword>
     
@@ -147,7 +147,7 @@
                 <reassembly format="Did the force reveal that $1 $2 is to you? " />
             </decomposition>
             <default>
-                <reassembly format=""/>
+                <reassembly format="Know of this i did not."></reassembly>
             </default>
         </keyword>
 
@@ -184,7 +184,7 @@
         </keyword>
 
         <keyword word="where" priority="10">
-            <decomposition pattern="where is $ANY$">
+            <decomposition pattern="where is$ANY$">
                 <reassembly format="A planet in the Outer Rim $1 is. Why seek this information you do?"/>
             </decomposition>
 
@@ -197,12 +197,12 @@
         </keyword>
 
 
-        <keyword word="because" priority="20">
-            <decomposition pattern="because $ANY$">
-                <reassembly format="Most important information this is. The Supreme Chancelor notify of this you should."></reassembly>
+        <keyword word="because" priority="100">
+            <decomposition pattern="because$ANY$">
+                <reassembly format="Most important information this is. The Supreme Chancelor notify of this you should.$1"></reassembly>
             </decomposition>
             <default>
-                <reassembly format=""/>
+                <reassembly format="A Siths logic that is"/>
             </default>
         </keyword>
 
