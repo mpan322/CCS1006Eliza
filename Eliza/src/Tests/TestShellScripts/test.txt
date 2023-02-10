@@ -3,8 +3,9 @@ Normal input
 
 Previous was empty line
 $$$ regex .* + identifeirs
-He is old (test regex replace)
+I think he is old (test regex replace)
 Hello 
 I hate apples (test synonym hate/loathe)
 I loathe apples (test synonym hate/loathe)
+this is for the default (test default)
 $END_TEST$

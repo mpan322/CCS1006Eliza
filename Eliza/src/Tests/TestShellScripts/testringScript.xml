@@ -1,0 +1,42 @@
+<?xml-model href="../../scripts/script.xsd"?>
+<script>
+    <welcomeMsg>WELCOME</welcomeMsg>
+    <goodbyeMsg>GOODBYE</goodbyeMsg>
+    <quitKeywords>
+        <quitKeyword>QUIT</quitKeyword>
+    </quitKeywords>
+    <keywords>
+        <keyword word="test1-regex" priority="1">
+            <decomposition pattern="$ANY$ is $ANY$">
+                <reassembly format="$1 dual regex replace $2">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+        <default>
+            <decomposition pattern="">
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </default>
+    </keywords>
+</script>
