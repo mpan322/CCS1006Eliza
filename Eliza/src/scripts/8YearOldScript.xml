@@ -71,6 +71,7 @@
             <decomposition pattern="What is a $ANY$">
                 <reassembly format="I dont know." />
             </decomposition>
+            
             <default>
                 <reassembly format="I dont know"></reassembly>
             </default>
@@ -78,9 +79,14 @@
 
         <!-- like -->
         <keyword word="(:?love)|(:?adore)|(:?like)" priority="20">
-            <decomposition pattern="Do you like $ANY$ ?">
+            <decomposition pattern="do you like $ANY$ ?">
                 <reassembly format="No, I think $ANY$ stink!" />
                 <reassembly format="Yes, $ANY$ are the best!" />
+            </decomposition>
+
+            <decomposition pattern="would you like $ANY$">
+                <reassembly format="Yes! I would love $1!"/>
+                <reassembly format="No! I hate $1!"></reassembly>
             </decomposition>
             <default>
                 <reassembly format=""></reassembly>
@@ -114,6 +120,15 @@
             </decomposition>
             <default>
                 <reassembly format="Woah whats that" />
+            </default>
+        </keyword>
+
+        <keyword word="eat" priority="10">
+            <decomposition pattern="eat your $NEXT_WORD$">
+                <reassembly format="I don't want any $1! Give me something else!"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""></reassembly>
             </default>
         </keyword>
 

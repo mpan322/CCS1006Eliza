@@ -16,8 +16,8 @@
 
     <keyword word="remember" priority="30">
         <decomposition pattern="I remember $ANY$">
-            <reassembly format="What made you think about $$1?" />
-            <reassembly format="Do you think about $$1 often?"/>
+            <reassembly format="What made you think about $1?" />
+            <reassembly format="Do you think about $1 often?"/>
         </decomposition>
         <decomposition pattern="Do you remember $ANY$">
             <reassembly format="I do not, can you tell me about it?" />
@@ -29,12 +29,12 @@
 
     <keyword word="want" priority="30">
         <decomposition pattern="I want $ANY$">
-            <reassembly format="Why do you want $$1?" />
-            <reassembly format="What is it abput $$1 that makes you want it?"/>
+            <reassembly format="Why do you want $1?" />
+            <reassembly format="What is it abput $1 that makes you want it?"/>
         </decomposition>
         <decomposition pattern="I do not want $ANY$">
             <reassembly format="Why do you want $1?" />
-            <reassembly format="What is it abput $$1 that makes you want it?"/>
+            <reassembly format="What is it abput $1 that makes you want it?"/>
         </decomposition>
         <default>
             <reassembly format=""/>
@@ -43,9 +43,9 @@
 
     <keyword word="am" priority="1">
         <decomposition pattern="I am $ANY$">
-            <reassembly format="Why do you think you are $$1?" />
-            <reassembly format="When did you start being $$1?"/>
-            <reassembly format="How long have you been $$1?"/>
+            <reassembly format="Why do you think you are $1?" />
+            <reassembly format="When did you start being $1?"/>
+            <reassembly format="How long have you been $1?"/>
         </decomposition>
         <default>
             <reassembly format=""/>
@@ -62,7 +62,7 @@
 
         <decomposition pattern="$ANY$ was $ANY$">
             <reassembly format="Why do you think $1 was $2?" />
-            <reassembly format="What about $1 made made you believe it was $2?"/>
+            <reassembly format="What about $1  made you believe it was $2?"/>
 
         </decomposition>
         <default>
@@ -91,7 +91,7 @@
     <keyword word="is" priority="1">
         <decomposition pattern=" $ANY$ is $ANY$ ">
             <reassembly format="Why do you think $1 is $2?" />
-            <reassembly format="What about $$1 makes you believe it is $$2"/> 
+            <reassembly format="What about $1 makes you believe it is $2"/> 
         </decomposition>
         <default>
             <reassembly format=""/>
@@ -120,7 +120,7 @@
 
         </decomposition>
         <default>
-            <reassembly format="Ummmmmm. I dont know! (DEFAULT)"/>
+            <reassembly format=""/>
         </default>
     </keyword>
 
@@ -133,7 +133,7 @@
             <reassembly format="Not much, what can you tell me about $1?" />
         </decomposition>
         <default>
-            <reassembly format="Ummmmmm. I dont know! (DEFAULT)"/>
+            <reassembly format=""/>
         </default>
     </keyword>
 
@@ -179,7 +179,7 @@
         <subRule input="an" replace="a" />
         <subRule input="it's" replace="it is" />
         <subRule input="what('*)s" replace="what is" />
-        <subRule input="([^\s]*)n't" replace="$$1 not" />
+        <subRule input="([^\s]*)n't" replace="$1 not" />
         <subRule input="time-out" replace="time out" />
     </preSub>
 
