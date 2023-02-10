@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import ScriptDataStructure.DecompositionRule;
-import ScriptDataStructure.Keyword;
-import ScriptDataStructure.ReassemblyRule;
-import ScriptDataStructure.Script;
-import ScriptDataStructure.Substituter;
+import ScriptElements.DecompositionRule;
+import ScriptElements.Keyword;
+import ScriptElements.ReassemblyRule;
+import ScriptElements.Script;
+import ScriptElements.Substituter;
 
 /**
  * ScriptParser

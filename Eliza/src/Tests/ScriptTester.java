@@ -9,8 +9,8 @@ import org.w3c.dom.Document;
 
 import Parser.MalformedScriptException;
 import Parser.ScriptParser;
-import ScriptDataStructure.Script;
-import ScriptDataStructure.Substituter;
+import ScriptElements.Script;
+import ScriptElements.Substituter;
 import ScriptIO.ScriptFileIO;
 
 public class ScriptTester extends Tester {

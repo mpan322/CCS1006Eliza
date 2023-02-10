@@ -1,4 +1,4 @@
-package ScriptDataStructure;
+package ScriptElements;
 
 abstract class ScriptElement {
 

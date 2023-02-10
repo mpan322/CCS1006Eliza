@@ -5,7 +5,7 @@ import org.w3c.dom.Document;
 
 import Parser.MalformedScriptException;
 import Parser.ScriptParser;
-import ScriptDataStructure.Script;
+import ScriptElements.Script;
 import ScriptIO.ScriptFileIO;
 
 public class Main {
@@ -17,10 +17,9 @@ public class Main {
         try {
 
             // choose script
-            // int choice = Main.chooseScript();
-            // String choiceFile = Main.getChoicesFileName(choice);
+            int choice = Main.chooseScript();
+            String choiceFile = Main.getChoicesFileName(choice);
 
-            String choiceFile = "8YearOldScript.xml";
             // setup script
             Document scriptDocument = ScriptFileIO.getXMLDocument("./Eliza/src/scripts/" + choiceFile,
                     "./Eliza/src/scripts/script.xsd");
@@ -30,10 +29,10 @@ public class Main {
             script.print();
 
             // interactive eliza
-            // System.out.println("STARTING ELIZA ENGINE WITH SCRIPT: " + choiceFile + "\n");
-            // script.sayWelcome();
-            // Main.doChatLoop(script);
-            // script.sayGoodbye();
+            System.out.println("STARTING ELIZA ENGINE WITH SCRIPT: " + choiceFile + "\n");
+            script.sayWelcome();
+            Main.doChatLoop(script);
+            script.sayGoodbye();
 
         } catch (MalformedScriptException e) {
 

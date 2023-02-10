@@ -1,4 +1,4 @@
-package ScriptDataStructure;
+package ScriptElements;
 
 /**
  * Common regex groups that can be inserted dinto the script when wanted using

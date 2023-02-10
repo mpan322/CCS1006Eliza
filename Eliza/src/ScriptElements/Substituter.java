@@ -1,4 +1,4 @@
-package ScriptDataStructure;
+package ScriptElements;
 
 import java.util.ArrayList;
 import java.util.HashMap;
