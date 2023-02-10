@@ -12,6 +12,7 @@ public class DecompositionRule extends ScriptElement {
     private final String RAW_PATTERN;
     private final Pattern PATTERN;
     private final List<ReassemblyRule> REASSEMBLY_RULES;
+    private int cycleStep;
 
     public DecompositionRule(String patternString, List<ReassemblyRule> reassemblyRules) {
 
@@ -42,6 +43,10 @@ public class DecompositionRule extends ScriptElement {
         this.PATTERN = pattern;
         this.REASSEMBLY_RULES = reassemblyRules;
 
+        // assing the starting cycle step to a random reassembly rule index
+        Random rand = new Random();
+        this.cycleStep = rand.nextInt(this.REASSEMBLY_RULES.size());
+
     }
 
     /**
@@ -49,9 +54,15 @@ public class DecompositionRule extends ScriptElement {
      */
     public ReassemblyRule chooseReassemblyRule() {
 
-        Random rand = new Random();
-        int randInt = rand.nextInt(this.REASSEMBLY_RULES.size());
-        return this.REASSEMBLY_RULES.get(randInt);
+        ReassemblyRule chosenRule = this.REASSEMBLY_RULES.get(cycleStep);
+        cycleStep++;
+        if(cycleStep == this.REASSEMBLY_RULES.size()) {
+
+            cycleStep = 0;
+
+        }
+
+        return chosenRule;
 
     }
 
