@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -21,8 +22,8 @@ public class Main {
             String choiceFile = Main.getChoicesFileName(choice);
 
             // setup script
-            Document scriptDocument = ScriptFileIO.getXMLDocument("./Eliza/src/scripts/" + choiceFile,
-                    "./Eliza/src/scripts/script.xsd");
+            Document scriptDocument = ScriptFileIO.getXMLDocument("./scripts/" + choiceFile,
+                    "./scripts/script.xsd");
             ScriptParser parser = new ScriptParser(scriptDocument);
             Script script = parser.parseScript();
 
@@ -140,8 +141,8 @@ public class Main {
 
                 String input = Main.SCANNER.nextLine();
 
-                // check if next keyword is quit
-                if (!script.isQuit(input)) {
+                // check if next keyword is quit - or end test
+                if (!script.isQuit(input) && !input.equals("$END_TEST$")) {
 
                     // if not quit respond
                     String output = script.generateOutput(input);

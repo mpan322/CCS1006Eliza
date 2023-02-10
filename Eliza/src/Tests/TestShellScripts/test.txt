@@ -1,0 +1,6 @@
+1
+hello
+my 
+nameo
+os
+$END_TEST$

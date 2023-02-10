@@ -25,8 +25,8 @@
             </default>
         </keyword>
 
-        <keyword word="(?:he)|(?:she)" priority="1">
-            <decomposition pattern="he is">
+        <keyword word="((?:he)|(?:she))" priority="1">
+            <decomposition pattern="((?:he)|(?:she)) is">
                 <reassembly format="The Sith lord we looking have been for they might be. What else tell me about them can you?"></reassembly>
             </decomposition>
             <default>
@@ -43,8 +43,8 @@
             </default>
         </keyword>
 
-        <keyword word="hate" priority="20">
-            <decomposition pattern="$ANY$ hate $ANY$">
+        <keyword word="((?:hate)|(?:dislike))" priority="20">
+            <decomposition pattern="$ANY$ ((?:hate)|(?:dislike)) $ANY$">
                 <reassembly format="Hate leads to suffering."></reassembly>
             </decomposition>
             <default>

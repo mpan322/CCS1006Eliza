@@ -1,7 +1,9 @@
 package ScriptIO;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -61,8 +63,10 @@ public class ScriptFileIO {
 
         try {
 
+
             // validate against the schema
             Validator validator = ScriptFileIO.makeSchemaValidator(schemaPath);
+
             validator.validate(new StreamSource(file));
 
             // creates a new document builder factory
@@ -71,6 +75,10 @@ public class ScriptFileIO {
             // build new XML document
             DocumentBuilder builder = factory.newDocumentBuilder();
             doc = builder.parse(file);
+
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
 
         } catch (ParserConfigurationException e) {
 
