@@ -27,6 +27,7 @@ public class Main {
             ScriptParser parser = new ScriptParser(scriptDocument);
             Script script = parser.parseScript();
 
+            script.print();
 
             // interactive eliza
             System.out.println("STARTING ELIZA ENGINE WITH SCRIPT: " + choiceFile + "\n");
@@ -60,7 +61,7 @@ public class Main {
                 return "therapistScript.xml";
 
             case 3:
-                return "yodaScript.xml";
+                return "";
 
             // this code is unreachable in the context of the program
             default:
