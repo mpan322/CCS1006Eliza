@@ -14,8 +14,8 @@
 
     <keywords>
 
-        <keyword word="hello" priority="1">
-            <decomposition pattern="hello $ANY$">
+        <keyword word="(?:(?:hi)|(?:hello))" priority="1">
+            <decomposition pattern="(?:(?:hello)|(?:hi))">
                 <reassembly format="Greeted we already have, waste my time why do you?"></reassembly>
             </decomposition>
             <default>
@@ -35,7 +35,7 @@
             </default>
         </keyword>
 
-        <keyword word="(?:(?:feel)|(?:felt)|(?:have been feeling)" priority="100">
+        <keyword word="(?:(?:feel)|(?:felt)|(?:have been feeling))" priority="100">
             <decomposition pattern="i feel that $ANY$">
                 <reassembly format="Hmmm, meditate on those feelings you should. What to them leads you?"></reassembly>
             </decomposition>
@@ -117,11 +117,14 @@
         </keyword>
     
         <keyword word="are" priority="1">
+            <decomposition pattern="how are you">
+                <reassembly format="Well I am, what about you?"></reassembly>
+            </decomposition>
             <decomposition pattern="Are you $ANY$">
                 <reassembly format="Have always been $1. You what about?" />
             </decomposition>
             <decomposition pattern="You are $ANY$">
-                <reassembly format="A grandmaster of the order of the Jedi I am. How could I be $1" />
+                <reassembly format="A grandmaster of the order of the Jedi I am. How could I be $1?" />
 
             </decomposition>
             <decomposition pattern="$ANY_START$ are $ANY$">

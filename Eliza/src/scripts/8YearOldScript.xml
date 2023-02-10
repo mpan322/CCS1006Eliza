@@ -13,9 +13,9 @@
 
     <keywords>
 
-        <keyword word="(?:(?:hello)|(?:hi)" priority="1">
-            <decomposition pattern="(?:(?:hello)|(?:hi) $ANY$">
-                <reassembly format="Hi, again."></reassembly>
+        <keyword word="(?:(?:hello)|(?:hi))" priority="1">
+            <decomposition pattern="(?:(?:hello)|(?:hi))">
+                <reassembly format="Hi."></reassembly>
             </decomposition>
             <default>
                 <reassembly format=""/>
@@ -40,6 +40,75 @@
             </default>
         </keyword>
 
+        <keyword word="am" priority="1">
+            <decomposition pattern="I am $ANY$">
+                <reassembly format="Well I am more $1!" />
+                <reassembly format="Not as much as me!"/>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+    
+        <keyword word="was" priority="1">
+            <decomposition pattern="I was $ANY$">
+                <reassembly format="I want to be $1 when I grow up" />
+                <reassembly format="My dad used to be $1?"/>
+    
+            </decomposition>
+    
+            <decomposition pattern="$ANY_START$ was $ANY$">
+                <reassembly format="What is $2?" />
+    
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+            
+        </keyword>
+    
+        <keyword word="are" priority="1">
+            <decomposition pattern="how are you">
+                <reassembly format="I am great! I got Ice cream!"></reassembly>
+            </decomposition>
+            <decomposition pattern="Are you $ANY$">
+                <reassembly format="Yes, what about you?" />
+                <reassembly format="No, what about you?"/>
+            </decomposition>
+            <decomposition pattern="You are $ANY$">
+                <reassembly format="Mommy says that about me too!" />
+                <reassembly format="You too!"/>
+            </decomposition>
+            <decomposition pattern="$ANY_START$ are $ANY$">
+                <reassembly format="What are $2?" />
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+    
+        <keyword word="is" priority="1">
+            <decomposition pattern=" $ANY$ is $ANY$ ">
+                <reassembly format="What is $2" >
+                    <postSub>
+                        <subRule input="he" replace="him" />
+                        <subRule input="she" replace="her" />
+                        <subRule input="they" replace="them" />
+                    </postSub>    
+                </reassembly>
+                <reassembly format="Why is $1 $2">
+                    <postSub>
+                        <subRule input="he" replace="him" />
+                        <subRule input="she" replace="her" />
+                        <subRule input="they" replace="them" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""></reassembly>
+            </default>
+        </keyword>
+
         <!-- Need keyword -->
         <keyword word="(?:(?:need)|(?:require))" priority="3">
             <decomposition pattern="I (?:(?:need)|(?:require)) $ANY$">
@@ -51,11 +120,7 @@
             </decomposition>
 
             <decomposition pattern="You need to $ANY$">
-                <reassembly format="Why?">
-                    <postSub>
-                        <subRule input="." replace="?" />
-                    </postSub>
-                </reassembly>
+                <reassembly format="Why?"/>
                 <reassembly format="I dont want to!" />
             </decomposition>
 
@@ -75,7 +140,7 @@
                 <reassembly format="But I don't want to go to $1!"></reassembly>
                 <reassembly format="Do I really have to go to $1?"></reassembly>
             </decomposition>
-            <decomposition pattern="I have to go to $ANY$">
+            <decomposition pattern="I (?:(?:have to)|(?:need to)|(?:must)) go to $ANY$">
                 <reassembly format="Do you really have to go to $1?"></reassembly>
             </decomposition>
             <decomposition pattern="go to $ANY$">
@@ -95,6 +160,30 @@
             
             <default>
                 <reassembly format="I dont know"></reassembly>
+            </default>
+        </keyword>
+
+        <keyword word="why" priority="1">
+            <decomposition pattern="why">
+                <reassembly format="I am 8, how should I know?" />
+            </decomposition>
+            
+            <default>
+                <reassembly format="I dont know"></reassembly>
+            </default>
+        </keyword>
+
+        <keyword word="who" priority="10">
+            <decomposition pattern="who is $ANY$">
+                <reassembly format="I will tell you what $1 is if you give me ice cream."></reassembly>
+            </decomposition>
+
+            <decomposition pattern="who $ANY$">
+                <reassembly format="My Mommy!"></reassembly>
+            </decomposition>
+
+            <default>
+                <reassembly format=""/>
             </default>
         </keyword>
 
@@ -161,13 +250,13 @@
                     </postSub>
                 </reassembly>
             </decomposition>
-
+    
             <default>
                 <reassembly format="What does that mean?"></reassembly>
             </default>
         </default>
-    </keywords>
 
+    </keywords>
     <preSub>
         <subRule input="should" replace="need" />
         <subRule input="must" replace="need" />

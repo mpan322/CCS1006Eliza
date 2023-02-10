@@ -14,8 +14,9 @@
 
     <keywords>
 
-        <keyword word="(?:(?:hello)|(?:hi)" priority="1">
-            <decomposition pattern="(?:(?:hello)|(?:hi) $ANY$">
+        <keyword word="(?:(?:hello)|(?:hi))" priority="2">
+            <decomposition pattern="(?:(?:hello)|(?:hi))
+            ">
                 <reassembly format="We have already greeted. Are you feeling well?"></reassembly>
             </decomposition>
             <default>
@@ -68,7 +69,7 @@
         </default>
     </keyword>
 
-    <keyword word="am" priority="1">
+    <keyword word="am" priority="2">
         <decomposition pattern="I am $ANY$">
             <reassembly format="Why do you think you are $1?" />
             <reassembly format="When did you start being $1?"/>
@@ -79,7 +80,7 @@
         </default>
     </keyword>
 
-    <keyword word="was" priority="1">
+    <keyword word="was" priority="2">
         <decomposition pattern="I was $ANY$">
             <reassembly format="Why were you $1?" />
             <reassembly format="What made you $1?"/>
@@ -98,7 +99,7 @@
         
     </keyword>
 
-    <keyword word="are" priority="1">
+    <keyword word="are" priority="2">
         <decomposition pattern="how are you">
             <reassembly format="I am fine, what about you?"></reassembly>
         </decomposition>
@@ -118,8 +119,8 @@
         </default>
     </keyword>
 
-    <keyword word="is" priority="1">
-        <decomposition pattern=" $ANY$ is $ANY$ ">
+    <keyword word="is" priority="2">
+        <decomposition pattern="$ANY_START$ is $ANY$ ">
             <reassembly format="Why do you think $1 is $2?" >
                 <postSub>
                     <subRule input="he" replace="him" />
@@ -153,13 +154,13 @@
 
 
 
-    <keyword word="(?:(?:feel)|(?:felt)|(?:have been feeling)" priority="20">
-        <decomposition pattern="I (?:(?:feel)|(?:felt)|(?:have been feeling) $ANY$">
-            <reassembly format="Why do you believe you (?:(?:feel)|(?:felt)|(?:have been feeling) $1?" />
-            <reassembly format="What dou you think is making you (?:(?:feel)|(?:felt)|(?:have been feeling) $1?"/>
+    <keyword word="(?:(?:feel)|(?:felt)|(?:have been feeling))" priority="20">
+        <decomposition pattern="I (?:(?:feel)|(?:felt)|(?:have been feeling)) $ANY$">
+            <reassembly format="Why do you believe you (?:(?:feel)|(?:felt)|(?:have been feeling)) $1?" />
+            <reassembly format="What dou you think is making you (?:(?:feel)|(?:felt)|(?:have been feeling)) $1?"/>
         </decomposition>
-        <decomposition pattern="$ANY_START$ makes me (?:(?:feel)|(?:felt)|(?:have been feeling) $ANY$">
-            <reassembly format="Why do you think it is that $1 makes you (?:(?:feel)|(?:felt)|(?:have been feeling) $2?"/>
+        <decomposition pattern="$ANY_START$ makes me (?:(?:feel)|(?:felt)|(?:have been feeling)) $ANY$">
+            <reassembly format="Why do you think it is that $1 makes you (?:(?:feel)|(?:felt)|(?:have been feeling)) $2?"/>
         </decomposition>
         <default>
             <reassembly format=""/>
