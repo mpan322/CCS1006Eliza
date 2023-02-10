@@ -137,40 +137,12 @@ public class ScriptParser extends XMLParser {
 
             }
 
-            output.add(temp.get(highestIdx));
+            output.add(0, temp.get(highestIdx));
             temp.remove(highestIdx);
 
         }
 
         return output;
-        
-        // List<Keyword> sorted = new ArrayList<>();
-
-        // for (Keyword keyword : keywords) {
-
-        //     int priority = keyword.getPriority();
-        //     int i = 0;
-        //     int currPriority = Integer.MAX_VALUE;
-
-        //     // keep increasing i until the end of the list is reached
-        //     // or the keywords priority exceeds that of the (i-1)th element
-        //     while (currPriority > priority && i < keywords.size()) {
-
-        //         currPriority = keywords.get(i).getPriority();
-
-        //         if (currPriority > priority) {
-
-        //             i++;
-
-        //         }
-
-        //     }
-
-        //     sorted.add(i, keyword);
-
-        // }
-
-        // return sorted;
 
     }
 
