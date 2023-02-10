@@ -3,7 +3,6 @@ package ScriptIO;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Path;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -53,7 +52,7 @@ public class ScriptFileIO {
     }
 
     public static Document getXMLDocument(String filePath, String schemaPath)
-            throws MalformedScriptException, IOException {
+            throws MalformedScriptException, FileNotFoundException, IOException {
 
         Document doc = null;
 
@@ -62,7 +61,6 @@ public class ScriptFileIO {
         File file = new File(filePath);
 
         try {
-
 
             // validate against the schema
             Validator validator = ScriptFileIO.makeSchemaValidator(schemaPath);
@@ -75,10 +73,6 @@ public class ScriptFileIO {
             // build new XML document
             DocumentBuilder builder = factory.newDocumentBuilder();
             doc = builder.parse(file);
-
-        } catch (FileNotFoundException e) {
-
-            e.printStackTrace();
 
         } catch (ParserConfigurationException e) {
 

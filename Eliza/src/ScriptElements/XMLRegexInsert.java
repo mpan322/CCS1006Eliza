@@ -6,12 +6,11 @@ package ScriptElements;
  */
 public enum XMLRegexInsert {
 
-    EXCLUDE_TERMINAL_PUNCTUATION_GROUP("NON_TERM_PUNC", "([^[?][.]!]*)*"), // matches any non punctuation character
     ANY_GROUP("ANY", "(.*)"), // matches anything (does not match from start of line)
     ANY_START_GROUP("ANY_START", "(?:^)(.*)"), // matches anything from the start of the line to any
 
     NEXT_WORD_GROUP("NEXT_WORD", "\\\\b((?:\\\\w+))\\\\b"), // selects the next word in a line
-    QUESTION_WORDS("Q_WORDS", "((?:who)|(?:when)|(?:what)|(?:where)|(?:why)|(?:how))"), // matches all question words
+    QUESTION_WORDS("Q_WORDS", "(?:(?:who)|(?:when)|(?:what)|(?:where)|(?:why)|(?:how))"), // matches all question words
 
     ;
 

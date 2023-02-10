@@ -11,8 +11,8 @@
 ./Eliza/src/Parser/ScriptXMLTag.java
 ./Eliza/src/Tests/ScriptParserTester.java
 ./Eliza/src/Tests/Test.java
-./Eliza/src/Tests/ScriptTester.java
 ./Eliza/src/Tests/Tester.java
 ./Eliza/src/Tests/ScriptIOTester.java
+./Eliza/src/Tests/KeywordPriorityTest.java
 ./Eliza/src/ScriptIO/ScriptFileIO.java
 ./Eliza/src/Main.java
