@@ -90,8 +90,22 @@
 
     <keyword word="is" priority="1">
         <decomposition pattern=" $ANY$ is $ANY$ ">
-            <reassembly format="Why do you think $1 is $2?" />
-            <reassembly format="What about $1 makes you believe it is $2"/> 
+            <reassembly format="Why do you think $1 is $2?" >
+                <postSub>
+                    <subRule input="he" replace="him" />
+                    <subRule input="she" replace="her" />
+                    <subRule input="they" replace="them" />
+                </postSub>    
+            </reassembly>
+            <reassembly format="What about $1 makes you believe it is $2">
+                <postSub>
+                    <subRule input="he" replace="him" />
+                    <subRule input="she" replace="her" />
+                    <subRule input="they" replace="them" />
+                </postSub>
+            </reassembly>
+
+
         </decomposition>
         <default>
             <reassembly format=""/>

@@ -25,9 +25,9 @@
             </default>
         </keyword>
 
-        <keyword word="(?:he)|(?:she)" priority="1">
-            <decomposition pattern="he is">
-                <reassembly format="The Sith lord we looking have been for they might be. What else tell me about them can you?"></reassembly>
+        <keyword word="(?:(?:he)|(?:she))" priority="1">
+            <decomposition pattern="(?:(?:he)|(?:she)) is">
+                <reassembly format="The Sith lord we looking have been for (?:(?:he)|(?:she)) might be. What else tell me about them can you?"></reassembly>
             </decomposition>
             <default>
                 <reassembly format=""/>
