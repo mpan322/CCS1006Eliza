@@ -112,14 +112,68 @@
                 <reassembly format=""/>
             </default>
         </keyword>
-    
+
+        <keyword word="why" priority="10">
+            <decomposition pattern="why $ANY$">
+                <reassembly format="A most interesting question that is. Why $1 you think?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+
+        <keyword word="who" priority="10">
+            <decomposition pattern="who is $ANY$">
+                <reassembly format="$1 a dark lord of the Sith is. Why ask about him you do?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="what" priority="10">
+            <decomposition pattern="what is $ANY$">
+                <reassembly format="Know I do not, the archives consult I must."></reassembly>
+            </decomposition>
+
+            <decomposition pattern="what $ANY$">
+                <reassembly format="Secret of the Sith this is. Ask about it why do you?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="where" priority="10">
+            <decomposition pattern="where is $ANY$">
+                <reassembly format="A planet in the Outer Rim $1 is. Why seek this information you do?"/>
+            </decomposition>
+
+            <decomposition pattern="where $ANY$">
+                <reassembly format="Entiteled to this information only Jedi council members are. Why ask about it you do?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+
+        <keyword word="because" priority="20">
+            <decomposition pattern="because $ANY$">
+                <reassembly format="Most important information this is. The Supreme Chancelor notify of this you should."></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
 
         <default>
             <decomposition pattern="a (.*)">
                 <reassembly format=""></reassembly>
-                <reassembly format="Knowledge of the Force understand you helps me not. "></reassembly>
-                <reassembly format="A great disturbance in your syntax I sense."></reassembly>
-                <reassembly format="A bad feeling about this sentence I have."></reassembly>
+                <reassembly format="Knowledge of the Force understand you helps me not. Elaborate you should"></reassembly>
+                <reassembly format="No knowledge of this in the archives is. Elaborate you must."></reassembly>
             </decomposition>
     
             <default>
