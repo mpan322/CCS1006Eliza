@@ -1,7 +1,7 @@
 <?xml-model href="./script.xsd"?>
 <script>
-    <welcomeMsg>WELCOME</welcomeMsg>
-    <goodbyeMsg>GOODBYE</goodbyeMsg>
+    <welcomeMsg>WELCOME (WELCOME WORKING)</welcomeMsg>
+    <goodbyeMsg>GOODBYE (QUIT KEYWORDS WORKING)</goodbyeMsg>
     <quitKeywords>
         <quitKeyword>QUIT</quitKeyword>
     </quitKeywords>
@@ -22,7 +22,6 @@
                 </reassembly>
             </default>
         </keyword>
-
         <keyword word="test2-postSub" priority="2">
             <decomposition pattern="(replace1 replace2 replace3)">
                 <reassembly format="If post sub is working the following will be 'apple banana pear': $1">
@@ -107,6 +106,22 @@
             </decomposition>
             <default>
                 <reassembly format="">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+        <keyword word="test10-Q_WORDS" priority="10">
+            <decomposition pattern="$Q_WORDS$ happened here $ANY$">
+                <reassembly format="I dont know but test 10 is working on $1! SUCCESS">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </decomposition>
+            <default>
+                <reassembly format="test10-occur">
                     <postSub>
                         <subRule input="" replace="" />
                     </postSub>

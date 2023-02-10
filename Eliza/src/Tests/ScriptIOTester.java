@@ -1,5 +1,6 @@
 package Tests;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import Parser.MalformedScriptException;
@@ -41,7 +42,7 @@ public class ScriptIOTester extends Tester {
 
             ScriptFileIO.getXMLDocument("./Eliza/src/Tests/testXML/nonExist.xml", "./Eliza/src/scripts/script.xsd");
 
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
 
             System.out.println("TEST PASSED WITH DESIRED EXCEPTION: " + e.getMessage());
 

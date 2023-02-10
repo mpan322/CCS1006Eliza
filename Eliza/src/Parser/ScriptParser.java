@@ -113,33 +113,64 @@ public class ScriptParser extends XMLParser {
      */
     private List<Keyword> sortKeywordsByPriority(List<Keyword> keywords) {
 
-        List<Keyword> sorted = new ArrayList<>();
+        List<Keyword> temp = new ArrayList<>();
+        temp.addAll(keywords);
 
-        for (Keyword keyword : keywords) {
+        List<Keyword> output = new ArrayList<>();
 
-            int priority = keyword.getPriority();
-            int i = 0;
-            int currPriority = Integer.MAX_VALUE;
+        for (int i = 0; i < keywords.size(); i++) {
+            
+            int highestPrio = 0;
+            int highestIdx = 0;
 
-            // keep increasing i until the end of the list is reached
-            // or the keywords priority exceeds that of the (i-1)th element
-            while (currPriority > priority && i < keywords.size()) {
+            for (int j = 0; j < temp.size(); j++) {
 
-                currPriority = keywords.get(i).getPriority();
+                Keyword currKeyword = keywords.get(j);
+                int currPrio = currKeyword.getPriority();
 
-                if (currPriority > priority) {
+                if(currPrio > highestPrio) {
 
-                    i++;
+                    highestPrio = currPrio;
+                    highestIdx = j;
 
                 }
 
             }
 
-            sorted.add(i, keyword);
+            output.add(temp.get(highestIdx));
+            temp.remove(highestIdx);
 
         }
 
-        return sorted;
+        return output;
+        
+        // List<Keyword> sorted = new ArrayList<>();
+
+        // for (Keyword keyword : keywords) {
+
+        //     int priority = keyword.getPriority();
+        //     int i = 0;
+        //     int currPriority = Integer.MAX_VALUE;
+
+        //     // keep increasing i until the end of the list is reached
+        //     // or the keywords priority exceeds that of the (i-1)th element
+        //     while (currPriority > priority && i < keywords.size()) {
+
+        //         currPriority = keywords.get(i).getPriority();
+
+        //         if (currPriority > priority) {
+
+        //             i++;
+
+        //         }
+
+        //     }
+
+        //     sorted.add(i, keyword);
+
+        // }
+
+        // return sorted;
 
     }
 

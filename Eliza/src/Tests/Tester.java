@@ -1,16 +1,19 @@
 package Tests;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.function.Predicate;
 
+import Parser.MalformedScriptException;
+
 public class Tester {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MalformedScriptException, IOException {
         
         ScriptParserTester.test();
         ScriptIOTester.test();
-        ScriptTester.test();
+        KeywordPriorityTest.test();
 
     }
 

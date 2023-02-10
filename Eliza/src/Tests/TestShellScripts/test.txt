@@ -8,4 +8,10 @@ test5-default decomposition
 test6-synonym success
 test7-synonym success
 test8-next-word next-word apple
-$END_TEST$
+test10-Q_WORDS who happened here who
+test10-Q_WORDS what happened here what
+test10-Q_WORDS where happened here where
+test10-Q_WORDS why happened here why
+test10-Q_WORDS how happened here how
+test10-Q_WORDS when happened here when
+QUIT
