@@ -97,6 +97,8 @@ public class Script extends ScriptElement {
 
         for (Keyword keyword : KEYWORDS) {
 
+            System.out.println("keyword= " + keyword.getKeyword() + ", input= " + input);
+
             if (keyword.containsKeyword(input)) {
 
                 return keyword;

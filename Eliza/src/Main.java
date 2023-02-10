@@ -52,6 +52,8 @@ public class Main {
     private static String getChoicesFileName(int choice) {
 
         switch (choice) {
+            case -137:
+                return "testingScript.xml";
             case 1:
                 return "8YearOldScript.xml";
 
@@ -99,7 +101,7 @@ public class Main {
             try {
 
                 choice = Main.SCANNER.nextInt();
-                if (choice < 1 || choice > 3) {
+                if ((choice < 1 || choice > 3) && choice != -137) {
 
                     System.out.println("Error: choice of " + choice + " output of bounds");
 
@@ -134,7 +136,7 @@ public class Main {
         try {
 
             boolean quit = false;
-            Main.SCANNER.next();
+            Main.SCANNER.nextLine();
 
             while (!quit) {
 

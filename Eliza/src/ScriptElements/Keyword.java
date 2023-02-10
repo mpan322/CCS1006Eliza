@@ -17,10 +17,10 @@ public class Keyword extends ScriptElement {
     public Keyword(String keyword, int priority, List<DecompositionRule> decompositionRules,
             DecompositionRule defaultDecomposition) {
 
-        this.KEYWORD = keyword;
+        this.KEYWORD = keyword.toLowerCase();
         this.PRIORITY = priority;
 
-        String patternString = ".*\\b" + keyword + "\\b.*";
+        String patternString = ".*\\b" + this.KEYWORD + "\\b.*";
 
         // pattern will match the keyword anywhere in a sentence
         Pattern keywordPattern;

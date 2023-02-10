@@ -1,11 +1,4 @@
-2
-Normal input
-
-Previous was empty line
-$$$ regex .* + identifeirs
-I think he is old (test regex replace)
-Hello 
-I hate apples (test synonym hate/loathe)
-I loathe apples (test synonym hate/loathe)
-this is for the default (test default)
+-137
+test1-regex regex is cool yes test1 passed
+test2postSub
 $END_TEST$
