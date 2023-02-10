@@ -13,7 +13,29 @@
     </quitKeywords>
 
     <keywords>
-        <keyword word="feel" priority="100">
+
+        <keyword word="hello" priority="1">
+            <decomposition pattern="hello $ANY$">
+                <reassembly format="Greeted we already have, waste my time why do you?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="said" priority="10">
+            <decomposition pattern="you said $ANY$">
+                <reassembly format="Know what I meant by it you do?"></reassembly>
+            </decomposition>
+            <decomposition pattern="$NEXT_WORD said $ANY$">
+                <reassembly format="High treason saying $2 is. What do we should?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="(?:(?:feel)|(?:felt)|(?:have been feeling)" priority="100">
             <decomposition pattern="i feel that $ANY$">
                 <reassembly format="Hmmm, meditate on those feelings you should. What to them leads you?"></reassembly>
             </decomposition>
@@ -50,7 +72,7 @@
         </keyword>
 
         <keyword word="((?:hate)|(?:dislike))" priority="20">
-            <decomposition pattern="$ANY$ ((?:hate)|(?:dislike)) $ANY$">
+            <decomposition pattern="(?:(?:hate)|(?:dislike)) $ANY$">
                 <reassembly format="Hate leads to suffering."></reassembly>
             </decomposition>
             <default>
@@ -84,7 +106,7 @@
     
             </decomposition>
     
-            <decomposition pattern="$ANY$ was $ANY$">
+            <decomposition pattern="$ANY_START$ was $ANY$">
                 <reassembly format="What about $1 made made you believe it was $2?"/>
     
             </decomposition>
@@ -102,8 +124,8 @@
                 <reassembly format="A grandmaster of the order of the Jedi I am. How could I be $1" />
 
             </decomposition>
-            <decomposition pattern="$ANY$ are $ANY$">
-                <reassembly format="What other secrets the force revealed to you has?" />
+            <decomposition pattern="$ANY_START$ are $ANY$">
+                <reassembly format="What other secrets the force revealed to you about $1 has?" />
             </decomposition>
             <default>
                 <reassembly format=""/>
@@ -177,7 +199,7 @@
 
 
         <default>
-            <decomposition pattern="a (.*)">
+            <decomposition pattern="(.*)">
                 <reassembly format=""></reassembly>
                 <reassembly format="Knowledge of the Force understand you helps me not. Elaborate you should"></reassembly>
                 <reassembly format="No knowledge of this in the archives is. Elaborate you must."></reassembly>

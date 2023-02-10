@@ -14,6 +14,33 @@
 
     <keywords>
 
+        <keyword word="(?:(?:hello)|(?:hi)" priority="1">
+            <decomposition pattern="(?:(?:hello)|(?:hi) $ANY$">
+                <reassembly format="We have already greeted. Are you feeling well?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="yes" priority="1">
+            <decomposition pattern="yes">
+                <reassembly format="And why do you think that is the case?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="no" priority="1">
+            <decomposition pattern="no">
+                <reassembly format="Why not?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
     <keyword word="remember" priority="30">
         <decomposition pattern="I remember $ANY$">
             <reassembly format="What made you think about $1?" />
@@ -60,7 +87,7 @@
 
         </decomposition>
 
-        <decomposition pattern="$ANY$ was $ANY$">
+        <decomposition pattern="$ANY_START$ was $ANY$">
             <reassembly format="Why do you think $1 was $2?" />
             <reassembly format="What about $1  made you believe it was $2?"/>
 
@@ -72,6 +99,9 @@
     </keyword>
 
     <keyword word="are" priority="1">
+        <decomposition pattern="how are you">
+            <reassembly format="I am fine, what about you?"></reassembly>
+        </decomposition>
         <decomposition pattern="Are you $ANY$">
             <reassembly format="Yes, what about you?" />
             <reassembly format="No, what about you?"/>
@@ -80,7 +110,7 @@
             <reassembly format="Why do you think I am $1?" />
             <reassembly format="What makes you think I am $1?"/>
         </decomposition>
-        <decomposition pattern="$ANY$ are $ANY$">
+        <decomposition pattern="$ANY_START$ are $ANY$">
             <reassembly format="What makes you believe $1 are $2?" />
         </decomposition>
         <default>
@@ -112,15 +142,24 @@
         </default>
     </keyword>
 
-
-
-    <keyword word="feel" priority="20">
-        <decomposition pattern="I feel $ANY$">
-            <reassembly format="Why do you believe you feel $1?" />
-            <reassembly format="What dou you think is making you feel $1?"/>
+    <keyword word="because" priority="100">
+        <decomposition pattern="because $ANY$">
+            <reassembly format="And how has that influenced you"></reassembly>
         </decomposition>
-        <decomposition pattern="$ANY$ makes me feel $ANY$">
-            <reassembly format="Why do you think it is that $1 makes you feel $2?"/>
+        <default>
+        <reassembly format=""></reassembly>
+        </default>
+    </keyword>
+
+
+
+    <keyword word="(?:(?:feel)|(?:felt)|(?:have been feeling)" priority="20">
+        <decomposition pattern="I (?:(?:feel)|(?:felt)|(?:have been feeling) $ANY$">
+            <reassembly format="Why do you believe you (?:(?:feel)|(?:felt)|(?:have been feeling) $1?" />
+            <reassembly format="What dou you think is making you (?:(?:feel)|(?:felt)|(?:have been feeling) $1?"/>
+        </decomposition>
+        <decomposition pattern="$ANY_START$ makes me (?:(?:feel)|(?:felt)|(?:have been feeling) $ANY$">
+            <reassembly format="Why do you think it is that $1 makes you (?:(?:feel)|(?:felt)|(?:have been feeling) $2?"/>
         </decomposition>
         <default>
             <reassembly format=""/>
@@ -172,8 +211,7 @@
 
 
     <default>
-        <decomposition pattern="a (.*)">
-            <reassembly format=""></reassembly>
+        <decomposition pattern="(.*)">
             <reassembly format="Can you please elaborate?"></reassembly>
             <reassembly format="Can you be more specific? "></reassembly>
         </decomposition>

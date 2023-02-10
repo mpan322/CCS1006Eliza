@@ -13,6 +13,33 @@
 
     <keywords>
 
+        <keyword word="(?:(?:hello)|(?:hi)" priority="1">
+            <decomposition pattern="(?:(?:hello)|(?:hi) $ANY$">
+                <reassembly format="Hi, again."></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="yes" priority="1">
+            <decomposition pattern="yes">
+                <reassembly format="Why yes?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
+        <keyword word="no" priority="1">
+            <decomposition pattern="no">
+                <reassembly format="Why not?"></reassembly>
+            </decomposition>
+            <default>
+                <reassembly format=""/>
+            </default>
+        </keyword>
+
         <!-- Need keyword -->
         <keyword word="(?:(?:need)|(?:require))" priority="3">
             <decomposition pattern="I (?:(?:need)|(?:require)) $ANY$">
@@ -50,6 +77,9 @@
             </decomposition>
             <decomposition pattern="I have to go to $ANY$">
                 <reassembly format="Do you really have to go to $1?"></reassembly>
+            </decomposition>
+            <decomposition pattern="go to $ANY$">
+                <reassembly format="I don't want to go to $1!"></reassembly>
             </decomposition>
             <default>
                 <reassembly format=""></reassembly>
