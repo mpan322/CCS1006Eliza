@@ -1,16 +1,21 @@
-# !/bin/bash
-find -name "*.java" > javac
-# rm "sources.txt"
+#!/bin/bash
+find -name "*.java" > sources.txt
+javac @sources.txt
+rm "sources.txt"
 
-cd "./Eliza/src/Tests"
+java "Tests/Tester"
 
-java "Tester"
+./Tests/TestShellScripts/inputIntoJava.sh test.txt
 
-# ./TestShellScripts/inputIntoJava.sh test.txt
-
-cd ../../
 find -name "*.class" > classFiles.txt
 for f in $(cat classFiles.txt) ; do
     rm "$f"
 done
 rm "classFiles.txt"
+
+# cd ../../
+# find -name "*.class" > classFiles.txt
+# for f in $(cat classFiles.txt) ; do
+#     rm "$f"
+# done
+# rm "classFiles.txt"

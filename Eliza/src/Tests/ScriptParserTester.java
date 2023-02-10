@@ -26,8 +26,8 @@ public class ScriptParserTester extends Tester {
         ScriptParser parser = null;
         try {
 
-            Document scriptDocument = ScriptFileIO.getXMLDocument("./Eliza/src/Tests/testXML/" + scriptName,
-                    "./Eliza/src/scripts/script.xsd");
+            Document scriptDocument = ScriptFileIO.getXMLDocument("./Tests/testXML/" + scriptName,
+                    "./scripts/script.xsd");
             parser = new ScriptParser(scriptDocument);
 
         } catch (MalformedScriptException e) {

@@ -13,7 +13,7 @@ public class KeywordPriorityTest {
 
     public static void test() throws MalformedScriptException, IOException {
         
-        Document doc = ScriptIO.ScriptFileIO.getXMLDocument("./Eliza/src/Tests/testXML/keywordPriorityCheck.xml", "./Eliza/src/scripts/script.xsd");
+        Document doc = ScriptIO.ScriptFileIO.getXMLDocument("./Tests/testXML/keywordPriorityCheck.xml", "./scripts/script.xsd");
         ScriptParser parser = new ScriptParser(doc);
         Script script = parser.parseScript();
         script.print();
