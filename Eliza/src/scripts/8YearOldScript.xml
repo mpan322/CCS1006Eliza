@@ -57,15 +57,6 @@
 
         </keyword>
 
-        <keyword word="[z]+" priority="1">
-            <decomposition pattern="$ANY$">
-                <reassembly format="Z found"></reassembly>
-            </decomposition>
-            <default>
-                <reassembly format=""></reassembly>
-            </default>
-        </keyword>
-
         <!-- what -->
         <keyword word="what" priority="1">
             <decomposition pattern="What is a $ANY$">
@@ -132,21 +123,8 @@
             </default>
         </keyword>
 
-        <keyword word="test" priority="1000">
-            <decomposition pattern="next-word $NEXT_WORD$ $ANY$">
-                <reassembly format="$1 -- $2" />
-            </decomposition>
-            <default>
-                <reassembly format="NO SELECTION">
-                    <postSub>
-                        <subRule input="" replace="" />
-                    </postSub>
-                </reassembly>
-            </default>
-        </keyword>
-
         <default>
-            <decomposition pattern="a (.*)">
+            <decomposition pattern="a $ANY$">
                 <reassembly format="whats a $1">
                     <postSub>
                         <subRule input="." replace="?" />
