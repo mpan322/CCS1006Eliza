@@ -23,9 +23,9 @@
             </default>
         </keyword>
 
-        <keyword word="test2postSub" priority="2">
-            <decomposition pattern="$ANY$">
-                <reassembly format="If post sub is working the following will be 'apple banana pear': 'replace1 replace2 replace3'">
+        <keyword word="test2-postSub" priority="2">
+            <decomposition pattern="(replace1 replace2 replace3)">
+                <reassembly format="If post sub is working the following will be 'apple banana pear': $1">
                     <postSub>
                         <subRule input="replace1" replace="apple" />
                         <subRule input="replace2" replace="banana" />
@@ -35,6 +35,18 @@
             </decomposition>
             <default>
                 <reassembly format="test2-occur">
+                    <postSub>
+                        <subRule input="" replace="" />
+                    </postSub>
+                </reassembly>
+            </default>
+        </keyword>
+        <keyword word="test3-any" priority="3">
+            <decomposition pattern="$ANY$">
+                <reassembly format="$1 got matched! - success" />
+            </decomposition>
+            <default>
+                <reassembly format="test3-occur">
                     <postSub>
                         <subRule input="" replace="" />
                     </postSub>
@@ -60,6 +72,7 @@
     </keywords>
     <preSub>
         <subRule input="" replace="" />
+        <subRule input="a" replace="" />
     </preSub>
     <postSub>
         <subRule input="" replace="" />
