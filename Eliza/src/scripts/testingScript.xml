@@ -130,7 +130,7 @@
         </keyword>
         <default>
             <decomposition pattern="$ANY_START$">
-                <reassembly format="$1">
+                <reassembly format="$1 DEFAULT">
                     <postSub>
                         <subRule input="" replace="" />
                     </postSub>

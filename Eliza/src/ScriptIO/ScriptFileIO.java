@@ -59,6 +59,11 @@ public class ScriptFileIO {
         ScriptFileIO.checkIsValidXMLFilePath(filePath);
 
         File file = new File(filePath);
+        if(!file.exists()) {
+
+            throw new FileNotFoundException("No file found at " + filePath);
+
+        }
 
         try {
 

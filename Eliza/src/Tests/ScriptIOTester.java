@@ -42,7 +42,7 @@ public class ScriptIOTester extends Tester {
 
             ScriptFileIO.getXMLDocument("./Tests/testXML/nonExist.xml", "./Eliza/src/scripts/script.xsd");
 
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
 
             System.out.println("TEST PASSED WITH DESIRED EXCEPTION: " + e.getMessage());
 
