@@ -168,10 +168,10 @@ public class ScriptParser extends XMLParser {
     private Keyword getDefaultKeyword() {
 
         Predicate<Node> parentIsKeywords = (Node node) -> {
-            
+
             String parentName = node.getParentNode().getNodeName();
             return parentName.equals(ScriptXMLTag.KEYWORDS.getTag());
-        
+
         };
 
         return this.streamByTagName(ScriptXMLTag.DEFAULT.getTag())
@@ -260,7 +260,8 @@ public class ScriptParser extends XMLParser {
         if (reassemblyNode.hasChildNodes()) {
 
             // parse the substituter
-            this.streamChildren(reassemblyNode)
+            substituter = this.streamChildren(reassemblyNode)
+                    .filter(XMLParser.TEXT_NODE_FILTER)
                     .limit(1) // limit to 1 to avoid malformed
                     .map(this::parseSubstituter)
                     .toList().get(0);
@@ -282,6 +283,11 @@ public class ScriptParser extends XMLParser {
         // anonymous functions for getting the input and replace attributes
         Function<? super Node, String> getInput = (Node node) -> this.getAttribute(node, "input");
         Function<? super Node, String> getReplace = (Node node) -> this.getAttribute(node, "replace");
+
+        // this.streamChildren(substituterNode)
+        //         .filter(XMLParser.NON_TAG_FILTER)
+        //         .map(Node::getNodeName)
+        //         .forEach(System.out::println);
 
         // get the inputs and replacements
         Map<String, String> substitutions = this.streamChildren(substituterNode)

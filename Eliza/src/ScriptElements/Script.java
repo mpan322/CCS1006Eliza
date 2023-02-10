@@ -96,9 +96,7 @@ public class Script extends ScriptElement {
     private Keyword findBestKeyword(String input) {
 
         for (Keyword keyword : KEYWORDS) {
-
-            System.out.println("keyword= " + keyword.getKeyword() + ", input= " + input);
-
+            
             if (keyword.containsKeyword(input)) {
 
                 return keyword;

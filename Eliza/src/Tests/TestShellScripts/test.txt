@@ -1,4 +1,5 @@
 -137
 test1-regex regex is cool yes test1 passed
-test2postSub
+test2-postSub replace1 replace2 replace3
+test3-any hey matchme
 $END_TEST$
