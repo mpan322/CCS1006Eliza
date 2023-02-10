@@ -184,7 +184,7 @@
         </keyword>
 
         <keyword word="where" priority="10">
-            <decomposition pattern="where is$ANY$">
+            <decomposition pattern="where is $ANY$">
                 <reassembly format="A planet in the Outer Rim $1 is. Why seek this information you do?"/>
             </decomposition>
 
@@ -198,8 +198,8 @@
 
 
         <keyword word="because" priority="100">
-            <decomposition pattern="because$ANY$">
-                <reassembly format="Most important information this is. The Supreme Chancelor notify of this you should.$1"></reassembly>
+            <decomposition pattern="because $ANY$">
+                <reassembly format="Most important information this is. The Supreme Chancelor notify of the fact that $1 you should."></reassembly>
             </decomposition>
             <default>
                 <reassembly format="A Siths logic that is"/>
